@@ -1,0 +1,8 @@
+syntax: glob
+zeebs/packages/**
+**/bin/**
+**/obj/**
+**.suo
+*.orig
+**.exe
+**.pdb

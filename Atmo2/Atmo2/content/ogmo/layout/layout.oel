@@ -1,0 +1,11 @@
+<level width="640" height="480">
+  <Layout>
+    <Room id="0" x="128" y="0" width="30" height="142" filename="surface01" />
+    <Room id="2" x="160" y="120" width="62" height="22" filename="veil01" />
+    <Room id="15" x="224" y="96" width="62" height="70" filename="veil02" />
+    <Room id="1" x="224" y="168" width="62" height="46" filename="veil03" />
+    <Room id="3" x="128" y="168" width="94" height="22" filename="veil04" />
+    <Room id="4" x="160" y="192" width="62" height="46" filename="veil05" />
+  </Layout>
+  <Entities />
+</level>
