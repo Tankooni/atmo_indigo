@@ -56,7 +56,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Indigo">
+    <Reference Include="Indigo, Version=1.0.5977.29842, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Indigo.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -69,11 +70,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Actor.cs" />
+    <Compile Include="Entities\Door.cs" />
+    <Compile Include="Entities\Platform.cs" />
+    <Compile Include="Entities\Solid.cs" />
+    <Compile Include="Entities\Spawn.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\AudioManager.cs" />
+    <Compile Include="Utils\Audio\AudioLayer.cs" />
+    <Compile Include="Utils\Audio\AudioManager.cs" />
     <Compile Include="Utils\Utility.cs" />
     <Compile Include="Worlds\GameWorld.cs" />
+    <Compile Include="Worlds\LayoutMapWorld.cs" />
+    <Compile Include="Worlds\Rooms\LayoutRoom.cs" />
+    <Compile Include="Worlds\Rooms\RealRoom.cs" />
+    <Compile Include="Worlds\Rooms\RealRoomMeta.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

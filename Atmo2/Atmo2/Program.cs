@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Indigo;
 using Utility;
 using Atmo2.Worlds;
+using Utility.Audio;
 
 namespace Atmo2
 {
@@ -18,7 +19,7 @@ namespace Atmo2
 		}
 
 		public Game() :
-			base(1280, 720, 60)
+			base(320, 240, 60)
 		{
 			FP.Screen.Title = "Atmo2";
 			FP.Console.Enable();
@@ -26,8 +27,8 @@ namespace Atmo2
 			FP.Console.ToggleKey = Indigo.Inputs.Keyboard.Tilde;
 
 			Indigo.Inputs.Mouse.CursorVisible = true;
-			//AudioManager.Init(1);
-			//AudioManager.PlayMusic("B_piano_mid");
+			AudioManager.Init(0);
+			AudioManager.PlayMusic("B_piano_mid");
 			FP.World = new GameWorld();
 		}
 	}
