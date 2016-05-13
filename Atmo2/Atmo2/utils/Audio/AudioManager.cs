@@ -8,7 +8,7 @@ using Indigo.Audio;
 using System.IO;
 using System.Threading;
 
-namespace Utility
+namespace Utility.Audio
 {
 	public static class AudioManager
 	{
@@ -20,15 +20,20 @@ namespace Utility
 		public static void Init(float musicVolume)
 		{
 			MusicVolume = FP.Clamp(musicVolume, 0, 1);
-			foreach (string file in Utility.RetrieveFilePathForFilesInDirectory(@"./content/audio/music", @"*.ogg|*.wav"))
+			foreach (string file in KQ.RetrieveFilePathForFilesInDirectory(@"./content/audio/music", @"*.ogg|*.wav"))
 			{
 				var sound = new Sound(Library.Get<SoundBuffer>(file));
 				sound.OnComplete += LoopMusic;
 				musics.Add(Path.GetFileNameWithoutExtension(file), sound);
 			}
 
-			foreach (string file in Utility.RetrieveFilePathForFilesInDirectory(@"./content/audio/sounds", @"*.ogg|*.wav"))
+			foreach (string file in KQ.RetrieveFilePathForFilesInDirectory(@"./content/audio/sounds", @"*.ogg|*.wav"))
 				sounds.Add(Path.GetFileNameWithoutExtension(file), new Sound(Library.Get<SoundBuffer>(file)));
+		}
+
+		internal static void SetLayersPlaying(List<AudioLayer> musicList)
+		{
+			throw new NotImplementedException();
 		}
 
 		private static void LoopMusic()
@@ -43,7 +48,7 @@ namespace Utility
 
 		public static void PlayMusic(string music)
 		{
-			Utility.CurrentMusic = CloboboboSongName = music;
+			KQ.CurrentMusic = CloboboboSongName = music;
 			if (CurrentSong != null)
 				CurrentSong.Stop();
 			Sound newSong = musics[music];

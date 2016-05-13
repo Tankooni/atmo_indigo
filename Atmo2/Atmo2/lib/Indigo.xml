@@ -30,6 +30,12 @@
             <para>If playback is paused, resume it from its last position.</para>
             </summary>
         </member>
+        <member name="M:Indigo.Audio.Sound.Play(System.Double)">
+            <summary>
+            Starts playback at a specific point in the track.
+            </summary>
+            <param name="millisecondsOffset">How far in the track to start at supplied in milliseconds</param>
+        </member>
         <member name="M:Indigo.Audio.Sound.Stop">
             <summary>
             Stop playback.

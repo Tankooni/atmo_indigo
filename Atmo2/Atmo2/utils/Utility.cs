@@ -7,10 +7,16 @@ using System.Threading.Tasks;
 
 namespace Utility
 {
-	class Utility
+	public class KQ
 	{
 		public static string CurrentMusic { get; internal set; }
 		public static float MusicVolume = 1;
+
+		public enum CollisionTypes
+		{
+			Solid,
+			Player
+		}
 
 		/// <summary>
 		/// Returns all files in a folder using one or more search filters.
