@@ -1,4 +1,5 @@
 ﻿using Indigo;
+using Indigo.Content;
 using Indigo.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Atmo2.Entities
 {
-	public class Door : Entity
+	public class Door : Entity, Indigo.Loaders.IOgmoNodeHandler
 	{
 		public string DoorName { get; set; }
 		public string SceneConnectionName { get; set; }
@@ -21,7 +22,11 @@ namespace Atmo2.Entities
 
 		public Door()
 		{
-			AddComponent<Graphic>(doorImage = new Image(Library.Get<Image>("content/image/layoutRoom.png")));
+			AddComponent<Graphic>(doorImage = new Image(Library.Get<Texture>("content/image/door.png")));
+		}
+
+		public void NodeHandler(System.Xml.XmlNode entity)
+		{
 			doorImage.ScaleX = Width / doorImage.Width;
 			doorImage.ScaleY = Height / doorImage.Height;
 			SetHitbox((int)(doorImage.ScaleX * doorImage.Width), (int)(doorImage.ScaleY * doorImage.Height));

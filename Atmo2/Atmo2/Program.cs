@@ -7,6 +7,7 @@ using Indigo;
 using Utility;
 using Atmo2.Worlds;
 using Utility.Audio;
+using Indigo.Graphics;
 
 namespace Atmo2
 {
@@ -25,6 +26,8 @@ namespace Atmo2
 			FP.Console.Enable();
 			FP.Console.MirrorToSystemOut = true;
 			FP.Console.ToggleKey = Indigo.Inputs.Keyboard.Tilde;
+
+			FP.Screen.ClearColor = new Color(0xAAAAAA);
 
 			Indigo.Inputs.Mouse.CursorVisible = true;
 			AudioManager.Init(0);

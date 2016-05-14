@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace Atmo2.Entities
 {
-	public class Spawn : Entity
+	public class Spawn : Entity, Indigo.Loaders.IOgmoNodeHandler
 	{
 
+
+		public void NodeHandler(System.Xml.XmlNode entity)
+		{
+			new Player(X, Y).SetResetPointToCurrentLocation();
+		}
 	}
 }

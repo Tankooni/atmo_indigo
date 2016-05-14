@@ -33,7 +33,7 @@ namespace Utility.Audio
 
 		internal static void SetLayersPlaying(List<AudioLayer> musicList)
 		{
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
 		}
 
 		private static void LoopMusic()
