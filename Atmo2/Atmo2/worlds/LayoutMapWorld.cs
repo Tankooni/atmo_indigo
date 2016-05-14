@@ -10,13 +10,13 @@ namespace Atmo2.Worlds
 {
 	public class LayoutMapWorld : World
 	{
-		public List<Entity> mapRooms;
+		public Entity[] MapRooms;
 		private GameWorld gameWorld;
 
-		public LayoutMapWorld(List<Entity> mapRooms, GameWorld gameWorld)
+		public LayoutMapWorld(Entity[] mapRooms, GameWorld gameWorld)
 			:base()
 		{
-			this.mapRooms = mapRooms;
+			MapRooms = mapRooms;
 			this.gameWorld = gameWorld;
 
 			AddList(mapRooms);
@@ -25,7 +25,7 @@ namespace Atmo2.Worlds
 		public override void Update()
 		{
 			base.Update();
-			if (Keyboard.Tab.Pressed)
+			if (Keyboard.Space.Pressed)
 				FP.World = gameWorld;
 		}
 	}

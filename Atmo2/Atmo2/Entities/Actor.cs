@@ -13,16 +13,16 @@ namespace Atmo2.Entities
 		{
 		}
 
-		public bool IsRiding(Solid solid)
+		public virtual bool IsRiding(Solid solid)
 		{
 			return false;
 		}
 
-		public void Squish()
+		public virtual void Squish()
 		{
 		}
 
-		public void MoveX(float amount, Action onCollide)
+		public void MoveX(float amount, Action onCollide = null)
 		{
 			xRemainder += amount;
 			int move = (int)Math.Round(xRemainder);
@@ -50,7 +50,7 @@ namespace Atmo2.Entities
 			}
 		}
 
-		public void MoveY(float amount, Action onCollide)
+		public void MoveY(float amount, Action onCollide = null)
 		{
 			yRemainder += amount;
 			int move = (int)Math.Round(yRemainder);

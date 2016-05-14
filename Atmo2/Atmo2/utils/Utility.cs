@@ -9,6 +9,8 @@ namespace Utility
 {
 	public class KQ
 	{
+		public const string CollisionTypeSolid = "Solid";
+
 		public static string CurrentMusic { get; internal set; }
 		public static float MusicVolume = 1;
 
