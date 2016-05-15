@@ -29,9 +29,7 @@ namespace Atmo2.Worlds
 		private Image fadeToBlackImage;
 		private bool changeToNewRoom1 = false;
 		private bool changeToNewRoom2 = false;
-		private string roomName;
 		private Door callingDoor;
-		private string doorConnectionName;
 		private int fadeBuffer = 30;
 		private float fadeIncrement = .05f;
 
@@ -53,8 +51,8 @@ namespace Atmo2.Worlds
 			layoutMapWorld = new LayoutMapWorld(
 				ogmoSenpai.BuildLevelAsArray(Library.Get<XmlDocument>("content/ogmo/layout/layout.oel")),
 				this);
-			ogmoSenpai.RegisterGridType("TileCollision", KQ.CollisionTypes.Solid.ToString(), 16, 16);
-			ogmoSenpai.RegisterGridType("px4TileCollision", KQ.CollisionTypes.Solid.ToString(), 4, 4);
+			ogmoSenpai.RegisterGridType("TileCollision", KQ.CollisionTypeSolid, 16, 16);
+			ogmoSenpai.RegisterGridType("px4TileCollision", KQ.CollisionTypeSolid, 4, 4);
 
 			ogmoSenpai.RegisterTilemapType("Blocks", 16, 16, Library.Get<Texture>("content/ogmo/rooms/roomProjectTileset.png"));
 
@@ -62,35 +60,93 @@ namespace Atmo2.Worlds
 			{
 				XmlDocument roomXml = Library.Get<XmlDocument>("content/ogmo/rooms/" + layoutRoom.Filename + ".oel");
 				//Load level properties
-				RealRoomMeta realRoomMeta = new RealRoomMeta
-				{
-					Width = 320,
-					Height = 1200,
-					RoomMusic = "B_piano_mid;1"
-				};
+
 				RealRoom realRoom = new RealRoom
 				(
 					ogmoSenpai.BuildLevelAsArray(roomXml).ToList(),
-					realRoomMeta,
+					ogmoSenpai.GetLevelProperties<RealRoomMeta>(roomXml),
 					layoutRoom,
 					this
 				);
-
+				realRoom.RealRoomMeta.Init();
 				rooms.Add(layoutRoom.Filename, realRoom);
 			}
 
 			(CurrentRoom = rooms["surface01"]).PopulateWorld();
 			Add(Player);
+
+			AddResponse(Door.DoorMessages.StartChangeRoom, StartChangeRoom);
 		}
 
 		public override void Update()
 		{
-			base.Update();
-			Console.WriteLine(AudioManager.CurrentSong.Position);
-			if (Keyboard.Space.Pressed)
+			if (changeToNewRoom1)
 			{
-				FP.World = layoutMapWorld;
+				if(!changeToNewRoom2 && (fadeToBlackImage.Alpha += fadeIncrement) >= 1)
+				{
+					ActuallyChangeRoom();
+					changeToNewRoom2 = true;
+				}
+				else if (changeToNewRoom2 && (fadeToBlackImage.Alpha -= fadeIncrement) <= 0)
+				{
+					changeToNewRoom1 = changeToNewRoom2 = false;
+					Remove(fadeToBlack);
+				}
+				return;
 			}
+
+			base.Update();
+
+			if (Keyboard.Space.Pressed)
+				FP.World = layoutMapWorld;
+			if (Keyboard.M.Pressed)
+				FP.LogFormat("Player x:{0}, y:{1}", Player.X, Player.Y);
+
+			if (FP.DistanceRects(0, 0, CurrentRoom.RealRoomMeta.width, CurrentRoom.RealRoomMeta.height, Player.X, Player.Y, Player.Width, Player.Height) != 0)
+			{
+				Player.ResetPlayerPosition();
+			}
+		}
+
+		public void StartChangeRoom(object[] args)
+		{
+			changeToNewRoom1 = true;
+			fadeToBlackImage.Alpha = 0;
+			Add(fadeToBlack);
+			callingDoor = (Door)args[0];
+		}
+
+		public void ActuallyChangeRoom()
+		{
+			CurrentRoom.GenocideWorld();
+			CurrentRoom = rooms[callingDoor.SceneConnectionName];
+			Door spawnDoor = CurrentRoom.Doors[callingDoor.DoorConnectionName];
+			spawnDoor.TraveledThrough = true;
+			//Add(Player);
+
+			switch (spawnDoor.OutDir)
+			{
+				case DoorDirection.Left:
+					Player.X = spawnDoor.X - Player.HalfWidth;
+					Player.Y = spawnDoor.Y + Player.Y - callingDoor.Y;
+					break;
+				case DoorDirection.Right:
+					Player.X = spawnDoor.X + spawnDoor.Width + Player.HalfWidth;
+					Player.Y = spawnDoor.Y + Player.Y - callingDoor.Y;
+					break;
+				case DoorDirection.Up:
+					Player.X = spawnDoor.X + Player.X - callingDoor.X;
+					Player.Y = spawnDoor.Y;
+					break;
+				case DoorDirection.Down:
+					Player.X = spawnDoor.X + Player.X - callingDoor.X;
+					Player.Y = spawnDoor.Y + spawnDoor.Height + Player.Height;
+					break;
+			}
+
+			Player.SetResetPointToCurrentLocation();
+			Player.UpdateCamera();
+			CurrentRoom.PopulateWorld();
 		}
 	}
 }

@@ -118,11 +118,18 @@
         <RectColor A="255" R="255" G="128" B="192" />
       </ImageDefinition>
       <ValueDefinitions>
-        <ValueDefinition xsi:type="StringValueDefinition" Name="sceneConnectionName" Default="" MaxChars="-1" MultiLine="false" />
-        <ValueDefinition xsi:type="StringValueDefinition" Name="doorConnectionName" Default="" MaxChars="-1" MultiLine="false" />
-        <ValueDefinition xsi:type="StringValueDefinition" Name="doorName" Default="" MaxChars="-1" MultiLine="false" />
-        <ValueDefinition xsi:type="StringValueDefinition" Name="outDir" Default="" MaxChars="-1" MultiLine="false" />
-        <ValueDefinition xsi:type="StringValueDefinition" Name="lockColor" Default="" MaxChars="-1" MultiLine="false" />
+        <ValueDefinition xsi:type="StringValueDefinition" Name="SceneConnectionName" Default="" MaxChars="-1" MultiLine="false" />
+        <ValueDefinition xsi:type="StringValueDefinition" Name="DoorConnectionName" Default="" MaxChars="-1" MultiLine="false" />
+        <ValueDefinition xsi:type="StringValueDefinition" Name="DoorName" Default="" MaxChars="-1" MultiLine="false" />
+        <ValueDefinition xsi:type="EnumValueDefinition" Name="OutDir">
+          <Elements>
+            <string>Left</string>
+            <string>Right</string>
+            <string>Up</string>
+            <string>Down</string>
+          </Elements>
+        </ValueDefinition>
+        <ValueDefinition xsi:type="StringValueDefinition" Name="LockColor" Default="" MaxChars="-1" MultiLine="false" />
       </ValueDefinitions>
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
     </EntityDefinition>

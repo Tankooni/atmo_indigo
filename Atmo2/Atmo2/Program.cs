@@ -28,6 +28,7 @@ namespace Atmo2
 			FP.Console.ToggleKey = Indigo.Inputs.Keyboard.Tilde;
 
 			FP.Screen.ClearColor = new Color(0xAAAAAA);
+			FP.Screen.Resize(640, 480);
 
 			Indigo.Inputs.Mouse.CursorVisible = true;
 			AudioManager.Init(0);

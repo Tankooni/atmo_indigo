@@ -9,16 +9,19 @@ namespace Atmo2.Worlds.Rooms
 {
 	public class RealRoomMeta
 	{
-		public float Width = 0;
-		public float Height = 0;
-		public string RoomMusic = "";
-		public List<AudioLayer> MusicList = new List<AudioLayer>();
+		//Don't change the capitilization here, it is needed for reflection. Sorry
+		public float width { get; set; }
+		public float height { get; set; }
+		public string roomMusic { get; set; }
+
+		public List<AudioLayer> MusicList { get; set; }
 
 		public RealRoomMeta Init()
 		{
+			MusicList = new List<AudioLayer>();
 			var isVol = 0;
 			AudioLayer audioLayer = null;
-			foreach (string stringVal in RoomMusic.Split(';'))
+			foreach (string stringVal in roomMusic.Split(';'))
 			{
 				if (isVol % 2 == 0)
 				{

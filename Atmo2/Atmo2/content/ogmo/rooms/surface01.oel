@@ -1,7 +1,7 @@
 <level width="320" height="1200" roomMusic="B_piano_mid;1">
   <Actors>
     <Spawn id="0" x="144" y="1152" />
-    <Door id="3" x="304" y="1152" width="16" height="32" sceneConnectionName="veil01" doorConnectionName="surface01_01" doorName="veil01_01" outDir="left" lockColor="" />
+    <Door id="3" x="304" y="1152" width="16" height="32" SceneConnectionName="veil01" DoorConnectionName="surface01_01" DoorName="veil01_01" OutDir="Left" LockColor="" />
   </Actors>
   <Tiles tileset="Blocks" exportMode="XML">
     <tile x="0" y="0" id="0" />

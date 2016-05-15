@@ -2030,11 +2030,6 @@
             If you set the alpha of this property, it will be overwritten by the Alpha property when the color transform is updated.
             </summary>
         </member>
-        <member name="M:Indigo.Graphics.Image.#ctor">
-            <summary>
-            Simple constructor for shape functions lol
-            </summary>
-        </member>
         <member name="M:Indigo.Graphics.Image.#ctor(Indigo.Content.Texture,System.Nullable{Indigo.Core.Rectangle})">
             <summary>
             Constructor.
@@ -3269,6 +3264,36 @@
             </summary>
             <param name="type">The Type to register.</param>
             <param name="name">The name to register the alias with.</param>
+        </member>
+        <member name="M:Indigo.Loaders.OgmoLoader.GetLevelProperties(System.Xml.XmlDocument)">
+            <summary>
+            Get a dictionary of level properties and their values.
+            </summary>
+            <param name="oel">The Ogmo level XML.</param>
+            <returns>The loaded dictionary.</returns>
+        </member>
+        <member name="M:Indigo.Loaders.OgmoLoader.GetLevelProperties``1(System.Xml.XmlDocument)">
+            <summary>
+            Create an object and assign its members from values on an Ogmo level file.
+            </summary>
+            <param name="oel">The Ogmo level XML.</param>
+            <returns>The newly created object.</returns>
+        </member>
+        <member name="M:Indigo.Loaders.OgmoLoader.ApplyLevelProperties``1(System.Xml.XmlDocument,``0)">
+            <summary>
+            Assign properties or fields on an object from values on an Ogmo level file.
+            </summary>
+            <param name="oel">The Ogmo level XML.</param>
+            <param name="target">The object to apply properties on.</param>
+        </member>
+        <member name="M:Indigo.Loaders.OgmoLoader.TryGetLevelProperty``1(System.Xml.XmlDocument,System.String,``0@)">
+            <summary>
+            Attempt to read a single property from a level file, converting it to a specified type.
+            </summary>
+            <param name="oel">The Ogmo level XML.</param>
+            <param name="name">The name of the property to read.</param>
+            <param name="result">Assigned on success.</param>
+            <returns>Whether the property was found and read successfully.</returns>
         </member>
         <member name="M:Indigo.Loaders.OgmoLoader.BuildLevelAsArray(System.Xml.XmlDocument,System.Boolean)">
             <summary>

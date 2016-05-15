@@ -1,6 +1,6 @@
 <level width="640" height="480" roomMusic="B_piano_mid;1;B_piano_low;1;B_piano_high;1">
   <Actors>
-    <Door id="0" x="16" y="0" width="256" height="16" sceneConnectionName="veil04" doorConnectionName="veil04_02" doorName="veil05_01" outDir="bottom" lockColor="" />
+    <Door id="0" x="16" y="0" width="256" height="16" SceneConnectionName="veil04" DoorConnectionName="veil04_02" DoorName="veil05_01" OutDir="Down" LockColor="" />
   </Actors>
   <Tiles tileset="Blocks" exportMode="XML">
     <tile x="0" y="0" id="0" />

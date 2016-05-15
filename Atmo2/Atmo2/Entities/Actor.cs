@@ -1,5 +1,6 @@
 ﻿using Indigo;
 using System;
+using Utility;
 
 namespace Atmo2.Entities
 {
@@ -33,7 +34,7 @@ namespace Atmo2.Entities
 
 				while (move != 0)
 				{
-					if (Collide("Solid", X + sign, Y) == null)
+					if (Collide(KQ.CollisionTypeSolid, X + sign, Y) == null)
 					{
 						//No solid immediately beside us
 						X += sign;
@@ -54,6 +55,7 @@ namespace Atmo2.Entities
 		{
 			yRemainder += amount;
 			int move = (int)Math.Round(yRemainder);
+
 			if (move != 0)
 			{
 				yRemainder -= move;
@@ -61,7 +63,7 @@ namespace Atmo2.Entities
 
 				while (move != 0)
 				{
-					if (Collide("Solid", X, Y + sign) == null)
+					if (Collide(KQ.CollisionTypeSolid, X, Y + sign) == null)
 					{
 						//No solid immediately beside us
 						Y += sign;

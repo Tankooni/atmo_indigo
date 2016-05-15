@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utility;
 
 namespace Atmo2.Entities
 {
@@ -14,7 +15,7 @@ namespace Atmo2.Entities
 		public string DoorName { get; set; }
 		public string SceneConnectionName { get; set; }
 		public string DoorConnectionName { get; set; }
-		public string OutDir { get; set; }
+		public DoorDirection OutDir { get; set; }
 		public bool TraveledThrough { get; set; }
 
 		private Image doorImage { get; set; }
@@ -36,7 +37,7 @@ namespace Atmo2.Entities
 		{
 			base.Update();
 
-			if((collision = Collide("player", X, Y)) != null)
+			if((collision = Collide(KQ.CollisionTypePlayer, X, Y)) != null)
 			{
 				if(!TraveledThrough)
 				{
@@ -53,5 +54,13 @@ namespace Atmo2.Entities
 		{
 			StartChangeRoom
 		}
+	}
+
+	public enum DoorDirection
+	{
+		Left,
+		Right,
+		Up,
+		Down
 	}
 }

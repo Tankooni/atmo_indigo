@@ -74,9 +74,10 @@
     <Compile Include="Controller.cs" />
     <Compile Include="Entities\Actor.cs" />
     <Compile Include="Entities\Door.cs" />
-    <Compile Include="movement\Jump.cs" />
-    <Compile Include="movement\Movement.cs" />
-    <Compile Include="movement\MovementInfo.cs" />
+    <Compile Include="Movements\Dash.cs" />
+    <Compile Include="Movements\Jump.cs" />
+    <Compile Include="Movements\Movement.cs" />
+    <Compile Include="Movements\MovementInfo.cs" />
     <Compile Include="Entities\Platform.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Solid.cs" />
