@@ -19,7 +19,7 @@ namespace Atmo2.Entities
 		public Solid(float x = 0, float y = 0, Graphic graphic = null, Mask mask = null)
 			: base(0, 0, graphic, mask)
 		{
-			Type = KQ.CollisionTypes.Solid.ToString();
+			Type = KQ.CollisionTypeSolid;
 		}
 
 		public override void Added()

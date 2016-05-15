@@ -1,4 +1,6 @@
-﻿namespace Atmo2.Movements
+﻿using Indigo;
+
+namespace Atmo2.Movements
 {
 	public class MovementInfo
 	{
@@ -17,6 +19,7 @@
 			CurrentMaxMoves = 5;
 			MoveRefill = 0;
 			MovesRemaining = 0;
+			VelY = 0;
 
 			Reset();
 		}
@@ -26,7 +29,6 @@
 			OnGround = false;
 			AngainstWall = 0;
 			Move = 0;
-			VelY = 0;
 		}
 	}
 }

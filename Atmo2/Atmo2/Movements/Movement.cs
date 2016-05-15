@@ -10,8 +10,8 @@ namespace Atmo2.Movements
 	public class Movement
 	{
 		public Action Done { get; set; }
-		public bool IsRunning { get;  private set; }
-		public bool BlockGravity { get; private set; }
+		public bool IsRunning { get; protected set; }
+		public bool BlockGravity { get; protected set; }
 
 		private Player player;
 

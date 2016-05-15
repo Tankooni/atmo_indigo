@@ -1,7 +1,7 @@
 <level width="640" height="240" roomMusic="B_piano_mid;1">
   <Actors>
-    <Door id="0" x="0" y="192" width="16" height="32" sceneConnectionName="surface01" doorConnectionName="veil01_01" doorName="surface01_01" outDir="right" lockColor="" />
-    <Door id="1" x="624" y="192" width="16" height="32" sceneConnectionName="veil02" doorConnectionName="veil02_01" doorName="veil01_02" outDir="left" lockColor="" />
+    <Door id="0" x="0" y="192" width="16" height="32" SceneConnectionName="surface01" DoorConnectionName="veil01_01" DoorName="surface01_01" OutDir="Right" LockColor="" />
+    <Door id="1" x="624" y="192" width="16" height="32" SceneConnectionName="veil02" DoorConnectionName="veil02_01" DoorName="veil01_02" OutDir="Left" LockColor="" />
   </Actors>
   <Tiles tileset="Blocks" exportMode="XML">
     <tile x="0" y="0" id="0" />

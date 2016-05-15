@@ -14,8 +14,8 @@ namespace Atmo2.Entities
 {
 	public class Player : Actor, Indigo.Loaders.IOgmoNodeHandler
 	{
-		private const float GRAVITY = 0.55f;
-		private const float SPEED = 2.5f;
+		public const float SPEED = 2.5f;
+		public const float GRAVITY = 0.55f;
 		private const float SECONDS_TO_REGAIN = 0.5f;
 
 		public static Abilities Abilities = new Abilities();
@@ -67,11 +67,11 @@ namespace Atmo2.Entities
 			orbs = new Text("", 0, -40);
 			AddComponent<Text>(orbs);
 			GameWorld.Player = this;
-			Type = KQ.CollisionTypes.Player.ToString();
+			Type = KQ.CollisionTypePlayer;
 
 			Abilities = new Abilities();
 			MovementInfo = new MovementInfo();
-			//Dash = UseAbility(new Dash(this));
+			Dash = UseAbility(new Dash(this));
 			Jump = UseAbility(new Jump(this));
 			CurrentMove = null;
 		}
@@ -161,8 +161,8 @@ namespace Atmo2.Entities
 
 			if (Controller.Jump())
 				Jump();
-			//else if (Controller.Dash())
-			//	Dash();
+			else if (Controller.Dash())
+				Dash();
 
 			MovementInfo.VelY += GRAVITY;
 
@@ -217,8 +217,8 @@ namespace Atmo2.Entities
 			var centerY = Y;
 
 			var currentRoom = ((GameWorld)(World)).CurrentRoom;
-			centerX = FP.Clamp(centerX, FP.HalfWidth, currentRoom.RealRoomMeta.Width - FP.HalfWidth);
-			centerY = FP.Clamp(centerY, FP.HalfHeight, currentRoom.RealRoomMeta.Height - FP.HalfHeight);
+			centerX = FP.Clamp(centerX, FP.HalfWidth, currentRoom.RealRoomMeta.width - FP.HalfWidth);
+			centerY = FP.Clamp(centerY, FP.HalfHeight, currentRoom.RealRoomMeta.height - FP.HalfHeight);
 
 			World.Camera.X = centerX;
 			World.Camera.Y = centerY;
