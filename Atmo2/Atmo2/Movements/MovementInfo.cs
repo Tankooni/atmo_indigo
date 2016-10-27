@@ -16,7 +16,7 @@ namespace Atmo2.Movements
 
 		public MovementInfo()
 		{
-			CurrentMaxMoves = 5;
+			CurrentMaxMoves = 10;
 			MoveRefill = 0;
 			MovesRemaining = 0;
 			VelY = 0;
