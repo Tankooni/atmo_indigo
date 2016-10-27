@@ -31,8 +31,7 @@ namespace Atmo2
 			FP.Screen.Resize(640, 480);
 
 			Indigo.Inputs.Mouse.CursorVisible = true;
-			AudioManager.Init(0);
-			AudioManager.PlayMusic("B_piano_mid");
+			AudioManager.Init(1);
 			FP.World = new GameWorld();
 		}
 	}

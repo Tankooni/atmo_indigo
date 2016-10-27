@@ -12,18 +12,24 @@ namespace Utility.Audio
 {
 	public static class AudioManager
 	{
-		public static Sound CurrentSong;
-		public static string CloboboboSongName = "";
-		public static float MusicVolume { get; set; }
+		public static float MusicVolume
+		{
+			get { return musicVolume; }
+			set { musicVolume = FP.Clamp(value, 0, 1); }
+		}
+		private static float musicVolume;
 		private static Dictionary<string, Sound> musics = new Dictionary<string, Sound>();
+		private static List<string> playingMusic = new List<string>();
 		private static Dictionary<string, Sound> sounds = new Dictionary<string, Sound>();
+
 		public static void Init(float musicVolume)
 		{
-			MusicVolume = FP.Clamp(musicVolume, 0, 1);
+			MusicVolume = musicVolume;
+
 			foreach (string file in KQ.RetrieveFilePathForFilesInDirectory(@"./content/audio/music", @"*.ogg|*.wav"))
 			{
 				var sound = new Sound(Library.Get<SoundBuffer>(file));
-				sound.OnComplete += LoopMusic;
+				//sound.OnComplete += LoopMusic;
 				musics.Add(Path.GetFileNameWithoutExtension(file), sound);
 			}
 
@@ -31,31 +37,87 @@ namespace Utility.Audio
 				sounds.Add(Path.GetFileNameWithoutExtension(file), new Sound(Library.Get<SoundBuffer>(file)));
 		}
 
-		internal static void SetLayersPlaying(List<AudioLayer> musicList)
+		public static void LoopMusic(string soundName, Double startPosition, Double loopPosition)
 		{
-			//throw new NotImplementedException();
+			Console.WriteLine("Start Looping: {0}, {1}, {2}", soundName, startPosition, loopPosition);
+			Sound soundToPlay;
+			musics.TryGetValue(soundName, out soundToPlay);
+			if (soundToPlay == null)
+				return;
+			soundToPlay.Stop();
+			soundToPlay.ClearOnComplete();
+			soundToPlay.OnComplete += () =>
+			{
+				Console.WriteLine("OnComplete: {0}, {1}, {2}", soundName, startPosition, loopPosition);
+				LoopMusic(soundName, loopPosition, loopPosition);
+			};
+			soundToPlay.Play(startPosition);
+			//soundToPlay.Position = startPosition;
+			playingMusic.Add(soundName);
 		}
 
-		private static void LoopMusic()
+		public static void SetLayersPlaying(List<AudioLayer> musicList)
 		{
-			if (CurrentSong != null)
-				CurrentSong.Stop();
-			Sound newSong = musics[CloboboboSongName];
-			newSong.Volume = MusicVolume;
-			CurrentSong = newSong;
-			CurrentSong.Play();
+			bool foundSound;
+			List<AudioLayer> soundsToSync = new List<AudioLayer>();
+
+			AudioLayer[] newSoundsArr = new AudioLayer[musicList.Count()];
+			musicList.CopyTo(newSoundsArr);
+			var newSounds = newSoundsArr.ToList();
+
+			if (playingMusic.Any())
+			{
+				for (int i = playingMusic.Count() - 1; i >= 0; i--)
+				{
+					var oldSound = playingMusic[i];
+					foundSound = false;
+					var oldSoundChannel = musics[oldSound];
+					if (newSounds.Any())
+					{
+						for (int j = newSounds.Count() - 1; j >= 0; j--)
+						{
+							var newSound = newSounds[j];
+							if (newSound.ChannelName == oldSound)
+							{
+								soundsToSync.Add(newSound);
+								foundSound = true;
+								newSounds.Remove(newSound);
+								FP.LogFormat("Need to sync {0}", newSound.ChannelName);
+								break;
+							}
+						}
+					}
+					if (!foundSound)
+					{
+						oldSoundChannel.Stop();
+						playingMusic.Remove(oldSound);
+						FP.LogFormat("Stopped {0}", oldSound);
+					}
+				}
+			}
+
+			var firstTrackName = playingMusic.FirstOrDefault();
+			Double position = 0;
+			if (firstTrackName != null)
+				position = musics[firstTrackName].Position;
+
+			for (int i = 0; i < newSounds.Count(); i++)
+			{
+				var newSoundLayer = newSounds[i];
+				FP.LogFormat("Starting {0} at {1}", newSoundLayer.ChannelName, position);
+				LoopMusic(newSoundLayer.ChannelName, position, newSoundLayer.LoopPosition);
+			}
 		}
 
-		public static void PlayMusic(string music)
-		{
-			KQ.CurrentMusic = CloboboboSongName = music;
-			if (CurrentSong != null)
-				CurrentSong.Stop();
-			Sound newSong = musics[music];
-			newSong.Volume = MusicVolume;
-			CurrentSong = newSong;
-			CurrentSong.Play(20000);
-		}
+		//private static void LoopMusic()
+		//{
+		//	if (CurrentSong != null)
+		//		CurrentSong.Stop();
+		//	Sound newSong = musics[CloboboboSongName];
+		//	newSong.Volume = MusicVolume;
+		//	CurrentSong = newSong;
+		//	CurrentSong.Play();
+		//}
 
 		public static void PlaySound(string soundName)
 		{

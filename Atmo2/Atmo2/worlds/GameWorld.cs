@@ -103,8 +103,11 @@ namespace Atmo2.Worlds
 				FP.LogFormat("Player x:{0}, y:{1}", Player.X, Player.Y);
 
 			if (FP.DistanceRects(0, 0, CurrentRoom.RealRoomMeta.width, CurrentRoom.RealRoomMeta.height, Player.X, Player.Y, Player.Width, Player.Height) != 0)
-			{
 				Player.ResetPlayerPosition();
+			
+			if(Keyboard.Num1.Pressed)
+			{
+				//AudioManager.CurrentSong
 			}
 		}
 
