@@ -21,7 +21,6 @@ namespace Atmo2.Sprites
 
             map.Add("idle", FP.MakeFrames(0, 1), 1, true)
                 .Play();
-
             return map;
         }
     }

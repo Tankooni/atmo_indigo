@@ -16,6 +16,8 @@ namespace Atmo2.Entities
         public Spritemap spritemap;
         public IAI ai;
 
+        private float prevX;
+
         // Only use this contructor with the OgmoLoader
         public Enemy() { }
 
@@ -49,6 +51,8 @@ namespace Atmo2.Entities
             base.Update();
 
             ai.update();
+            this.spritemap.FlippedX = this.X < prevX;
+            prevX = this.X;
         }
     }
 }
