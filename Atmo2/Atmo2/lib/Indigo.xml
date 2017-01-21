@@ -303,6 +303,120 @@
             </summary>
             <param name="script">The function to run each frame.</param>
         </member>
+        <member name="P:Indigo.Components.Spliner.TimeRemaining">
+            <summary>
+            The time remaining before the spline ends or repeats.
+            </summary>
+        </member>
+        <member name="P:Indigo.Components.Spliner.Completion">
+            <summary>
+            A value between 0 and 1, where 0 means the spline has not been started and 1 means that it has completed.
+            </summary>
+        </member>
+        <member name="P:Indigo.Components.Spliner.Looping">
+            <summary>
+            Whether the spline is currently looping.
+            </summary>
+        </member>
+        <member name="P:Indigo.Components.Spliner.Target">
+            <summary>
+            The object this spline targets.
+            </summary>
+        </member>
+        <member name="M:Indigo.Components.Spliner.#ctor">
+            <summary>
+            Constructor. Does no actual work; call Spline() to set up motion.
+            </summary>
+        </member>
+        <member name="M:Indigo.Components.Spliner.Spline``2(``0,System.Single,``1[])">
+            <summary>
+            Set the motion for this spline.
+            </summary>
+            <param name="target">The object the motion should target. Must be non-null and a reference type.</param>
+            <param name="duration">How long the motion should take, in seconds.</param>
+            <param name="points">The points that the motion should spline between.</param>
+            <returns>A reference to this, for specifying additional parameters.</returns>
+        </member>
+        <member name="M:Indigo.Components.Spliner.Ease(System.Func{System.Single,System.Single})">
+            <summary>
+            Set the easing function.
+            </summary>
+            <param name="ease">The Easer to use.</param>
+            <returns>A reference to this.</returns>
+        </member>
+        <member name="M:Indigo.Components.Spliner.OnBegin(System.Action)">
+            <summary>
+            Set a function to call when motion begins (useful when using delays). Can be called multiple times for compound callbacks.
+            </summary>
+            <param name="callback">The function that will be called when motion starts, after the delay.</param>
+            <returns>A reference to this.</returns>
+        </member>
+        <member name="M:Indigo.Components.Spliner.OnComplete(System.Action)">
+            <summary>
+            Set a function to call when motion finishes. Can be called multiple times for compound callbacks.
+            If the spliner repeats infinitely, this will be called each time; otherwise it will only run when the spliner is finished repeating.
+            </summary>
+            <param name="callback">The function that will be called on motion completion.</param>
+            <returns>A reference to this.</returns>
+        </member>
+        <member name="M:Indigo.Components.Spliner.OnUpdate(System.Action)">
+            <summary>
+            Set a function to call as the spliner updates. Can be called multiple times for compound callbacks.
+            </summary>
+            <param name="callback">The function to use.</param>
+            <returns>A reference to this.</returns>
+        </member>
+        <member name="M:Indigo.Components.Spliner.Repeat(System.Int32)">
+            <summary>
+            Enable repeating.
+            </summary>
+            <param name="times">Number of times to repeat. Leave blank or pass a negative number to repeat infinitely.</param>
+            <returns>A reference to this.</returns>
+        </member>
+        <member name="M:Indigo.Components.Spliner.RepeatDelay(System.Single)">
+            <summary>
+            Set a delay for when motion repeats.
+            </summary>
+            <param name="delay">How long to wait before repeating.</param>
+            <returns>A reference to this.</returns>
+        </member>
+        <member name="M:Indigo.Components.Spliner.Reflect">
+            <summary>
+            Sets motion to reverse every other time it repeats. Repeating must be enabled for this to have any effect.
+            </summary>
+            <returns>A reference to this.</returns>
+        </member>
+        <member name="M:Indigo.Components.Spliner.Reverse">
+            <summary>
+            Reverses the spline for each property being animated.
+            </summary>
+            <returns>A reference to this.</returns>
+        </member>
+        <member name="M:Indigo.Components.Spliner.Cancel">
+            <summary>
+            Stop motion without calling complete callbacks.
+            </summary>
+        </member>
+        <member name="M:Indigo.Components.Spliner.CancelAndComplete">
+            <summary>
+            Assign target its final values and stop.
+            </summary>
+        </member>
+        <member name="M:Indigo.Components.Spliner.Pause">
+            <summary>
+            Pause spliner. Motion will not update and delay won't tick down.
+            </summary>
+        </member>
+        <member name="M:Indigo.Components.Spliner.PauseToggle">
+            <summary>
+            Toggle whether the motion is paused.
+            </summary>
+        </member>
+        <member name="M:Indigo.Components.Spliner.Resume">
+            <summary>
+            Resumes motion from a paused state.
+            </summary>
+        </member>
         <member name="F:Indigo.Components.StateMachine.InvalidState">
             <summary>
             Constant value equalling -1.
@@ -1415,6 +1529,24 @@
             <returns>The distance.</returns>
         </member>
         <member name="M:Indigo.FP.Clamp``1(``0,``0,``0)">
+            <summary>
+            Clamps the value within the minimum and maximum values.
+            </summary>
+            <param name="value">The value to evaluate.</param>
+            <param name="min">The minimum range.</param>
+            <param name="max">The maximum range.</param>
+            <returns>The clamped value.</returns>
+        </member>
+        <member name="M:Indigo.FP.Clamp(System.Single,System.Single,System.Single)">
+            <summary>
+            Clamps the value within the minimum and maximum values.
+            </summary>
+            <param name="value">The value to evaluate.</param>
+            <param name="min">The minimum range.</param>
+            <param name="max">The maximum range.</param>
+            <returns>The clamped value.</returns>
+        </member>
+        <member name="M:Indigo.FP.Clamp(System.Int32,System.Int32,System.Int32)">
             <summary>
             Clamps the value within the minimum and maximum values.
             </summary>
@@ -4194,6 +4326,39 @@
         <member name="M:Indigo.Utils.SeededRandom.Shuffle``1(System.Collections.Generic.IList{``0})">
             <summary>
             Shuffles the order of the elements in a list.
+            </summary>
+        </member>
+        <member name="M:Indigo.Utils.Spline.#ctor(System.Collections.Generic.IEnumerable{System.Single})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="points">The points that comprise the spline.</param>
+        </member>
+        <member name="M:Indigo.Utils.Spline.#ctor(System.Single[])">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="points">The points that comprise the spline.</param>
+        </member>
+        <member name="M:Indigo.Utils.Spline.Point(System.Single)">
+            <summary>
+            Get the value of the spline at a specified time.
+            </summary>
+            <param name="t">The completion of the spline, in range [0..1].</param>
+            <returns>The value of the spline at the given time.</returns>
+        </member>
+        <member name="M:Indigo.Utils.Spline.Step(System.Single)">
+            <summary>
+            Get each point on the curve at a specified interval.
+            </summary>
+            <param name="interval">How far the calculation should step on the curve.</param>
+            <para>Interval should lie in the range [0..1] where 0 represents</para>
+            <para>the very beginning of the spline and 1 represents the end.</para>
+            <returns>Each point along the spline, at the specified interval.</returns>
+        </member>
+        <member name="M:Indigo.Utils.Spline.Reverse">
+            <summary>
+            Reverse the order of the points in the spline.
             </summary>
         </member>
         <member name="T:Indigo.Utils.Reflect.Types">

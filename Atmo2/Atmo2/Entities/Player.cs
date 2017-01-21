@@ -15,7 +15,7 @@ namespace Atmo2.Entities
 	public class Player : Actor, Indigo.Loaders.IOgmoNodeHandler
 	{
 		public const float SPEED = 2.5f;
-		public const float GRAVITY = 0.55f;
+		public const float GRAVITY = 0.1f;
 		private const float SECONDS_TO_REGAIN = 0.5f;
 
 		public static Abilities Abilities = new Abilities();
@@ -26,46 +26,46 @@ namespace Atmo2.Entities
 		public Action Dash { get; set; }
 
 		private Spritemap image;
-		private Spritemap wings;
-		private Text orbs;
+		public Spritemap Wings;
+
+		private Text orbText;
+		private List<Orb> orbs = new List<Orb>();
+
 		private float resetPointX;
 		private float resetPointY;
-
-
 
 		public Player(float x, float y)
 			: base(x, y)
 		{
 			image = new Spritemap(Library.Get<Texture>("content/image/JulepSprites.png"), 22, 29);
-			image.RenderStep = -100;
+			image.RenderStep = 0;
 			image.Add("walk", FP.MakeFrames(1, 8), 10, true);
 			image.Add("dash", FP.MakeFrames(9, 11), 10, true);
 			image.Add("jump", FP.MakeFrames(12, 13), 10, false);
 			image.Add("fall", FP.MakeFrames(14, 15), 10, true);
 			image.Add("hang", FP.MakeFrames(16, 16), 10, true);
 			image.Add("climb", FP.MakeFrames(17, 19), 10, true);
-			image.Add("slide", FP.MakeFrames(21, 22), 10, true);
+			image.Add("slide", FP.MakeFrames(20, 21), 10, true);
 			image.Add("stand", FP.MakeFrames(0, 0), 0, true)
 				.Play();
 
-			wings = new Spritemap(Library.Get<Texture>("content/image/JulepJump.png"), 54, 29, OnWingsComplete);
-			wings.RenderStep = -99;
-			wings.Add("wings", FP.MakeFrames(0, 7), 15, false);
-			wings.Visible = false;
+			Wings = new Spritemap(Library.Get<Texture>("content/image/JulepJump.png"), 54, 29, OnWingsComplete);
+			Wings.RenderStep = 99;
+			Wings.Add("wings", FP.MakeFrames(0, 7), 15, false);
+			Wings.Visible = false;
 
-			AddComponent<Image>(wings);
+			AddComponent<Image>(Wings);
 			AddComponent<Image>(image);
 			
-
 			image.OriginX = image.Width / 2;
 			image.OriginY = image.Height;
-			wings.OriginX = wings.Width / 2;
-			wings.OriginY = wings.Height;
+			Wings.OriginX = Wings.Width / 2;
+			Wings.OriginY = Wings.Height;
 
 			SetHitbox(16, 24, 8, 24);
 
-			orbs = new Text("", 0, -40);
-			AddComponent<Text>(orbs);
+			orbText = new Text("", 0, -40);
+			AddComponent<Text>(orbText);
 			GameWorld.Player = this;
 			Type = KQ.CollisionTypePlayer;
 
@@ -89,7 +89,7 @@ namespace Atmo2.Entities
 
 		public void OnWingsComplete()
 		{
-			wings.Visible = false;
+			Wings.Visible = false;
 		}
 
 		public void RefillMoves()
@@ -121,7 +121,7 @@ namespace Atmo2.Entities
 			GetInput();
 			UpdateCamera();
 
-			orbs.String = MovementInfo.MovesRemaining.ToString();
+			orbText.String = MovementInfo.MovesRemaining.ToString();
 		}
 
 		public override void Squish()
@@ -183,10 +183,10 @@ namespace Atmo2.Entities
 			{
 				if (MovementInfo.VelY > 0)
 				{
-					//if (movementInfo.againstWall != 0)
-						//anim = "slide";
-					//else
-					anim = "fall";
+					if (MovementInfo.AngainstWall != 0)
+						anim = "slide";
+					else
+						anim = "fall";
 				}
 				else
 					anim = "jump";
@@ -201,7 +201,7 @@ namespace Atmo2.Entities
 
 			image.Play(anim);
 			if (MovementInfo.Move != 0)
-				image.FlippedX = wings.FlippedX = MovementInfo.Move < 0;
+				image.FlippedX = Wings.FlippedX = MovementInfo.Move < 0;
 		}
 
 

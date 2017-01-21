@@ -11,9 +11,9 @@ namespace Atmo2.Movements
 {
 	public class Dash : Movement
 	{
-		public const float STARTUP_DURATION = .05f;
+		public const float STARTUP_DURATION = 0;
 		public const float DASH_DURATION = .1f;
-		public const float RECOVERY_DURATION = .05f;
+		public const float RECOVERY_DURATION = 0;
 		public const float DASH_SPEED = Player.SPEED * 7;
 
 		public float timer { get; set; }
@@ -70,7 +70,7 @@ namespace Atmo2.Movements
 			movementInfo.MovesRemaining--;
 			dashDir = FP.Sign(movementInfo.Move);
 
-			return base.Restart(movementInfo);
+			return true;
 		}
 
 		public override void Update(MovementInfo movementInfo)
