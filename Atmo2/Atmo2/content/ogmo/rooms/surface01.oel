@@ -2,6 +2,11 @@
   <Actors>
     <Spawn id="0" x="144" y="1152" />
     <Door id="3" x="304" y="1152" width="16" height="32" SceneConnectionName="veil01" DoorConnectionName="surface01_01" DoorName="veil01_01" OutDir="Left" LockColor="" />
+    <EnemyWalker id="2" x="256" y="848" speed="100" />
+    <EnemyWalker id="1" x="32" y="784" speed="100" />
+    <EnemyWalker id="4" x="272" y="720" speed="100" />
+    <EnemyWalker id="5" x="64" y="528" speed="100" />
+    <EnemyWalker id="6" x="272" y="512" speed="100" />
   </Actors>
   <Tiles tileset="Blocks" exportMode="XML">
     <tile x="0" y="0" id="0" />

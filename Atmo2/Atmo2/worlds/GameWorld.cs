@@ -19,6 +19,7 @@ namespace Atmo2.Worlds
 {
 	public class GameWorld : World
 	{
+        public static GameWorld World;
 		public static Player Player;
 		public RealRoom CurrentRoom { get; private set; }
 
@@ -37,6 +38,7 @@ namespace Atmo2.Worlds
 		public GameWorld()
 			: base()
 		{
+            World = this;
 			fadeToBlack = new Entity();
 			fadeToBlack.AddComponent(fadeToBlackImage = new Image(Library.Get<Texture>("content/image/white.png")));
 			fadeToBlackImage.ScaleX = FP.Width + fadeBuffer;
@@ -48,6 +50,10 @@ namespace Atmo2.Worlds
 
 			OgmoLoader ogmoSenpai = new OgmoLoader();
 			ogmoSenpai.RegisterClassAlias<LayoutRoom>("Room");
+
+            // TODO: Move enemy init logic somewhere else
+            ogmoSenpai.RegisterClassAlias<Enemy>("EnemyWalker");
+
 			var bob = ogmoSenpai.BuildLevelAsArray(Library.Get<XmlDocument>("content/ogmo/layout/layout.oel"));
 			layoutMapWorld = new LayoutMapWorld(
 				ogmoSenpai.BuildLevelAsArray(Library.Get<XmlDocument>("content/ogmo/layout/layout.oel")),

@@ -16,7 +16,7 @@
     <Width>1600</Width>
     <Height>1200</Height>
   </LevelMaximumSize>
-  <Filename>D:\Working\C#\Atmo2\Atmo2\Atmo2\content\ogmo\rooms\rooms.oep</Filename>
+  <Filename>E:\atmo2\Atmo2\Atmo2\content\ogmo\rooms\rooms.oep</Filename>
   <AngleMode>Radians</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
@@ -146,6 +146,23 @@
         <RectColor A="255" R="0" G="0" B="160" />
       </ImageDefinition>
       <ValueDefinitions />
+      <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
+    </EntityDefinition>
+    <EntityDefinition Name="EnemyWalker" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
+      <Size>
+        <Width>16</Width>
+        <Height>32</Height>
+      </Size>
+      <Origin>
+        <X>8</X>
+        <Y>32</Y>
+      </Origin>
+      <ImageDefinition DrawMode="Rectangle" ImagePath="" Tiled="false">
+        <RectColor A="255" R="255" G="0" B="0" />
+      </ImageDefinition>
+      <ValueDefinitions>
+        <ValueDefinition xsi:type="IntValueDefinition" Name="speed" Default="200" Min="0" Max="5000" ShowSlider="true" />
+      </ValueDefinitions>
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
     </EntityDefinition>
   </EntityDefinitions>

@@ -96,7 +96,7 @@ namespace Atmo2.Entities
 		{
 			if(MovementInfo.MovesRemaining < MovementInfo.CurrentMaxMoves)
 			{
-				MovementInfo.MoveRefill += FP.Elapsed * 1 / SECONDS_TO_REGAIN;
+				MovementInfo.MoveRefill += FP.Elapsed / SECONDS_TO_REGAIN;
 				if((int)Math.Floor(MovementInfo.MoveRefill) == 1)
 				{
 					MovementInfo.MoveRefill = 0;

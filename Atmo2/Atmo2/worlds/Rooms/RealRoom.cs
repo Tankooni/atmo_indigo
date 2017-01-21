@@ -13,6 +13,7 @@ namespace Atmo2.Worlds.Rooms
 	{
 		public RealRoomMeta RealRoomMeta { get; private set; }
 		public Dictionary<string, Door> Doors { get; private set; }
+        public List<Enemy> Enemies { get; set; }
 
 		private LayoutRoom layoutRoom;
 		private List<Entity> entities;
@@ -28,6 +29,12 @@ namespace Atmo2.Worlds.Rooms
 			Doors = new Dictionary<string, Door>();
 			foreach (var door in entities.OfType<Door>())
 				Doors.Add(door.DoorName, door);
+
+            Enemies = new List<Enemy>();
+            foreach (var enemy in entities)
+            {
+                
+            }
 		}
 
 		public void PopulateWorld()
