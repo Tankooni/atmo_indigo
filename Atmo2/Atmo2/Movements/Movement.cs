@@ -13,7 +13,7 @@ namespace Atmo2.Movements
 		public bool IsRunning { get; protected set; }
 		public bool BlockGravity { get; protected set; }
 
-		private Player player;
+		protected Player player;
 
 		public Movement(Player player)
 		{

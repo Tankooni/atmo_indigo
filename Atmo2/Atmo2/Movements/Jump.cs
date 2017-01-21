@@ -22,12 +22,13 @@ namespace Atmo2.Movements
 			{
 				movementInfo.VelY = -JUMP_STR;
 			}
-			else if (movementInfo.MovesRemaining > 0)
+			else if (movementInfo.MovesRemaining > 0 && movementInfo.AngainstWall == 0)
 			{
 				movementInfo.MovesRemaining--;
 				movementInfo.VelY = -JUMP_STR;
-				//wings.visible = true;
-				//wings.play("wings", true);
+				
+				player.Wings.Visible = true;
+				player.Wings.Play("wings", true);
 			}
 			return false;
 		}

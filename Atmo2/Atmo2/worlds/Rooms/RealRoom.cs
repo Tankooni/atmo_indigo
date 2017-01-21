@@ -33,7 +33,7 @@ namespace Atmo2.Worlds.Rooms
 		public void PopulateWorld()
 		{
 			parentWorld.AddList(entities);
-			AudioManager.SetLayersPlaying(RealRoomMeta.MusicList);
+			//AudioManager.SetLayersPlaying(RealRoomMeta.MusicList);
 		}
 
 		public void GenocideWorld()

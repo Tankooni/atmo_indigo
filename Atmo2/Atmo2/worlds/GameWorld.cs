@@ -13,6 +13,7 @@ using Utility;
 using Utility.Audio;
 using System.Xml;
 using Indigo.Content;
+using Indigo.Core;
 
 namespace Atmo2.Worlds
 {
@@ -76,6 +77,14 @@ namespace Atmo2.Worlds
 			Add(Player);
 
 			AddResponse(Door.DoorMessages.StartChangeRoom, StartChangeRoom);
+
+			Entity follow = Player;
+			for (int i = 1; i <= 2; i++)
+			{
+				Orb orb = new Orb(Player.X, Player.Y, i, follow);
+				follow = orb;
+				orbs.Add(Add(orb));
+			}
 		}
 
 		public override void Update()
@@ -109,6 +118,9 @@ namespace Atmo2.Worlds
 			{
 				//AudioManager.CurrentSong
 			}
+			
+			path.AddFirst(new Point(/*MouseX, MouseY*/Player.X, Player.Y - Player.Height));
+			FollowHead(orbs, path);
 		}
 
 		public void StartChangeRoom(object[] args)
@@ -150,6 +162,56 @@ namespace Atmo2.Worlds
 			Player.SetResetPointToCurrentLocation();
 			Player.UpdateCamera();
 			CurrentRoom.PopulateWorld();
+		}
+
+		private List<Orb> orbs = new List<Orb>();
+		private LinkedList<Point> path = new LinkedList<Point>();
+
+		void FollowHead(List<Orb> orbos, LinkedList<Point> pathos)
+		{
+			//assuming at least one node in linked list
+			var segmentStart = pathos.First.Value;
+			var segmentEndNode = pathos.First.Next;
+			var lengthToSegmentEnd = 0f;
+
+			foreach (var orb in orbos)
+			{
+				var segmentEnd = Point.Zero;
+				var segmentDiff = Point.Zero;
+				var segmentLength = 0f;
+				var lengthToSegmentStart = lengthToSegmentEnd;
+
+				//advance to correct segment if needed
+				while (orb.DistanceToLeader > lengthToSegmentEnd)
+				{
+					if (segmentEndNode == null) //path too short, back out early
+					{
+						return;
+						//break;
+					}
+
+					segmentEnd = segmentEndNode.Value;
+					segmentDiff = segmentEnd - segmentStart;
+					segmentLength = segmentDiff.Length;
+					lengthToSegmentEnd += segmentLength;
+
+					segmentEndNode = segmentEndNode.Next;
+				}
+
+				//interpolate position on segment
+				var distanceLeft = orb.DistanceToLeader - lengthToSegmentStart;
+				var percentageAlongSegment = distanceLeft / segmentLength;
+
+				var newPos = segmentStart + segmentDiff * percentageAlongSegment;
+				orb.X = newPos.X;
+				orb.Y = newPos.Y;
+			}
+
+			while (segmentEndNode != pathos.Last)
+			{
+				//Console.WriteLine("END {0}", pathos.Count);
+				pathos.RemoveLast();
+			}
 		}
 	}
 }
