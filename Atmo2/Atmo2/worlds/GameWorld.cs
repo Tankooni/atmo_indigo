@@ -87,7 +87,7 @@ namespace Atmo2.Worlds
 			
 
 			Entity follow = player;
-			for (int i = 1; i <= 2; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				Orb orb = new Orb(player.X, player.Y, i, follow);
 				follow = orb;
@@ -113,7 +113,7 @@ namespace Atmo2.Worlds
 			}
 			
 			path.AddFirst(new Point(/*MouseX, MouseY*/player.X, player.Y - player.Height));
-			FollowHead(orbs, path);
+			//FollowHead(orbs, path);
 		}
 
 		public void ActuallyChangeRoom(Door callingDoor)
