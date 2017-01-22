@@ -9,7 +9,7 @@ using Utility.Audio;
 
 namespace Atmo2.Worlds.Rooms
 {
-	public class RealRoom
+	public class Room
 	{
 		public RealRoomMeta RealRoomMeta { get; private set; }
 		public Dictionary<string, Door> Doors { get; private set; }
@@ -19,21 +19,27 @@ namespace Atmo2.Worlds.Rooms
 		private List<Entity> entities;
 		private World parentWorld;
 
-		public RealRoom(List<Entity> entities, RealRoomMeta realRoomMeta, MapRoom layoutRoom, World parentWorld)
+		public Room(List<Entity> entities, RealRoomMeta realRoomMeta, MapRoom layoutRoom, World parentWorld)
 		{
 			RealRoomMeta = realRoomMeta;
 			this.entities = entities;
 			this.layoutRoom = layoutRoom;
 			this.parentWorld = parentWorld;
 
+            foreach (var e in entities)
+                e.RenderStep = -5;
+
 			Doors = new Dictionary<string, Door>();
-			foreach (var door in entities.OfType<Door>())
-				Doors.Add(door.DoorName, door);
+            foreach (var door in entities.OfType<Door>())
+            {
+                Doors.Add(door.DoorName, door);
+                door.RenderStep = -10;
+            }
 
             Enemies = new List<Enemy>();
-            foreach (var enemy in entities)
+            foreach (var enemy in entities.OfType<Enemy>())
             {
-                
+                enemy.RenderStep = 0;
             }
 		}
 

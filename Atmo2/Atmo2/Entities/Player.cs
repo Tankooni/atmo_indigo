@@ -16,7 +16,7 @@ namespace Atmo2.Entities
 	public class Player : Actor, Indigo.Loaders.IOgmoNodeHandler
 	{
 		public const float SPEED = 2.5f;
-		public const float GRAVITY = 0.1f;
+		public const float GRAVITY = 0.3f;
 		private const float SECONDS_TO_REGAIN = 0.5f;
 
 		public static Abilities Abilities = new Abilities();
@@ -26,10 +26,13 @@ namespace Atmo2.Entities
 		public Action Jump { get; set; }
 		public Action Dash { get; set; }
 
+        public int Spice { get; set; }
+        public float Energy { get; set; }
+        public int MaxEnergy { get; set; }
+
 		private Spritemap image;
 		public Spritemap Wings;
 
-		private Text orbText;
 		private List<Orb> orbs = new List<Orb>();
 
 		private float resetPointX;
@@ -38,6 +41,9 @@ namespace Atmo2.Entities
 		public Player(float x, float y)
 			: base(x, y)
 		{
+            Spice = 100;
+            Energy = 0f;
+            MaxEnergy = 2;
 			image = new Spritemap(Library.Get<Texture>("content/image/JulepSprites.png"), 22, 29);
 			image.RenderStep = 0;
 			image.Add("walk", FP.MakeFrames(1, 8), 10, true);
@@ -51,7 +57,7 @@ namespace Atmo2.Entities
 			image.Play("idle");
 
 			Wings = new Spritemap(Library.Get<Texture>("content/image/JulepJump.png"), 54, 29, OnWingsComplete);
-			Wings.RenderStep = -99;
+			Wings.RenderStep = -2;
 			Wings.Add("wings", FP.MakeFrames(0, 7), 15, false);
 			Wings.Visible = false;
 
@@ -65,9 +71,7 @@ namespace Atmo2.Entities
 
 			SetHitbox(16, 24, 8, 24);
 
-			orbText = new Text("", 0, -40);
-			AddComponent<Text>(orbText);
-			GameWorld.Player = this;
+			GameWorld.player = this;
 			Type = KQ.CollisionTypePlayer;
 
 			Abilities = new Abilities();
@@ -95,15 +99,8 @@ namespace Atmo2.Entities
 
 		public void RefillMoves(GameTime time)
 		{
-			if(MovementInfo.MovesRemaining < MovementInfo.CurrentMaxMoves)
-			{
-				MovementInfo.MoveRefill += time.Elapsed / SECONDS_TO_REGAIN;
-				if((int)Math.Floor(MovementInfo.MoveRefill) == 1)
-				{
-					MovementInfo.MoveRefill = 0;
-					MovementInfo.MovesRemaining++;
-				}
-			}
+            Energy = MathHelper.Clamp(
+                time.Elapsed*2.0f+Energy, 0, MaxEnergy);
 		}
 
 		public override bool IsRiding(Solid solid)
@@ -121,9 +118,7 @@ namespace Atmo2.Entities
 
 			GetInput(time);
 			UpdateCamera();
-
-			orbText.String = MovementInfo.MovesRemaining.ToString();
-		}
+        }
 
 		public override void Squish()
 		{

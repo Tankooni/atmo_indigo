@@ -21,15 +21,10 @@ namespace Atmo2
                 foreach (var r in mapRooms) r.Visible = value;
             }
         }
-        private float scale;
         public float Scale
         {
-            get { return Camera.Scale; }//return scale; }
-            set {
-                //scale = value;
-                //foreach (var r in mapRooms) r.Scale = value;
-                Camera.Scale = value;
-            }
+            get { return Camera.Scale; }
+            set { Camera.Scale = value; }
         }
 
         public new int RenderStep
@@ -53,7 +48,7 @@ namespace Atmo2
             Array.Copy(mapRoomEntities, this.mapRooms, this.mapRooms.Length);
 
             this.Visible = false;
-            this.RenderStep = -100;
+            this.RenderStep = 100;
 
             this.Camera = new Camera();
             foreach (var r in mapRooms) r.Camera = this.Camera;
