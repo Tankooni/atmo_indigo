@@ -37,7 +37,7 @@ namespace Atmo2.Movements.PlayerStates
             }
             // Check for enemy collision
             Enemy enemy = player.Collide(KQ.CollisionTypeEnemy, player.X, player.Y) as Enemy;
-            if (enemy != null)
+            if (enemy != null && !this.player.IsInvincable)
             {
                 return new PSOuch(player, enemy.touchDamage);
             }

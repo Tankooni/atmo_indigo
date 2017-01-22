@@ -23,14 +23,13 @@ namespace Atmo2.Movements.PlayerStates
         {
             player.Collidable = false;
             player.image.Play("fall");
-            player.Tweener.Tween(player, new { Alpha = player.Alpha }, 1)
+            player.Tweener.Tween(player, new { Alpha = 1 }, 1)
                 .From(new { Alpha = 0 })
                 .Ease((t) => Engine.Random.Float(0, 1))
                 .OnComplete(() => player.Alpha = 1);
             player.Tweener.Tween(player, new { X = player.resetPointX, Y = player.resetPointY}, 1)
                 .Ease((t) => t)
                 .OnComplete(() => this.animation_finished = true);
-            
         }
 
         public void OnExit()
