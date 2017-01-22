@@ -41,8 +41,8 @@ namespace Atmo2.AI
 
             // Check if we're at a cliff
             if (!collision_map[
-                (int)((entity.X + move_amount) / 16),
-                (int)((entity.Y + 0.5)/ 16)])
+                (int)((entity.X + move_amount) / 24),
+                (int)((entity.Y + 0.5)/ 24)])
             {
                 this.isFacingLeft = !this.isFacingLeft;
                 move_amount = -move_amount;

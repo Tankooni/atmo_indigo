@@ -25,7 +25,7 @@
   </CameraSize>
   <ExportCameraPosition>false</ExportCameraPosition>
   <LevelValueDefinitions>
-    <ValueDefinition xsi:type="StringValueDefinition" Name="roomMusic" Default="B_piano_mid;1;B_piano_low;1;B_piano_high;1" MaxChars="-1" MultiLine="false" />
+    <ValueDefinition xsi:type="StringValueDefinition" Name="roomMusic" Default="ICE" MaxChars="-1" MultiLine="false" />
   </LevelValueDefinitions>
   <LayerDefinitions>
     <LayerDefinition xsi:type="EntityLayerDefinition">
@@ -150,12 +150,12 @@
     </EntityDefinition>
     <EntityDefinition Name="EnemyWalker" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>32</Height>
+        <Width>24</Width>
+        <Height>48</Height>
       </Size>
       <Origin>
-        <X>8</X>
-        <Y>32</Y>
+        <X>0</X>
+        <Y>0</Y>
       </Origin>
       <ImageDefinition DrawMode="Rectangle" ImagePath="" Tiled="false">
         <RectColor A="255" R="255" G="0" B="0" />

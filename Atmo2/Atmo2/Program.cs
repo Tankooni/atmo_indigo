@@ -33,7 +33,7 @@ namespace Atmo2
 			Library.AddPath("../../../");
 
 			Indigo.Inputs.Mouse.CursorVisible = true;
-			//AudioManager.Init(1);
+			AudioManager.Init(1);
 			Engine.World = new GameWorld();
 		}
 	}

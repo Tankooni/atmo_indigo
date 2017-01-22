@@ -14,25 +14,25 @@ namespace Atmo2.Worlds.Rooms
 		public float height { get; set; }
 		public string roomMusic { get; set; }
 
-		public List<AudioLayer> MusicList { get; set; }
+		//public List<AudioLayer> MusicList { get; set; }
 
 		public RealRoomMeta Init()
 		{
-			MusicList = new List<AudioLayer>();
-			var isVol = 0;
-			AudioLayer audioLayer = null;
-			foreach (string stringVal in roomMusic.Split(';'))
-			{
-				if (isVol % 2 == 0)
-				{
-					MusicList.Add(audioLayer = new AudioLayer { ChannelName = stringVal });
-				}
-				else if (isVol % 2 == 1)
-				{
-					audioLayer.Volume = int.Parse(stringVal);
-				}
-				isVol++;
-			}
+			//MusicList = new List<AudioLayer>();
+			//var isVol = 0;
+			//AudioLayer audioLayer = null;
+			//foreach (string stringVal in roomMusic.Split(';'))
+			//{
+			//	if (isVol % 2 == 0)
+			//	{
+			//		MusicList.Add(audioLayer = new AudioLayer { ChannelName = stringVal });
+			//	}
+			//	else if (isVol % 2 == 1)
+			//	{
+			//		audioLayer.Volume = int.Parse(stringVal);
+			//	}
+			//	isVol++;
+			//}
 			return this;
 		}
 	}
