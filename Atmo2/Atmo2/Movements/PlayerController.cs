@@ -11,6 +11,7 @@ namespace Atmo2.Movements
     public class PlayerController
     {
         IPlayerState current_state;
+        IPlayerState next_state;
 
         public PlayerController(IPlayerState initial_state)
         {
@@ -23,12 +24,23 @@ namespace Atmo2.Movements
             var newState = current_state.Update(time);
 
             // Transision states if needed
+            if (next_state != null)
+            {
+                newState = next_state;
+                next_state = null;
+            }
+
             if(newState != null)
             {
                 current_state.OnExit();
                 newState.OnEnter();
                 current_state = newState;
             }
+        }
+
+        public void NextState(IPlayerState state)
+        {
+            this.next_state = state;
         }
     }
 }

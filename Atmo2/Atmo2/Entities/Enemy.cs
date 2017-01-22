@@ -22,7 +22,9 @@ namespace Atmo2.Entities
         private float prevX;
 
         // Only use this contructor with the OgmoLoader
-        public Enemy() { }
+        public Enemy() {
+            this.touchDamage = 15;
+        }
 
         public Enemy(Spritemap spritemap, IAI ai, float x, float y)
             : base(x, y)

@@ -20,12 +20,22 @@ namespace Atmo2.Entities
         public PlayerController player_controller;
 		public Abilities Abilities;
 		public MovementInfo MovementInfo;
-		public Movement CurrentMove;
 
 		public Action Jump { get; set; }
 		public Action Dash { get; set; }
 
-        public int Spice { get; set; }
+        private int spice;
+        public int Spice
+        {
+            get { return spice; }
+            set
+            {
+                spice = MathHelper.Clamp(value, 0, 100);
+                if (spice == 0)
+                    player_controller.NextState(
+                        new PSDeath(this));
+            }
+        }
         public float Energy { get; set; }
         public int MaxEnergy { get; set; }
         public float EnergyRechargeRate { get; set; }
@@ -33,14 +43,20 @@ namespace Atmo2.Entities
         public float JumpStrenth { get; set; }
         public float RunSpeed { get; set; }
 
-        // Fix this later
 		public Spritemap image;
 		public Spritemap Wings;
 
+        public float Alpha
+        {
+            get { return image.Alpha; }
+            set { image.Alpha = value; }
+        }
+
 		private List<Orb> orbs = new List<Orb>();
 
-		private float resetPointX;
-		private float resetPointY;
+        // Make this a property at some point
+		public float resetPointX;
+		public float resetPointY;
 
 		public Player(float x, float y)
 			: base(x, y)
@@ -86,22 +102,8 @@ namespace Atmo2.Entities
 
 			Abilities = new Abilities();
 			MovementInfo = new MovementInfo(this);
-			Dash = UseAbility(new Dash(this));
-			Jump = UseAbility(new Jump(this));
-			CurrentMove = null;
 
             player_controller = new PlayerController(new PSIdle(this));
-		}
-
-		public Action UseAbility(Movement move)
-		{
-			move.Done = () => CurrentMove = null;
-
-			return () =>
-			{
-				if (CurrentMove == null && move.Restart(MovementInfo))
-					CurrentMove = move;
-			};
 		}
 
 		public void OnWingsComplete()
@@ -157,84 +159,7 @@ namespace Atmo2.Entities
 			X = resetPointX;
 			Y = resetPointY;
 			UpdateCamera();
-		}
-
-		bool downPressed = false;
-
-		public void GetInput(GameTime time)
-		{
-
-            if (Controller.Down() && MovementInfo.OnGround)
-            {
-				if (downPressed)
-				{
-					if(Engine.Random.Chance(1f))
-						AudioManager.PlaySoundVariations("charge2");
-					else
-						AudioManager.PlaySoundVariations("charge");
-					downPressed = false;
-				}
-				EnergyRechargeRate = 10;
-            } else {
-				downPressed = true;
-				EnergyRechargeRate = 2;
-                /*if (Controller.Left())
-                    MovementInfo.Move -= SPEED;
-                if (Controller.Right())
-                    MovementInfo.Move += SPEED;*/
-
-                if (Controller.Jump())
-                    Jump();
-                else if (Controller.Dash())
-                    Dash();
-            }
-
-            // Update gravity
-			//MovementInfo.VelY += GRAVITY;
-
-			if (CurrentMove != null)
-				CurrentMove.Update(time, MovementInfo);
-
-			MoveX(MovementInfo.Move);
-			MoveY(MovementInfo.VelY);
-
-            // Update animations
-			var anim = "stand";
-			if(MovementInfo.OnGround)
-			{
-				RefillEnergy(time);
-				if (MovementInfo.Move != 0)
-					anim = "walk";
-				if (Controller.Down())
-					anim = "dash";
-			}
-			else
-			{
-				if (MovementInfo.VelY > 0)
-				{
-					if (MovementInfo.AgainstWall != 0)
-						anim = "slide";
-					else
-						anim = "fall";
-				}
-				else
-					anim = "jump";
-			}
-
-			if(CurrentMove != null)
-			{
-				var moveAnim = CurrentMove.GetAnimation();
-				if (moveAnim != null)
-					anim = moveAnim;
-			}
-
-			image.Play(anim);
-			if (MovementInfo.Move != 0)
-			{
-				image.FlippedX = Wings.FlippedX = MovementInfo.Move < 0;
-			}
-		}
-
+		}        
 
 		public void UpdateCamera()
 		{
