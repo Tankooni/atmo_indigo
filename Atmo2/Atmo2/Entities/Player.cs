@@ -71,7 +71,7 @@ namespace Atmo2.Entities
             MaxEnergy = 0;
             EnergyRechargeRate = 2f;
 
-            JumpStrenth = 8f;
+            JumpStrenth = 11f;
             RunSpeed = 4.0f;
 
 			image.RenderStep = 0;
