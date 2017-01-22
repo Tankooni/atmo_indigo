@@ -79,7 +79,8 @@ namespace Atmo2.Movements.PlayerStates
                 }
             }
 
-            if(Controller.Down())
+            if(Controller.Down() &&
+                time.TotalMilliseconds - PSDiveKick.last_bounce > 300)
             {
                 return new PSDiveKick(player);
             }

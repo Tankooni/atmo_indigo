@@ -11,6 +11,8 @@ namespace Atmo2.Movements.PlayerStates
 {
     class PSDiveKick : IPlayerState
     {
+        // Fix this
+        public static int last_bounce;
         private Player player;
 
         public PSDiveKick(Player player)
@@ -38,6 +40,7 @@ namespace Atmo2.Movements.PlayerStates
             if (enemy != null)
             {
                 enemy.World.Remove(enemy);
+                last_bounce = time.TotalMilliseconds;
                 return new PSJump(player);
             }
 
