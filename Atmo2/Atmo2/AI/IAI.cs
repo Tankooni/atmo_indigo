@@ -10,6 +10,6 @@ namespace Atmo2.AI
 {
     public interface IAI
     {
-        void update();
+        void Update(GameTime time);
     }
 }

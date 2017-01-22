@@ -1,6 +1,7 @@
 ﻿using Atmo2.Entities;
 using Atmo2.Movements;
 using Indigo;
+using Indigo.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,14 +69,14 @@ namespace Atmo2.Movements
 			phase = 0;
 			timer = timings[phase];
 			movementInfo.MovesRemaining--;
-			dashDir = FP.Sign(movementInfo.Move);
+			dashDir = Math.Sign(movementInfo.Move);
 
 			return true;
 		}
 
-		public override void Update(MovementInfo movementInfo)
+		public override void Update(GameTime time, MovementInfo movementInfo)
 		{
-			timer -= FP.Elapsed;
+			timer -= time.Elapsed;
 
 			phases[phase](movementInfo);
 

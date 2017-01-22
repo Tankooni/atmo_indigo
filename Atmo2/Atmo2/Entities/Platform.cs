@@ -1,4 +1,5 @@
-﻿using Indigo.Graphics;
+﻿using Indigo;
+using Indigo.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace Atmo2.Entities
 			Height = height;
 		}
 
-		public override void Update()
+		public override void Update(GameTime time)
 		{
-			base.Update();
+			base.Update(time);
 			Move(0.25f, 0);
 		}
 	}

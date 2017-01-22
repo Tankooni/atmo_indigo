@@ -185,7 +185,7 @@
             <para>Lower numbers will be updated earlier than higher numbers.</para>
             </summary>
         </member>
-        <member name="M:Indigo.Component.Update">
+        <member name="M:Indigo.Component.Update(Indigo.GameTime)">
             <summary>
             Override this.
             Called every frame when Active and added to an Active Entity in an Active World.
@@ -327,6 +327,15 @@
             <summary>
             Constructor. Does no actual work; call Spline() to set up motion.
             </summary>
+        </member>
+        <member name="M:Indigo.Components.Spliner.Spline``2(``0,System.Single,System.Collections.Generic.IEnumerable{``1})">
+            <summary>
+            Set the motion for this spline.
+            </summary>
+            <param name="target">The object the motion should target. Must be non-null and a reference type.</param>
+            <param name="duration">How long the motion should take, in seconds.</param>
+            <param name="points">The points that the motion should spline between.</param>
+            <returns>A reference to this, for specifying additional parameters.</returns>
         </member>
         <member name="M:Indigo.Components.Spliner.Spline``2(``0,System.Single,``1[])">
             <summary>
@@ -565,45 +574,6 @@
             Whether the given child is this object, or is contained by this object directly or indirectly.
             </summary>
         </member>
-        <member name="T:Indigo.Content.Configuration.CfgSerialize">
-            <summary>
-            Specify that a member or class should be expanded as an object when serialized.
-            </summary>
-        </member>
-        <member name="T:Indigo.Content.Configuration.CfgHexAttribute">
-            <summary>
-            Specify that a numeric property should be output in hexadecimal.
-            </summary>
-        </member>
-        <member name="T:Indigo.Content.Configuration.CfgIgnoreAttribute">
-            <summary>
-            Ignore this property when saving and loading.
-            </summary>
-        </member>
-        <member name="T:Indigo.Content.Configuration.CfgEnumCommentAttribute">
-            <summary>
-            Generate a comment detailing accepted values for an enum property.
-            </summary>
-        </member>
-        <member name="T:Indigo.Content.Configuration.CfgCommentAttribute">
-            <summary>
-            Add a comment before this property in the serialized format.
-            </summary>
-        </member>
-        <member name="M:Indigo.Content.Configuration.Parser.Parse``1(System.String)">
-            <summary>
-            Create a new instance of T, read a string in Indigo's configuration format, and apply the values to the new object.
-            </summary>
-            <param name="source">A string containing the configuration format.</param>
-            <returns>The newly parsed object.</returns>
-        </member>
-        <member name="M:Indigo.Content.Configuration.Serializer.Serialize(System.Object)">
-            <summary>
-            Convert an object to its string representation.
-            </summary>
-            <param name="obj">The object to serialize.</param>
-            <returns>The object in Indigo's configuration format.</returns>
-        </member>
         <member name="T:Indigo.Content.Font">
             <summary>
             Description of Font.
@@ -661,7 +631,7 @@
         <member name="M:Indigo.Core.Point.FromAngle(System.Single,System.Single)">
             <summary>
             <para>Creates a new Point as a direction vector.</para>
-            <para>This is a shortcut for using FP.AngleXY()</para>
+            <para>This is a shortcut for using MathHelper.AngleXY()</para>
             </summary>
             <param name="angle">The angle to represent.</param>
             <param name="length">The length of the angle.</param>
@@ -816,10 +786,9 @@
             If the console is closed, open it, and vice-versa.
             </summary>
         </member>
-        <member name="M:Indigo.Debugging.DebugConsole.Log(System.Object[])">
+        <member name="M:Indigo.Debugging.DebugConsole.Write(System.Object[])">
             <summary>
             Output text to the console.
-            If MirrorToSystemOut is true, this also prints to standard output.
             </summary>
             <param name="data"></param>
         </member>
@@ -831,11 +800,6 @@
         <member name="P:Indigo.Debugging.DebugConsole.Paused">
             <summary>
             If the Console is currently in paused mode.
-            </summary>
-        </member>
-        <member name="F:Indigo.Debugging.DebugConsole.MirrorToSystemOut">
-            <summary>
-            Whether System.Console.WriteLine() should be used in addition to the in-game console.
             </summary>
         </member>
         <member name="F:Indigo.Debugging.DebugConsole.InvisibleUntilOpen">
@@ -851,6 +815,71 @@
         <member name="T:Indigo.Engine">
             <summary>
             Main game class. Manages the game loop.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.Width">
+            <summary>
+            Width of the game.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.Height">
+            <summary>
+            Height of the game.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.HalfWidth">
+            <summary>
+            Half width of the game.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.HalfHeight">
+            <summary>
+            Half height of the game.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.Framerate">
+            <summary>
+            The assigned framerate
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.Fixed">
+            <summary>
+            If the game is running at a fixed framerate.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.Timescale">
+            <summary>
+            Timescale assigned to Elapsed.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.Screen">
+            <summary>
+            The display window.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.GlobalKeys">
+            <summary>
+            Global keys. Allows setting callbacks that will trigger regardless of world or debug state.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.Focused">
+            <summary>
+            If the game currently has input focus or not.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.World">
+            <summary>
+            The currently active World.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.Choose">
+            <summary>
+            A collection of functions to choose from lists, options, enums, etc.
+            </summary>
+        </member>
+        <member name="P:Indigo.Engine.Random">
+            <summary>
+            A collection of functions to create pseudo-random values.
             </summary>
         </member>
         <member name="F:Indigo.Engine.Paused">
@@ -883,6 +912,22 @@
             Called when the engine shuts down.
             </summary>
         </member>
+        <member name="P:Indigo.Engine.Tweener">
+            <summary>
+            Global Tweener for tweening values across multiple worlds.
+            </summary>
+        </member>
+        <member name="M:Indigo.Engine.GetTimer">
+            <summary>
+            High-resolution timer.
+            </summary>
+            <returns>Milliseconds since the Engine started up.</returns>
+        </member>
+        <member name="F:Indigo.Engine.Timer">
+            <summary>
+            Time since the game started
+            </summary>
+        </member>
         <member name="M:Indigo.Engine.#ctor(System.Int32,System.Int32,System.Single)">
             <summary>
             Engine constructor
@@ -901,7 +946,7 @@
             Override this; called when the window loses focus.
             </summary>
         </member>
-        <member name="M:Indigo.Engine.Update">
+        <member name="M:Indigo.Engine.Update(Indigo.GameTime)">
             <summary>
             Updates the engine.
             </summary>
@@ -991,7 +1036,7 @@
             Override this, called when the Entity is removed from a World.
             </summary>
         </member>
-        <member name="M:Indigo.Entity.Update">
+        <member name="M:Indigo.Entity.Update(Indigo.GameTime)">
             <summary>
             Updates the Entity.
             </summary>
@@ -1282,12 +1327,12 @@
         </member>
         <member name="P:Indigo.Entity.RenderStep">
             <summary>
-            The rendering layer of this Entity. Higher layers are rendered first.
+            The rendering step of this Entity. Lower values are rendered first.
             </summary>
         </member>
         <member name="P:Indigo.Entity.UpdateStep">
             <summary>
-            The rendering layer of this Entity. Higher layers are rendered first.
+            The update stepof this Entity. Lower values are updated first.
             </summary>
         </member>
         <member name="P:Indigo.Entity.Type">
@@ -1305,131 +1350,6 @@
             <summary>
             Static catch-all class used to access global properties and functions.
             </summary>
-        </member>
-        <member name="P:Indigo.FP.Width">
-            <summary>
-            Width of the game.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Height">
-            <summary>
-            Height of the game.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.HalfWidth">
-            <summary>
-            Half width of the game.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.HalfHeight">
-            <summary>
-            Half height of the game.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Fixed">
-            <summary>
-            If the game is running at a fixed framerate.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.TimeInFrames">
-            <summary>
-            If times should be given in frames (as opposed to seconds).
-            Default is true in fixed timestep mode and false in variable timestep mode.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Framerate">
-            <summary>
-            The assigned framerate
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Elapsed">
-            <summary>
-            Time elapsed since the last frame (in seconds).
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Timescale">
-            <summary>
-            Timescale assigned to Elapsed.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Screen">
-            <summary>
-            The display window.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Camera">
-            <summary>
-            The view camera. Can be rotated or scaled as well as positioned.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.GlobalKeys">
-            <summary>
-            Global keys. Allows setting callbacks that will trigger regardless of world or debug state.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Focused">
-            <summary>
-            If the game currently has input focus or not.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.World">
-            <summary>
-            The currently active World.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Choose">
-            <summary>
-            A collection of functions to choose from lists, options, enums, etc.
-            </summary>
-        </member>
-        <member name="P:Indigo.FP.Random">
-            <summary>
-            A collection of functions to create pseudo-random values.
-            </summary>
-        </member>
-        <member name="M:Indigo.FP.Sign(System.Single)">
-            <summary>
-            Finds the sign of the provided value.
-            </summary>
-            <param name="value">The value to evaluate.</param>
-            <returns>1 if value is greater than 0, -1 if value is less than 0, and 0 when value == 0.</returns>
-        </member>
-        <member name="M:Indigo.FP.Approach(System.Single,System.Single,System.Single)">
-            <summary>
-            Approaches the value towards the target, by the specified amount, without overshooting the target.
-            </summary>
-            <param name="value">The starting value.</param>
-            <param name="target">The target that you want value to approach.</param>
-            <param name="amount">How much you want the value to approach target by.</param>
-            <returns>The new value.</returns>
-        </member>
-        <member name="M:Indigo.FP.Lerp(System.Single,System.Single,System.Single)">
-            <summary>
-            Linear interpolation between two values.
-            </summary>
-            <param name="a">First value</param>
-            <param name="b">Second value</param>
-            <param name="t">Interpolation factor</param>
-            <returns>When t=0, returns a. When t=1, returns b. When t=0.5, will return halfway between a and b. Etc.</returns>
-        </member>
-        <member name="M:Indigo.FP.ColorLerp(System.Int32,System.Int32,System.Single)">
-            <summary>
-            Linear interpolation between two colors.
-            </summary>
-            <param name="from">First color.</param>
-            <param name="to">Second color.</param>
-            <param name="t">Interpolation value. Clamped to the range [0, 1].</param>
-            <returns>RGB component-interpolated color value.</returns>
-        </member>
-        <member name="M:Indigo.FP.StepTowards(System.Single@,System.Single@,System.Single,System.Single,System.Single)">
-            <summary>
-            Steps X and Y coordinates towards a point.
-            </summary>
-            <param name="x">The X value to move</param>
-            <param name="y">The Y value to move</param>
-            <param name="toX">X position to step towards.</param>
-            <param name="toY">Y position to step towards.</param>
-            <param name="distance">The distance to step (will not overshoot target).</param>
         </member>
         <member name="M:Indigo.FP.AnchorTo(System.Single@,System.Single@,System.Single,System.Single,System.Single,System.Nullable{System.Single})">
             <summary>
@@ -1453,142 +1373,6 @@
             <param name="angle">The amount of degrees to rotate by.</param>
             <param name="relative">Whether the rotation is relative (default true).</param>
         </member>
-        <member name="M:Indigo.FP.Angle(System.Single,System.Single,System.Single,System.Single)">
-            <summary>
-            Finds the angle (in degrees) from point 1 to point 2.
-            </summary>
-            <param name="x1">The first x-position.</param>
-            <param name="y1">The first y-position.</param>
-            <param name="x2">The second x-position.</param>
-            <param name="y2">The second y-position.</param>
-            <returns>The angle from (x1, y1) to (x2, y2).</returns>
-        </member>
-        <member name="M:Indigo.FP.AngleXY(System.Single@,System.Single@,System.Single,System.Single,System.Single,System.Single)">
-            <summary>
-            Sets the x/y values of an object to a vector of the specified angle and length.
-            </summary>
-            <param name="X">X coordinate of the object to set.</param>
-            <param name="Y">Y coordinate of the object to set.</param>
-            <param name="angle">The angle of the vector, in degrees.</param>
-            <param name="length">The distance to the vector from (0, 0).</param>
-            <param name="xOffset">X offset.</param>
-            <param name="yOffset">Y offset.</param>
-        </member>
-        <member name="M:Indigo.FP.AngleDiff(System.Single,System.Single)">
-            <summary>
-            Gets the difference of two angles, wrapped around to the range -180 to 180.
-            </summary>
-            <param name="a">First angle in degrees.</param>
-            <param name="b">Second angle in degrees.</param>
-            <returns>Difference in angles, wrapped around to the range -180 to 180.</returns>
-        </member>
-        <member name="M:Indigo.FP.Distance(System.Single,System.Single,System.Single,System.Single)">
-            <summary>
-            Find the distance between two points.
-            </summary>
-            <param name="x1">The first x-position.</param>
-            <param name="y1">The first y-position.</param>
-            <param name="x2">The second x-position.</param>
-            <param name="y2">The second y-position.</param>
-            <returns>The distance.</returns>
-        </member>
-        <member name="M:Indigo.FP.DistanceSquared(System.Single,System.Single,System.Single,System.Single)">
-            <summary>
-            Find the squared distance between two points.
-            </summary>
-            <param name="x1">The first x-position.</param>
-            <param name="y1">The first y-position.</param>
-            <param name="x2">The second x-position.</param>
-            <param name="y2">The second y-position.</param>
-            <returns>The squared distance.</returns>
-        </member>
-        <member name="M:Indigo.FP.DistanceRects(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
-            <summary>
-            Find the distance between two rectangles. Will return 0 if the rectangles overlap.
-            </summary>
-            <param name="x1">The x-position of the first rect.</param>
-            <param name="y1">The y-position of the first rect.</param>
-            <param name="w1">The width of the first rect.</param>
-            <param name="h1">The height of the first rect.</param>
-            <param name="x2">The x-position of the second rect.</param>
-            <param name="y2">The y-position of the second rect.</param>
-            <param name="w2">The width of the second rect.</param>
-            <param name="h2">The height of the second rect.</param>
-            <returns>The distance.</returns>
-        </member>
-        <member name="M:Indigo.FP.DistanceRectPoint(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
-            <summary>
-            Find the distance between a point and a rectangle. Returns 0 if the point is within the rectangle.
-            </summary>
-            <param name="px">The x-position of the point.</param>
-            <param name="py">The y-position of the point.</param>
-            <param name="rx">The x-position of the rect.</param>
-            <param name="ry">The y-position of the rect.</param>
-            <param name="rw">The width of the rect.</param>
-            <param name="rh">The height of the rect.</param>
-            <returns>The distance.</returns>
-        </member>
-        <member name="M:Indigo.FP.Clamp``1(``0,``0,``0)">
-            <summary>
-            Clamps the value within the minimum and maximum values.
-            </summary>
-            <param name="value">The value to evaluate.</param>
-            <param name="min">The minimum range.</param>
-            <param name="max">The maximum range.</param>
-            <returns>The clamped value.</returns>
-        </member>
-        <member name="M:Indigo.FP.Clamp(System.Single,System.Single,System.Single)">
-            <summary>
-            Clamps the value within the minimum and maximum values.
-            </summary>
-            <param name="value">The value to evaluate.</param>
-            <param name="min">The minimum range.</param>
-            <param name="max">The maximum range.</param>
-            <returns>The clamped value.</returns>
-        </member>
-        <member name="M:Indigo.FP.Clamp(System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Clamps the value within the minimum and maximum values.
-            </summary>
-            <param name="value">The value to evaluate.</param>
-            <param name="min">The minimum range.</param>
-            <param name="max">The maximum range.</param>
-            <returns>The clamped value.</returns>
-        </member>
-        <member name="M:Indigo.FP.ClampInRect(System.Single@,System.Single@,System.Single,System.Single,System.Single,System.Single,System.Single)">
-            <summary>
-            Clamps the object inside the rectangle.
-            </summary>
-            <param name="objX">The X property of the object to clamp.</param>
-            <param name="objY">The Y property of the object to clamp.</param>
-            <param name="x">Rectangle's x.</param>
-            <param name="y">Rectangle's y.</param>
-            <param name="width">Rectangle's width.</param>
-            <param name="height">Rectangle's height.</param>
-            <param name="padding">Optional padding around the edges.</param>
-        </member>
-        <member name="M:Indigo.FP.Scale(System.Single,System.Single,System.Single,System.Single,System.Single)">
-            <summary>
-            Transfers a value from one scale to another scale. For example, scale(.5, 0, 1, 10, 20) == 15, and scale(3, 0, 5, 100, 0) == 40.
-            </summary>
-            <param name="value">The value on the first scale.</param>
-            <param name="min">The minimum range of the first scale.</param>
-            <param name="max">The maximum range of the first scale.</param>
-            <param name="min2">The minimum range of the second scale.</param>
-            <param name="max2">The maximum range of the second scale.</param>
-            <returns>The scaled value.</returns>
-        </member>
-        <member name="M:Indigo.FP.ScaleClamped(System.Single,System.Single,System.Single,System.Single,System.Single)">
-            <summary>
-            Transfers a value from one scale to another scale, but clamps the return value within the second scale.
-            </summary>
-            <param name="value">The value on the first scale.</param>
-            <param name="min">The minimum range of the first scale.</param>
-            <param name="max">The maximum range of the first scale.</param>
-            <param name="min2">The minimum range of the second scale.</param>
-            <param name="max2">The maximum range of the second scale.</param>
-            <returns>The scaled and clamped value.</returns>
-        </member>
         <member name="M:Indigo.FP.Swap``1(``0,``0,``0)">
             <summary>
             Swaps the current item between a and b. Useful for quick state/string/value swapping.
@@ -1597,23 +1381,6 @@
             <param name="a">Item a</param>
             <param name="b">Item b</param>
             <returns>Returns a if current is b, and b if current is a.</returns>
-        </member>
-        <member name="M:Indigo.FP.TimeFlag">
-            <summary>
-            Sets a time flag.
-            </summary>
-            <returns>Time elapsed (in milliseconds) since the last time flag was set.</returns>
-        </member>
-        <member name="M:Indigo.FP.Log(System.Object[])">
-            <summary>
-            Logs data to the console
-            </summary>
-            <param name="data">The data parameters to log, can be variables, objects, etc. Parameters will be separated by a space (" ").</param>
-        </member>
-        <member name="P:Indigo.FP.Tweener">
-            <summary>
-            Global Tweener for tweening values across multiple worlds.
-            </summary>
         </member>
         <member name="M:Indigo.FP.MakeFrames(System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -1631,32 +1398,6 @@
             <param name="frames">The frames to insert into the array</param>
             <returns>The frame array.</returns>
         </member>
-        <member name="M:Indigo.FP.GetTimer">
-            <summary>
-            High-resolution timer.
-            </summary>
-            <returns>Milliseconds since the Engine started up.</returns>
-        </member>
-        <member name="F:Indigo.FP.Timer">
-            <summary>
-            Time since the game started
-            </summary>
-        </member>
-        <member name="F:Indigo.FP.DEG">
-            <summary>
-            Multiply a radian angle value by this to convert it to degrees.
-            </summary>
-        </member>
-        <member name="F:Indigo.FP.RAD">
-            <summary>
-            Multiply a degree angle by this to convert it to radians.
-            </summary>
-        </member>
-        <member name="F:Indigo.FP.Engine">
-            <summary>
-            The currently active Engine.
-            </summary>
-        </member>
         <member name="T:Indigo.Graphics.AnimatedTilemap">
             <summary>
             Tilemap class which allows for animations.
@@ -1664,33 +1405,34 @@
             </summary>
         </member>
         <member name="F:Indigo.Graphics.AnimatedTilemap.Rate">
-            <summary>
-            Animation speed factor, alter this to speed up/slow down all animations.
-            </summary>
+            <summary>Animation speed factor. Alter this to speed up/slow down all animations.</summary>
         </member>
         <member name="M:Indigo.Graphics.AnimatedTilemap.#ctor(Indigo.Content.Texture,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
             Constructor.
-            @param	tileset			The source tileset image.
-            @param	width			Width of the tilemap, in pixels.
-            @param	height			Height of the tilemap, in pixels.
-            @param	tileWidth		Tile width.
-            @param	tileHeight		Tile height.
+            </summary>
+            <param name="tileset">The source tileset image</param>
+            <param name="width">Width of the tilemap, in pixels.</param>
+            <param name="height">Height of the tilemap, in pixels</param>
+            <param name="tileWidth">Tile width</param>
+            <param name="tileHeight">Tile height</param>
         </member>
-        <member name="M:Indigo.Graphics.AnimatedTilemap.Update">
-            @private Updates the animation. 
-        </member>
-        <member name="M:Indigo.Graphics.AnimatedTilemap.setTile(System.Int32,System.Int32,System.Int32)">
+        <member name="M:Indigo.Graphics.AnimatedTilemap.SetTile(System.Int32,System.Int32,System.Int32)">
+            <summary>
             Sets the index of the tile at the position.
-            @param	column		Tile column.
-            @param	row			Tile row.
-            @param	index		Tile index from the tileset to show. (Or -1 to show the tile as blank.)
+            </summary>
+            <param name="column">Tile column.</param>
+            <param name="row">Tile row.</param>
+            <param name="index">Tile index from the tileset to show. (Or -1 to show the tile as blank.)</param>
         </member>
         <member name="M:Indigo.Graphics.AnimatedTilemap.Animate(System.Int32[],System.Single)">
+            <summary>
             Add an animation to tiles in the Tilemap.
-            @param	frames		Array of frame indices to animate through. The first frame should be the 1D index of the tile used when drawing the tilemap.
-            @param	frameRate	Animation speed (in frames per second, 0 defaults to assigned frame rate)
+            </summary>
+            <param name="frames">Array of frame indices to animate through. The first frame should be the 1D index of the tile used when drawing the tilemap.</param>
+            <param name="frameRate">Animation speed (in frames per second, 0 defaults to assigned frame rate)</param>
         </member>
-        <member name="F:Indigo.Graphics.AnimatedTilemap._anims">
+        <member name="F:Indigo.Graphics.AnimatedTilemap._animations">
             <summary>
             Create an array to hold all the animations
             </summary>
@@ -1787,7 +1529,7 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:Indigo.Graphics.Emitter.Update">
+        <member name="M:Indigo.Graphics.Emitter.Update(Indigo.GameTime)">
             <summary>
             Update the graphic.
             </summary>
@@ -1838,120 +1580,6 @@
         <member name="P:Indigo.Graphics.Emitter.ParticleCount">
             <summary>
             Amount of currently existing particles.
-            </summary>
-        </member>
-        <member name="F:Indigo.Graphics.Flipbook.Complete">
-            <summary>
-            If the animation has stopped.
-            </summary>
-        </member>
-        <member name="F:Indigo.Graphics.Flipbook.Callback">
-            <summary>
-            Optional callback function for animation end.
-            </summary>
-        </member>
-        <member name="F:Indigo.Graphics.Flipbook.Rate">
-            <summary>
-            Animation speed factor, alter this to speed up/slow down all animations.
-            </summary>
-        </member>
-        <member name="M:Indigo.Graphics.Flipbook.Update">
-            <summary>
-            Updates the animation.
-            </summary>
-        </member>
-        <member name="M:Indigo.Graphics.Flipbook.Add(System.String,System.Int32[],System.Single,System.Boolean)">
-            <summary>
-            Add an Animation.
-            </summary>
-            <param name="name">Name of the animation.</param>
-            <param name="frames">Array of frame indices to animate through.</param>
-            <param name="frameRate">Animation speed.</param>
-            <param name="loop">If the animation should loop.</param>
-            <returns>A new Anim object for the animation.</returns>
-        </member>
-        <member name="M:Indigo.Graphics.Flipbook.Play(System.String,System.Boolean,System.Int32)">
-            <summary>
-            Plays an animation.
-            </summary>
-            <param name="name">Name of the animation to play.</param>
-            <param name="reset">If the animation should force-restart if it is already playing.</param>
-            <param name="frame">Frame of the animation to start from, if restarted.</param>
-            <returns>Anim object representing the played animation.</returns>
-        </member>
-        <member name="M:Indigo.Graphics.Flipbook.RandFrame">
-            <summary>
-            Assigns the Flipbook to a random frame.
-            </summary>
-        </member>
-        <member name="M:Indigo.Graphics.Flipbook.SetAnimFrame(System.String,System.Int32)">
-            <summary>
-            Sets the frame to the frame index of an animation.
-            </summary>
-            <param name="name">Animation to draw the frame frame.</param>
-            <param name="index">Index of the frame of the animation to set to.</param>
-        </member>
-        <member name="P:Indigo.Graphics.Flipbook.Frame">
-            <summary>
-            The current frame index. When you set this, any
-            animations playing will be stopped to force the frame.
-            </summary>
-        </member>
-        <member name="P:Indigo.Graphics.Flipbook.Index">
-            <summary>
-            Current index of the playing animation.
-            </summary>
-        </member>
-        <member name="P:Indigo.Graphics.Flipbook.FrameCount">
-            <summary>
-            The amount of frames in the Flipbook.
-            </summary>
-        </member>
-        <member name="P:Indigo.Graphics.Flipbook.CurrentAnim">
-            <summary>
-            The currently playing animation.
-            </summary>
-        </member>
-        <member name="F:Indigo.Graphics.Flipbook._frame">
-            <summary>
-            The current animation frame.
-            </summary>
-        </member>
-        <member name="T:Indigo.Graphics.Flipbook.Anim">
-            <summary>
-            Template used by Flipbook to define animations. 
-            Don't create these yourself, instead you can fetch them with Flipbook's Add().
-            </summary>
-        </member>
-        <member name="M:Indigo.Graphics.Flipbook.Anim.Play(System.Boolean)">
-            <summary>
-            Plays the animation.
-            </summary>
-            <param name="reset">If the animation should force-restart if it is already playing.</param>
-        </member>
-        <member name="P:Indigo.Graphics.Flipbook.Anim.Name">
-            <summary>
-            The name of the animation
-            </summary>
-        </member>
-        <member name="P:Indigo.Graphics.Flipbook.Anim.Frames">
-            <summary>
-            Array of frame indices to animate.
-            </summary>
-        </member>
-        <member name="P:Indigo.Graphics.Flipbook.Anim.FrameRate">
-            <summary>
-            Animation speed.
-            </summary>
-        </member>
-        <member name="P:Indigo.Graphics.Flipbook.Anim.Loop">
-            <summary>
-            If the animation loops.
-            </summary>
-        </member>
-        <member name="P:Indigo.Graphics.Flipbook.Anim.FrameCount">
-            <summary>
-            Amount of frames in the animation.
             </summary>
         </member>
         <member name="T:Indigo.Graphics.Graphic">
@@ -2016,7 +1644,7 @@
             </summary>
             <param name="graphics">Graphic objects to add to the list.</param>
         </member>
-        <member name="M:Indigo.Graphics.Graphiclist.Update">
+        <member name="M:Indigo.Graphics.Graphiclist.Update(Indigo.GameTime)">
             <summary>
             Updates the graphics in the list.
             </summary>
@@ -2412,7 +2040,7 @@
             Updates the spritemap's buffer.
             </summary>
         </member>
-        <member name="M:Indigo.Graphics.Spritemap.Update">
+        <member name="M:Indigo.Graphics.Spritemap.Update(Indigo.GameTime)">
             <summary>
             Updates the animation.
             </summary>
@@ -2451,11 +2079,6 @@
             </summary>
             <param name="column">Frame column.</param>
             <param name="row">Frame row.</param>
-        </member>
-        <member name="M:Indigo.Graphics.Spritemap.RandFrame">
-            <summary>
-            Assigns the Spritemap to a random frame.
-            </summary>
         </member>
         <member name="M:Indigo.Graphics.Spritemap.SetAnimFrame(System.String,System.Int32)">
             <summary>
@@ -2515,12 +2138,6 @@
             Template used by Spritemap to define animations. 
             Don't create these yourself, instead you can fetch them with Spritemap's Add().
             </summary>
-        </member>
-        <member name="M:Indigo.Graphics.Spritemap.Anim.Play(System.Boolean)">
-            <summary>
-            Plays the animation.
-            </summary>
-            <param name="reset">If the animation should force-restart if it is already playing.</param>
         </member>
         <member name="P:Indigo.Graphics.Spritemap.Anim.Name">
             <summary>
@@ -3435,6 +3052,11 @@
             <param name="autoLayer">If each entity's layer should be set based on its order in the oel. Only values of 0 will be overwritten.</param>
             <returns>An array containing all Entities loaded.</returns>
         </member>
+        <member name="F:Indigo.Log.DisplayCallingMethod">
+            <summary>
+            Whether the method calling Log() should be displayed before the message.
+            </summary>
+        </member>
         <member name="T:Indigo.Masks.Grid">
             <summary>
             Uses a hash grid to determine collision, faster than using hundreds of Entities for tiled levels, etc. 
@@ -4002,10 +3624,198 @@
             Called when the subsystem is updated (after the current world is updated)
             </summary>
         </member>
+        <member name="T:Indigo.Utils.Lerp">
+            <summary>
+            Description of Lerp.
+            </summary>
+        </member>
+        <member name="M:Indigo.Utils.Lerp.Float(System.Single,System.Single,System.Single)">
+            <summary>
+            Linear interpolation between two values.
+            </summary>
+            <param name="a">First value</param>
+            <param name="b">Second value</param>
+            <param name="t">Interpolation factor</param>
+            <returns>When t=0, returns a. When t=1, returns b. When t=0.5, will return halfway between a and b. Etc.</returns>
+        </member>
+        <member name="M:Indigo.Utils.Lerp.Color(System.Int32,System.Int32,System.Single)">
+            <summary>
+            Linear interpolation between two colors.
+            </summary>
+            <param name="from">First color.</param>
+            <param name="to">Second color.</param>
+            <param name="t">Interpolation value. Clamped to the range [0, 1].</param>
+            <returns>RGB component-interpolated color value.</returns>
+        </member>
+        <member name="F:Indigo.Utils.MathHelper.DEG">
+            <summary>
+            Multiply a radian angle value by this to convert it to degrees.
+            </summary>
+        </member>
+        <member name="F:Indigo.Utils.MathHelper.RAD">
+            <summary>
+            Multiply a degree angle by this to convert it to radians.
+            </summary>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.Angle(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Finds the angle (in degrees) from point 1 to point 2.
+            </summary>
+            <param name="x1">The first x-position.</param>
+            <param name="y1">The first y-position.</param>
+            <param name="x2">The second x-position.</param>
+            <param name="y2">The second y-position.</param>
+            <returns>The angle from (x1, y1) to (x2, y2).</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.AngleXY(System.Single@,System.Single@,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Sets the x/y values of an object to a vector of the specified angle and length.
+            </summary>
+            <param name="X">X coordinate of the object to set.</param>
+            <param name="Y">Y coordinate of the object to set.</param>
+            <param name="angle">The angle of the vector, in degrees.</param>
+            <param name="length">The distance to the vector from (0, 0).</param>
+            <param name="xOffset">X offset.</param>
+            <param name="yOffset">Y offset.</param>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.AngleDiff(System.Single,System.Single)">
+            <summary>
+            Gets the difference of two angles, wrapped around to the range -180 to 180.
+            </summary>
+            <param name="a">First angle in degrees.</param>
+            <param name="b">Second angle in degrees.</param>
+            <returns>Difference in angles, wrapped around to the range -180 to 180.</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.Distance(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Find the distance between two points.
+            </summary>
+            <param name="x1">The first x-position.</param>
+            <param name="y1">The first y-position.</param>
+            <param name="x2">The second x-position.</param>
+            <param name="y2">The second y-position.</param>
+            <returns>The distance.</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.DistanceSquared(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Find the squared distance between two points.
+            </summary>
+            <param name="x1">The first x-position.</param>
+            <param name="y1">The first y-position.</param>
+            <param name="x2">The second x-position.</param>
+            <param name="y2">The second y-position.</param>
+            <returns>The squared distance.</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.DistanceRects(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Find the distance between two rectangles. Will return 0 if the rectangles overlap.
+            </summary>
+            <param name="x1">The x-position of the first rect.</param>
+            <param name="y1">The y-position of the first rect.</param>
+            <param name="w1">The width of the first rect.</param>
+            <param name="h1">The height of the first rect.</param>
+            <param name="x2">The x-position of the second rect.</param>
+            <param name="y2">The y-position of the second rect.</param>
+            <param name="w2">The width of the second rect.</param>
+            <param name="h2">The height of the second rect.</param>
+            <returns>The distance.</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.DistanceRectPoint(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Find the distance between a point and a rectangle. Returns 0 if the point is within the rectangle.
+            </summary>
+            <param name="px">The x-position of the point.</param>
+            <param name="py">The y-position of the point.</param>
+            <param name="rx">The x-position of the rect.</param>
+            <param name="ry">The y-position of the rect.</param>
+            <param name="rw">The width of the rect.</param>
+            <param name="rh">The height of the rect.</param>
+            <returns>The distance.</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.Clamp``1(``0,``0,``0)">
+            <summary>
+            Clamps the value within the minimum and maximum values.
+            </summary>
+            <param name="value">The value to evaluate.</param>
+            <param name="min">The minimum range.</param>
+            <param name="max">The maximum range.</param>
+            <returns>The clamped value.</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.Clamp(System.Single,System.Single,System.Single)">
+            <summary>
+            Clamps the value within the minimum and maximum values.
+            </summary>
+            <param name="value">The value to evaluate.</param>
+            <param name="min">The minimum range.</param>
+            <param name="max">The maximum range.</param>
+            <returns>The clamped value.</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.Clamp(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Clamps the value within the minimum and maximum values.
+            </summary>
+            <param name="value">The value to evaluate.</param>
+            <param name="min">The minimum range.</param>
+            <param name="max">The maximum range.</param>
+            <returns>The clamped value.</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.ClampInRect(System.Single@,System.Single@,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Clamps the object inside the rectangle.
+            </summary>
+            <param name="objX">The X property of the object to clamp.</param>
+            <param name="objY">The Y property of the object to clamp.</param>
+            <param name="x">Rectangle's x.</param>
+            <param name="y">Rectangle's y.</param>
+            <param name="width">Rectangle's width.</param>
+            <param name="height">Rectangle's height.</param>
+            <param name="padding">Optional padding around the edges.</param>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.Scale(System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Transfers a value from one scale to another scale. For example, scale(.5, 0, 1, 10, 20) == 15, and scale(3, 0, 5, 100, 0) == 40.
+            </summary>
+            <param name="value">The value on the first scale.</param>
+            <param name="min">The minimum range of the first scale.</param>
+            <param name="max">The maximum range of the first scale.</param>
+            <param name="min2">The minimum range of the second scale.</param>
+            <param name="max2">The maximum range of the second scale.</param>
+            <returns>The scaled value.</returns>
+        </member>
+        <member name="M:Indigo.Utils.MathHelper.ScaleClamped(System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Transfers a value from one scale to another scale, but clamps the return value within the second scale.
+            </summary>
+            <param name="value">The value on the first scale.</param>
+            <param name="min">The minimum range of the first scale.</param>
+            <param name="max">The maximum range of the first scale.</param>
+            <param name="min2">The minimum range of the second scale.</param>
+            <param name="max2">The maximum range of the second scale.</param>
+            <returns>The scaled and clamped value.</returns>
+        </member>
         <member name="T:Indigo.Utils.Approach">
             <summary>
             A collection of stateless easing functions.
             </summary>
+        </member>
+        <member name="M:Indigo.Utils.Approach.Towards(System.Single,System.Single,System.Single)">
+            <summary>
+            Approaches the value towards the target, by the specified amount, without overshooting the target.
+            </summary>
+            <param name="value">The starting value.</param>
+            <param name="target">The target that you want value to approach.</param>
+            <param name="amount">How much you want the value to approach target by.</param>
+            <returns>The new value.</returns>
+        </member>
+        <member name="M:Indigo.Utils.Approach.Towards(System.Single@,System.Single@,System.Single,System.Single,System.Single)">
+            <summary>
+            Steps X and Y coordinates towards a point.
+            </summary>
+            <param name="x">The X value to move</param>
+            <param name="y">The Y value to move</param>
+            <param name="toX">X position to step towards.</param>
+            <param name="toY">Y position to step towards.</param>
+            <param name="distance">The distance to step (will not overshoot target).</param>
         </member>
         <member name="M:Indigo.Utils.Approach.TowardsWithDecay(System.Single@,System.Single,System.Single)">
             <summary>
@@ -4209,11 +4019,6 @@
             </summary>
             <param name="e"></param>
         </member>
-        <member name="T:Indigo.Utils.Lerpers.PointLerper">
-            <summary>
-            Description of PointLerper.
-            </summary>
-        </member>
         <member name="T:Indigo.Utils.IHitboxInformer">
             <summary>
             Classes which implement this interface can be used for the 
@@ -4361,19 +4166,19 @@
             Reverse the order of the points in the spline.
             </summary>
         </member>
-        <member name="T:Indigo.Utils.Reflect.Types">
+        <member name="T:Indigo.Utils.Types">
             <summary>
             A simple class for basic reflection.
             </summary>
         </member>
-        <member name="M:Indigo.Utils.Reflect.Types.GetTypeFromAllAssemblies(System.String)">
+        <member name="M:Indigo.Utils.Types.GetTypeFromAllAssemblies(System.String)">
             <summary>
             Searches all known assemblies for a type and returns that type.
             </summary>
             <param name="type">The name of the type to search for.</param>
             <returns>The type found, or null if no match.</returns>
         </member>
-        <member name="M:Indigo.Utils.Reflect.Types.GetTypeFromAllAssemblies``1(System.String)">
+        <member name="M:Indigo.Utils.Types.GetTypeFromAllAssemblies``1(System.String)">
             <summary>
             <para>Searches all known assemblies for a type and returns that type.</para>
             <para>This overload checks that the type implements or inherits from the type parameter.</para>
@@ -4455,36 +4260,6 @@
         <member name="M:Indigo.IRenderStepSorters.IsAtBack(Indigo.IRenderStep)">
             <summary> If the Entity as at the back of its layer.</summary>
         </member>
-        <member name="M:Indigo.IUpdateStepSorters.BringToFront(Indigo.IRenderStep)">
-            <summary>
-            Bring this item to the front of its render step.
-            </summary>
-            <returns>Whether the item changed order.</returns>
-        </member>
-        <member name="M:Indigo.IUpdateStepSorters.BringForward(Indigo.IRenderStep)">
-            <summary>
-            Shift this item forward in its render step.
-            </summary>
-            <returns>Whether the item changed order.</returns>
-        </member>
-        <member name="M:Indigo.IUpdateStepSorters.SendToBack(Indigo.IRenderStep)">
-            <summary>
-            Send this item to the back of its render step.
-            </summary>
-            <returns>Whether the item changed order.</returns>
-        </member>
-        <member name="M:Indigo.IUpdateStepSorters.SendBackward(Indigo.IRenderStep)">
-            <summary>
-            Shift this item backwards in its render step.
-            </summary>
-            <returns>Whether the item changed order.</returns>
-        </member>
-        <member name="M:Indigo.IUpdateStepSorters.IsAtFront(Indigo.IRenderStep)">
-            <summary> If this item is as at the front of its render step.</summary>
-        </member>
-        <member name="M:Indigo.IUpdateStepSorters.IsAtBack(Indigo.IRenderStep)">
-            <summary> If the Entity as at the back of its layer.</summary>
-        </member>
         <member name="M:Indigo.MessageListener.OnMessage(System.Enum,System.Object[])">
             <summary>
             Called when this recieves a message broadcast from the World
@@ -4537,7 +4312,7 @@
             Override this; called when World is changed, and the active world is no longer this.
             </summary>
         </member>
-        <member name="M:Indigo.World.Update">
+        <member name="M:Indigo.World.Update(Indigo.GameTime)">
             <summary>
             Performed by the game loop, updates all contained Entities.
             If you override this to give your World update code, remember
@@ -4616,7 +4391,7 @@
             <param name="graphic">Graphic to assign the Entity.</param>
             <param name="x">X position of the Entity.</param>
             <param name="y">Y position of the Entity.</param>
-            <param name="layer">Layer of the Entity.</param>
+            <param name="renderStep">Layer of the Entity.</param>
             <returns>The Entity that was added.</returns>
         </member>
         <member name="M:Indigo.World.AddComponent(Indigo.Component)">
@@ -4772,12 +4547,24 @@
             Returns an enumerable of all entities in the world.
             </summary>
         </member>
+        <member name="M:Indigo.World.GetAllEntitiesOnRenderStep(System.Int32)">
+            <summary>Returns an enumerable of all entities with a given render step.</summary>
+        </member>
+        <member name="M:Indigo.World.GetAllEntitiesOnUpdateStep(System.Int32)">
+            <summary>Returns an enumerable of all entities with a given update step.</summary>
+        </member>
         <member name="M:Indigo.World.GetInstance(System.String)">
             <summary>
             Returns the Entity with the instance name, or null if none exists.
             </summary>
             <param name="name">Instance name of the Entity.</param>
             <returns>The named Entity, or null if it doesn't exist.</returns>
+        </member>
+        <member name="M:Indigo.World.AddManager``1(``0)">
+            <summary>Adds an EntityManager to the world</summary>
+        </member>
+        <member name="M:Indigo.World.RemoveManager``1(``0)">
+            <summary>Removes an EntityManager from the world</summary>
         </member>
         <member name="M:Indigo.World.SquareRects(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
             <summary>
@@ -5170,6 +4957,13 @@
             Associate a Lerper class with a property type.
             </summary>
             <typeparam name="TLerper">The Lerper class to use for properties of the given type.</typeparam>
+            <param name="propertyType">The type of the property to associate the given Lerper with.</param>
+        </member>
+        <member name="M:Glide.Tween.TweenerImpl.SetLerper(System.Type,System.Type)">
+            <summary>
+            Associate a Lerper type with a property type.
+            </summary>
+            <param name="lerperType">The type of the Lerper to use for properties of the given type.</param>
             <param name="propertyType">The type of the property to associate the given Lerper with.</param>
         </member>
         <member name="M:Glide.Tween.TweenerImpl.Tween``1(``0,System.Object,System.Single,System.Single,System.Boolean)">
