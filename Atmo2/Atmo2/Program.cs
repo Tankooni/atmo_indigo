@@ -31,6 +31,7 @@ namespace Atmo2
 			Engine.Screen.Resize(1280, 860);
 
 			Library.AddPath("../../../");
+			Library.AddPath("./");
 
 			Indigo.Inputs.Mouse.CursorVisible = true;
 			AudioManager.Init(1);
