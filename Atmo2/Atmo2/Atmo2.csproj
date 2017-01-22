@@ -81,9 +81,6 @@
     <Compile Include="Entities\Enemy.cs" />
     <Compile Include="Entities\Orb.cs" />
     <Compile Include="Entities\Pickup.cs" />
-    <Compile Include="Movements\Dash.cs" />
-    <Compile Include="Movements\Jump.cs" />
-    <Compile Include="Movements\Movement.cs" />
     <Compile Include="Movements\MovementInfo.cs" />
     <Compile Include="Entities\Platform.cs" />
     <Compile Include="Entities\Player.cs" />
@@ -94,6 +91,7 @@
     <Compile Include="Movements\PlayerStates\PSCharge.cs" />
     <Compile Include="Movements\PlayerStates\PSDash.cs" />
     <Compile Include="Movements\PlayerStates\PSDeath.cs" />
+    <Compile Include="Movements\PlayerStates\PSDiveKick.cs" />
     <Compile Include="Movements\PlayerStates\PSFall.cs" />
     <Compile Include="Movements\PlayerStates\PSIdle.cs" />
     <Compile Include="Movements\PlayerStates\PSJump.cs" />

@@ -80,7 +80,7 @@ namespace Atmo2.Entities
 			image.Add("fall", FP.MakeFrames(15, 16), 10, true);
 			//image.Add("hang", FP.MakeFrames(16, 16), 10, true);
 			//image.Add("climb", FP.MakeFrames(17, 19), 10, true);
-			image.Add("dropKick", FP.MakeFrames(17, 18), 10, true);
+			image.Add("diveKick", FP.MakeFrames(17, 18), 10, true);
 			image.Add("slide", FP.MakeFrames(19, 20), 10, true);
 			image.Play("stand");
 
@@ -102,7 +102,7 @@ namespace Atmo2.Entities
 			GameWorld.player = this;
 			Type = KQ.CollisionTypePlayer;
 
-			Abilities = new Abilities();
+			Abilities = new Abilities(this);
 			MovementInfo = new MovementInfo(this);
 
             player_controller = new PlayerController(new PSIdle(this));
