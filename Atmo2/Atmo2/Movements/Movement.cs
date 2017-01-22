@@ -1,4 +1,5 @@
 ﻿using Atmo2.Entities;
+using Indigo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Atmo2.Movements
 			this.player = player;
 		}
 
-		public virtual void Update(MovementInfo movementInfo)
+		public virtual void Update(GameTime time, MovementInfo movementInfo)
 		{
 		}
 

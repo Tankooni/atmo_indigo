@@ -25,9 +25,9 @@ namespace Atmo2.Transitions
         {
             this.texture = new Image(
                 Library.Get<Texture>("content/image/white.png"));
-            texture.ScaleX = FP.Width + fadeBuffer;
-            texture.ScaleY = FP.Height + fadeBuffer;
-            this.RenderStep = -999999;
+            texture.ScaleX = Engine.Width + fadeBuffer;
+            texture.ScaleY = Engine.Height + fadeBuffer;
+            this.RenderStep = 999999;
             texture.Color = color;
             texture.ScrollX = 0;
             texture.ScrollY = 0;
@@ -47,9 +47,9 @@ namespace Atmo2.Transitions
             this.AddComponent(texture);
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
-            base.Update();
+            base.Update(time);
 
             /*
             if (changeToNewRoom1)

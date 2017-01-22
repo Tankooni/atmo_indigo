@@ -1,6 +1,7 @@
 ﻿using System;
 using Indigo.Audio;
 using Indigo;
+using Indigo.Utils;
 
 namespace Utility.Audio
 {
@@ -13,7 +14,7 @@ namespace Utility.Audio
 		public float Volume
 		{
 			get { return volume; }
-			set { FP.Clamp(value, 0, 1); }
+			set { MathHelper.Clamp(value, 0, 1); }
 		}
 		private float volume;
 

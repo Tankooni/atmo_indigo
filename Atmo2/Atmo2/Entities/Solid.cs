@@ -28,9 +28,9 @@ namespace Atmo2.Entities
 			allActors = new List<Actor>();
 		}
 
-		public override void Update()
+		public override void Update(GameTime time)
 		{
-			base.Update();
+			base.Update(time);
 			allActors = World.GetAllEntities().OfType<Actor>().ToList();
 		}
 

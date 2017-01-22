@@ -56,14 +56,14 @@ namespace Atmo2
             //this.Scale *= .5f;
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
             if(Keyboard.Space.Pressed)
             {
                 this.Visible = !this.Visible;
             }
 
-            base.Update();
+            base.Update(time);
         }
 
         public override void Added()

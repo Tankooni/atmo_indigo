@@ -33,15 +33,15 @@ namespace Atmo2.Entities
 			SetHitbox((int)(doorImage.ScaleX * doorImage.Width), (int)(doorImage.ScaleY * doorImage.Height));
 		}
 
-		public override void Update()
+		public override void Update(GameTime time)
 		{
-			base.Update();
+			base.Update(time);
 
 			if((collision = Collide(KQ.CollisionTypePlayer, X, Y)) != null)
 			{
 				if(!TraveledThrough)
 				{
-					FP.World.BroadcastMessage(DoorMessages.StartChangeRoom, this);
+					Engine.World.BroadcastMessage(DoorMessages.StartChangeRoom, this);
 				}
 			}
 			else

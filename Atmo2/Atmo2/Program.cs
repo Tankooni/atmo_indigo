@@ -22,17 +22,19 @@ namespace Atmo2
 		public Game() :
 			base(320, 240, 60)
 		{
-			FP.Screen.Title = "Atmo2";
-			FP.Console.Enable();
-			FP.Console.MirrorToSystemOut = true;
-			FP.Console.ToggleKey = Indigo.Inputs.Keyboard.Tilde;
+			Engine.Screen.Title = "Atmo2";
+			Engine.Console.Enable();
+			//Engine.Console.MirrorToSystemOut = true;
+			Engine.Console.ToggleKey = Indigo.Inputs.Keyboard.Tilde;
 
-			FP.Screen.ClearColor = new Color(0xAAAAAA);
-			FP.Screen.Resize(640, 480);
+			Engine.Screen.ClearColor = new Color(0xAAAAAA);
+			Engine.Screen.Resize(640, 480);
+
+			Library.AddPath("../../../");
 
 			Indigo.Inputs.Mouse.CursorVisible = true;
 			//AudioManager.Init(1);
-			FP.World = new GameWorld();
+			Engine.World = new GameWorld();
 		}
 	}
 }
