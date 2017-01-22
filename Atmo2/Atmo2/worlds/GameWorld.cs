@@ -26,13 +26,6 @@ namespace Atmo2.Worlds
 		public RealRoom CurrentRoom { get; private set; }
 
 		private Dictionary<string, RealRoom> rooms = new Dictionary<string, RealRoom>();
-        private Map map;
-		//private LayoutMapWorld layoutMapWorld;
-
-		//Jank stuff for room changing
-		private bool changeToNewRoom1 = false;
-		private bool changeToNewRoom2 = false;
-		private Door callingDoor;
 
 		public GameWorld()
 			: base()
@@ -40,7 +33,16 @@ namespace Atmo2.Worlds
             World = this;
 
             // Fade
-            Fade fade = new Fade(new Color(0x0000), 30, 0.05f);
+            Fade fade = new Fade(new Color(0x0000), 30, 0.3f);
+            AddResponse(Door.DoorMessages.StartChangeRoom, (a) =>
+            {
+                fade.FadeIn(() =>
+                {
+                    Door callingDoor = (Door)a[0];
+                    ActuallyChangeRoom(callingDoor);
+                    fade.FadeOut();
+                });
+            });
             this.Add(fade);
 
             // Ogmo loading
@@ -108,15 +110,7 @@ namespace Atmo2.Worlds
 			FollowHead(orbs, path);
 		}
 
-		public void StartChangeRoom(object[] args)
-		{
-			changeToNewRoom1 = true;
-			//fadeToBlackImage.Alpha = 0;
-			//Add(fadeToBlack);
-			callingDoor = (Door)args[0];
-		}
-
-		public void ActuallyChangeRoom()
+		public void ActuallyChangeRoom(Door callingDoor)
 		{
 			CurrentRoom.GenocideWorld();
 			CurrentRoom = rooms[callingDoor.SceneConnectionName];

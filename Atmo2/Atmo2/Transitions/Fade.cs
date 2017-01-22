@@ -13,15 +13,24 @@ namespace Atmo2.Transitions
 {
     public class Fade : Entity
     {
+        public enum FadeMessages
+        {
+            StartFadeIn,
+            StartFadeOut,
+            OnFadeInCompleted,
+            OnFadeOutCompleted
+        }
+
         private Image texture;
         private bool isFading;
+        private float duration;
         public float Alpha
         {
             get { return texture.Alpha; }
             set { texture.Alpha = value; }
         }
 
-        public Fade(Color color, int fadeBuffer, float fadeIncrement)
+        public Fade(Color color, int fadeBuffer, float duration)
         {
             this.texture = new Image(
                 Library.Get<Texture>("content/image/white.png"));
@@ -32,21 +41,39 @@ namespace Atmo2.Transitions
             texture.ScrollX = 0;
             texture.ScrollY = 0;
 
-            AddResponse(Door.DoorMessages.StartChangeRoom, (args) =>
-            {
-                if (!isFading) {
-                    Tweener.Tween(this, new { Alpha = 1 }, 1)
-                        .From(new { Alpha = 0 })
-                        .Ease(Ease.ToAndFro)
-                        .OnComplete(() => isFading = false);
-                }
-            });
-
-
+            this.duration = duration;
             this.Alpha = 0;
             this.AddComponent(texture);
         }
 
+        public void FadeIn(Action f = null)
+        {
+            if (!isFading)
+            {
+                isFading = true;
+                Tweener.Tween(this, new { Alpha = 1 }, duration)
+                    .From(new { Alpha = 0 })
+                    .Ease((t) => t)
+                    .OnComplete(() => {
+                        isFading = false;
+                        f?.Invoke();
+                    });
+            }
+        }
+        public void FadeOut(Action f = null)
+        {
+            if (!isFading)
+            {
+                isFading = true;
+                Tweener.Tween(this, new { Alpha = 0 }, duration)
+                    .From(new { Alpha = 1 })
+                    .Ease((t) => t)
+                    .OnComplete(() => {
+                        isFading = false;
+                        f?.Invoke();
+                    });
+            }
+        }
         public override void Update()
         {
             base.Update();
