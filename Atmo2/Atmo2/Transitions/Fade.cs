@@ -76,25 +76,5 @@ namespace Atmo2.Transitions
                     });
             }
         }
-        public override void Update(GameTime time)
-        {
-            base.Update(time);
-
-            /*
-            if (changeToNewRoom1)
-            {
-                if (!changeToNewRoom2 && (fadeToBlackImage.Alpha += fadeIncrement) >= 1)
-                {
-                    ActuallyChangeRoom();
-                    changeToNewRoom2 = true;
-                }
-                else if (changeToNewRoom2 && (fadeToBlackImage.Alpha -= fadeIncrement) <= 0)
-                {
-                    changeToNewRoom1 = changeToNewRoom2 = false;
-                    Remove(fadeToBlack);
-                }
-                return;
-            }*/
-        }
     }
 }
