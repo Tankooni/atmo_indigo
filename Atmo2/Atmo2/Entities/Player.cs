@@ -48,14 +48,14 @@ namespace Atmo2.Entities
             MaxEnergy = 4;
             EnergyRechargeRate = 2f;
 			image.RenderStep = 0;
+			image.Add("stand", FP.MakeFrames(0, 0), 0, true);
 			image.Add("walk", FP.MakeFrames(1, 8), 10, true);
-			//image.Add("dash", FP.MakeFrames(9, 11), 10, true);
-			//image.Add("jump", FP.MakeFrames(12, 13), 10, false);
-			//image.Add("fall", FP.MakeFrames(14, 15), 10, true);
+			image.Add("dash", FP.MakeFrames(9, 12), 10, true);
+			image.Add("jump", FP.MakeFrames(13, 14), 10, false);
+			image.Add("fall", FP.MakeFrames(15, 16), 10, true);
 			//image.Add("hang", FP.MakeFrames(16, 16), 10, true);
 			//image.Add("climb", FP.MakeFrames(17, 19), 10, true);
 			//image.Add("slide", FP.MakeFrames(20, 21), 10, true);
-			image.Add("stand", FP.MakeFrames(0, 0), 0, true);
 			image.Play("stand");
 
 			Wings = new Spritemap(Library.Get<Texture>("content/image/JulepJump.png"), 54, 29, OnWingsComplete);
@@ -63,14 +63,14 @@ namespace Atmo2.Entities
 			Wings.Add("wings", FP.MakeFrames(0, 7), 15, false);
 			Wings.Visible = false;
 
-			AddComponent<Image>(Wings);
+			//AddComponent<Image>(Wings);
 			AddComponent<Image>(image);
 			
 			image.OriginX = image.Width / 2;
 			image.OriginY = image.Height;
 			Wings.OriginX = Wings.Width / 2;
 			Wings.OriginY = Wings.Height;
-			//35, 70
+
 			SetHitbox(24, 70, 12, 70);
 
 			GameWorld.player = this;
@@ -164,7 +164,7 @@ namespace Atmo2.Entities
 						AudioManager.PlaySoundVariations("charge");
 					downPressed = false;
 				}
-				EnergyRechargeRate = 100000;
+				EnergyRechargeRate = 10;
             } else {
 				downPressed = true;
 				EnergyRechargeRate = 2;
@@ -193,6 +193,8 @@ namespace Atmo2.Entities
 				RefillMoves(time);
 				if (MovementInfo.Move != 0)
 					anim = "walk";
+				if (Controller.Down())
+					anim = "dash";
 			}
 			else
 			{

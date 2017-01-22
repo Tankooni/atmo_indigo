@@ -13,25 +13,45 @@ namespace Atmo2.Entities
 {
 	public class Orb : Entity
 	{
-		public const int DISTANCE_BEWTWEEN_ORBS = 15;
+		public const int DISTANCE_BEWTWEEN_ORBS = 30;
 		public float DistanceToLeader;
 
 		public Spritemap baseOrb;
 		private Entity followLeader;
+		public int OrbType;
 
-		public Orb(float x, float y, int order, Entity follow)
+		public Orb(float x, float y, int orbType, Entity follow)
 			:base(x, y)
 		{
-			baseOrb = new Spritemap(Library.Get<Texture>("content/image/OrbBase.png"), 12, 12);
-			baseOrb.Color = Engine.Random.Color();
+			string texture;
+			switch (OrbType = orbType)
+			{
+				case 0:
+					texture = "content/image/OrbYellow.png";
+					break;
+				case 1:
+					texture = "content/image/OrbGreen.png";
+					break;
+				case 2:
+					texture = "content/image/OrbRed.png";
+					break;
+				case 3:
+					texture = "content/image/OrbBlue.png";
+					break;
+				default:
+					texture = "content/image/OrbGrey.png";
+					break;
+			}
+			baseOrb = new Spritemap(Library.Get<Texture>(texture), 24, 24);
+			//baseOrb.Color = Engine.Random.Color();
 			baseOrb.CenterOrigin();
 			baseOrb.RenderStep = -1;
-			baseOrb.Add("idle", FP.MakeFrames(0, 3), 3, true);
+			baseOrb.Add("idle", FP.MakeFrames(0, 0), 3, true);
 			baseOrb.Play("idle");
 
 			AddComponent<Image>(baseOrb);
 
-			DistanceToLeader = DISTANCE_BEWTWEEN_ORBS * order;
+			DistanceToLeader = DISTANCE_BEWTWEEN_ORBS * (int)OrbType;
 			Console.WriteLine(DistanceToLeader);
 
 			followLeader = follow;
@@ -40,7 +60,7 @@ namespace Atmo2.Entities
 		public override void Update(GameTime time)
 		{
 			base.Update(time);
-			//FollowTheLeader();
+			FollowTheLeader();
 		}
 
 		public void FollowTheLeader()
