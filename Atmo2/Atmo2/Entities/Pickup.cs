@@ -61,8 +61,8 @@ namespace Atmo2.Entities
 			
 			if ((collision = Collide(KQ.CollisionTypePlayer, X, Y)) != null)
 			{
-				Console.WriteLine(PickupType);
-				//Engine.World.BroadcastMessage(PickupType, this);
+				Engine.World.BroadcastMessage(PickupType);
+				World.Remove(this);
 			}
 		}
 	}

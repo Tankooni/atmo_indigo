@@ -105,7 +105,7 @@ namespace Atmo2.UI
             {
                 img_energy[i].ScaleX = 25 * MathHelper.Clamp(player.Energy - i, 0, 1);
             }
-            if(player.Energy >= player.MaxEnergy - 0.05f)
+            if(player.Energy >= player.MaxEnergy - 0.05f && player.MaxEnergy > 0)
             {
                 emt_energy_full_pd.Color.From = ENERGY_COLORS[player.MaxEnergy-1];
                 emt_energy_full.Emit(emt_energy_full_pd, 0, 0);
