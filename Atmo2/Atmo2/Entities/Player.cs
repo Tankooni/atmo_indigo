@@ -15,9 +15,8 @@ namespace Atmo2.Entities
 {
 	public class Player : Actor, Indigo.Loaders.IOgmoNodeHandler
 	{
-		public const float SPEED = 2.5f;
+		public const float SPEED = 4.0f;
 		public const float GRAVITY = 0.3f;
-		private const float SECONDS_TO_REGAIN = 0.5f;
 
 		public static Abilities Abilities = new Abilities();
 		public static MovementInfo MovementInfo = new MovementInfo();
@@ -29,6 +28,7 @@ namespace Atmo2.Entities
         public int Spice { get; set; }
         public float Energy { get; set; }
         public int MaxEnergy { get; set; }
+        public float EnergyRechargeRate { get; set; }
 
 		private Spritemap image;
 		public Spritemap Wings;
@@ -44,7 +44,8 @@ namespace Atmo2.Entities
 			image = new Spritemap(Library.Get<Texture>("content/image/Julep.png"), 87, 71);
             Spice = 100;
             Energy = 0f;
-            MaxEnergy = 2;
+            MaxEnergy = 4;
+            EnergyRechargeRate = 2f;
 			image.RenderStep = 0;
 			image.Add("walk", FP.MakeFrames(1, 8), 10, true);
 			//image.Add("dash", FP.MakeFrames(9, 11), 10, true);
@@ -100,7 +101,7 @@ namespace Atmo2.Entities
 		public void RefillMoves(GameTime time)
 		{
             Energy = MathHelper.Clamp(
-                time.Elapsed*2.0f+Energy, 0, MaxEnergy);
+                time.Elapsed*EnergyRechargeRate + Energy, 0, MaxEnergy);
 		}
 
 		public override bool IsRiding(Solid solid)
@@ -147,18 +148,24 @@ namespace Atmo2.Entities
 		{
 			MovementInfo.Reset();
 			MovementInfo.OnGround = Collide(KQ.CollisionTypeSolid, X, Y + 1) != null;
-			MovementInfo.AngainstWall += (Collide(KQ.CollisionTypeSolid, X + 1, Y) != null) ? 1 : 0;
-			MovementInfo.AngainstWall -= (Collide(KQ.CollisionTypeSolid, X - 1, Y) != null) ? 1 : 0;
+			MovementInfo.AgainstWall += (Collide(KQ.CollisionTypeSolid, X + 1, Y) != null) ? 1 : 0;
+			MovementInfo.AgainstWall -= (Collide(KQ.CollisionTypeSolid, X - 1, Y) != null) ? 1 : 0;
 
-			if (Controller.Left())
-				MovementInfo.Move -= SPEED;
-			if (Controller.Right())
-				MovementInfo.Move += SPEED;
+            if (Controller.Down() && MovementInfo.OnGround)
+            {
+                EnergyRechargeRate = 7;
+            } else {
+                EnergyRechargeRate = 2;
+                if (Controller.Left())
+                    MovementInfo.Move -= SPEED;
+                if (Controller.Right())
+                    MovementInfo.Move += SPEED;
 
-			if (Controller.Jump())
-				Jump();
-			else if (Controller.Dash())
-				Dash();
+                if (Controller.Jump())
+                    Jump();
+                else if (Controller.Dash())
+                    Dash();
+            }
 
 			MovementInfo.VelY += GRAVITY;
 
@@ -179,7 +186,7 @@ namespace Atmo2.Entities
 			{
 				if (MovementInfo.VelY > 0)
 				{
-					if (MovementInfo.AngainstWall != 0)
+					if (MovementInfo.AgainstWall != 0)
 						anim = "slide";
 					else
 						anim = "fall";
