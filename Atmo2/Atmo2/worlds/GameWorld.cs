@@ -16,6 +16,7 @@ using Indigo.Content;
 using Indigo.Core;
 using Atmo2.Transitions;
 using Glide;
+using Indigo.Utils;
 
 namespace Atmo2.Worlds
 {
@@ -49,10 +50,10 @@ namespace Atmo2.Worlds
             // TODO: Move enemy init logic somewhere else
             ogmoSenpai.RegisterClassAlias<Enemy>("EnemyWalker");
 
-			ogmoSenpai.RegisterGridType("TileCollision", KQ.CollisionTypeSolid, 16, 16);
-			ogmoSenpai.RegisterGridType("px4TileCollision", KQ.CollisionTypeSolid, 4, 4);
+			ogmoSenpai.DefineGrid("TileCollision", KQ.CollisionTypeSolid, 16, 16);
+			ogmoSenpai.DefineGrid("px4TileCollision", KQ.CollisionTypeSolid, 4, 4);
 
-			ogmoSenpai.RegisterTilemapType("Blocks", 16, 16, Library.Get<Texture>("content/ogmo/rooms/roomProjectTileset.png"));
+			ogmoSenpai.DefineTilemap("Blocks", 16, 16, Library.Get<Texture>("content/ogmo/rooms/roomProjectTileset.png"));
 
             Map map = new Map("content/ogmo/layout/layout.oel");
             this.Add(map);
@@ -87,16 +88,16 @@ namespace Atmo2.Worlds
 			}
 		}
 
-		public override void Update()
+		public override void Update(GameTime time)
 		{
-			base.Update();
+			base.Update(time);
 
 			//if (Keyboard.Space.Pressed)
 				//FP.World = layoutMapWorld;
 			if (Keyboard.M.Pressed)
-				FP.LogFormat("Player x:{0}, y:{1}", Player.X, Player.Y);
+				Log.WriteFormat("Player x:{0}, y:{1}", Player.X, Player.Y);
 
-			if (FP.DistanceRects(0, 0, CurrentRoom.RealRoomMeta.width, CurrentRoom.RealRoomMeta.height, Player.X, Player.Y, Player.Width, Player.Height) != 0)
+			if (MathHelper.DistanceRects(0, 0, CurrentRoom.RealRoomMeta.width, CurrentRoom.RealRoomMeta.height, Player.X, Player.Y, Player.Width, Player.Height) != 0)
 				Player.ResetPlayerPosition();
 			
 			if(Keyboard.Num1.Pressed)

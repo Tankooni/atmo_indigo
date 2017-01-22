@@ -23,10 +23,11 @@ namespace Atmo2.Entities
 			:base(x, y)
 		{
 			baseOrb = new Spritemap(Library.Get<Texture>("content/image/OrbBase.png"), 12, 12);
-			baseOrb.Color = FP.Random.Color();
+			baseOrb.Color = Engine.Random.Color();
 			baseOrb.CenterOrigin();
-			baseOrb.RenderStep = 1;
-			baseOrb.Add("idle", FP.MakeFrames(0, 3), 3, true).Play();
+			baseOrb.RenderStep = -1;
+			baseOrb.Add("idle", FP.MakeFrames(0, 3), 3, true);
+			baseOrb.Play("idle");
 
 			AddComponent<Image>(baseOrb);
 
@@ -36,9 +37,9 @@ namespace Atmo2.Entities
 			followLeader = follow;
 		}
 
-		public override void Update()
+		public override void Update(GameTime time)
 		{
-			base.Update();
+			base.Update(time);
 			//FollowTheLeader();
 		}
 
