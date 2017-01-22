@@ -9,17 +9,18 @@ using Utility;
 
 namespace Atmo2.Movements.PlayerStates
 {
-    class PSJump : IPlayerState
+    class PSDiveKick : IPlayerState
     {
         private Player player;
 
-        public PSJump(Player player)
+        public PSDiveKick(Player player)
         {
             this.player = player;
         }
         public void OnEnter()
         {
-            player.image.Play("jump");
+            player.image.Play("diveKick");
+            player.MovementInfo.VelY = 12f;
         }
 
         public void OnExit()
@@ -28,14 +29,19 @@ namespace Atmo2.Movements.PlayerStates
 
         public IPlayerState Update(GameTime time)
         {
+            if(player.MovementInfo.OnGround)
+            {
+                return new PSIdle(player);
+            }
+            // Check for enemy collision
             Enemy enemy = player.Collide(KQ.CollisionTypeEnemy, player.X, player.Y) as Enemy;
             if (enemy != null)
             {
-                return new PSOuch(player, enemy.touchDamage);
+                enemy.World.Remove(enemy);
+                return new PSJump(player);
             }
 
-            player.MovementInfo.VelY = -player.JumpStrenth;
-            return new PSFall(player);
+            return null;
         }
     }
 }

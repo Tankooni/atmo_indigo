@@ -56,13 +56,17 @@ namespace Atmo2.Movements.PlayerStates
                 return new PSOuch(player, enemy.touchDamage);
             }
 
-            if (Controller.Jump() && player.Energy >= 1)
+            if (player.Abilities.DoubleJump &&
+                Controller.Jump() && 
+                player.Energy >= 1)
             {
                 player.Energy -= 1;
                 return new PSJump(player);
             }
 
-            if(Controller.Dash() && player.Energy >= 1)
+            if(player.Abilities.AirDash && 
+                Controller.Dash() && 
+                player.Energy >= 1)
             {
                 if(Controller.Left())
                 {
@@ -73,6 +77,11 @@ namespace Atmo2.Movements.PlayerStates
                     player.Energy -= 1;
                     return new PSDash(player, false);
                 }
+            }
+
+            if(Controller.Down())
+            {
+                return new PSDiveKick(player);
             }
 
             if (player.MovementInfo.OnGround)
