@@ -5,18 +5,18 @@
   <BackgroundColor A="255" R="125" G="160" B="255" />
   <GridColor A="255" R="255" G="240" B="90" />
   <LevelDefaultSize>
-    <Width>320</Width>
-    <Height>240</Height>
+    <Width>1080</Width>
+    <Height>720</Height>
   </LevelDefaultSize>
   <LevelMinimumSize>
-    <Width>320</Width>
-    <Height>240</Height>
+    <Width>1080</Width>
+    <Height>720</Height>
   </LevelMinimumSize>
   <LevelMaximumSize>
-    <Width>1600</Width>
-    <Height>1200</Height>
+    <Width>5040</Width>
+    <Height>3600</Height>
   </LevelMaximumSize>
-  <Filename>E:\atmo2\Atmo2\Atmo2\content\ogmo\rooms\rooms.oep</Filename>
+  <Filename>D:\Working\C#\Atmo2\Atmo2\Atmo2\content\ogmo\rooms\rooms.oep</Filename>
   <AngleMode>Radians</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
@@ -31,8 +31,8 @@
     <LayerDefinition xsi:type="EntityLayerDefinition">
       <Name>Actors</Name>
       <Grid>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>24</Width>
+        <Height>24</Height>
       </Grid>
       <ScrollFactor>
         <X>1</X>
@@ -42,8 +42,8 @@
     <LayerDefinition xsi:type="TileLayerDefinition">
       <Name>Tiles</Name>
       <Grid>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>24</Width>
+        <Height>24</Height>
       </Grid>
       <ScrollFactor>
         <X>1</X>
@@ -54,8 +54,8 @@
     <LayerDefinition xsi:type="GridLayerDefinition">
       <Name>TileCollision</Name>
       <Grid>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>24</Width>
+        <Height>24</Height>
       </Grid>
       <ScrollFactor>
         <X>1</X>
@@ -67,8 +67,8 @@
     <LayerDefinition xsi:type="GridLayerDefinition">
       <Name>px4TileCollision</Name>
       <Grid>
-        <Width>4</Width>
-        <Height>4</Height>
+        <Width>6</Width>
+        <Height>6</Height>
       </Grid>
       <ScrollFactor>
         <X>1</X>
@@ -83,8 +83,8 @@
       <Name>Blocks</Name>
       <FilePath>roomProjectTileset.png</FilePath>
       <TileSize>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>24</Width>
+        <Height>24</Height>
       </TileSize>
       <TileSep>0</TileSep>
     </Tileset>
@@ -92,8 +92,8 @@
   <EntityDefinitions>
     <EntityDefinition Name="Spawn" Limit="1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>32</Height>
+        <Width>24</Width>
+        <Height>72</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -107,8 +107,8 @@
     </EntityDefinition>
     <EntityDefinition Name="Door" Limit="-1" ResizableX="true" ResizableY="true" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>24</Width>
+        <Height>24</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -135,8 +135,8 @@
     </EntityDefinition>
     <EntityDefinition Name="RoomSize" Limit="-1" ResizableX="true" ResizableY="true" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>320</Width>
-        <Height>240</Height>
+        <Width>1080</Width>
+        <Height>720</Height>
       </Size>
       <Origin>
         <X>0</X>

@@ -55,10 +55,10 @@ namespace Atmo2.Worlds
             // TODO: Move enemy init logic somewhere else
             ogmoSenpai.RegisterClassAlias<Enemy>("EnemyWalker");
 
-			ogmoSenpai.DefineGrid("TileCollision", KQ.CollisionTypeSolid, 16, 16);
-			ogmoSenpai.DefineGrid("px4TileCollision", KQ.CollisionTypeSolid, 4, 4);
+			ogmoSenpai.DefineGrid("TileCollision", KQ.CollisionTypeSolid, 24, 24);
+			ogmoSenpai.DefineGrid("px4TileCollision", KQ.CollisionTypeSolid, 6, 6);
 
-			ogmoSenpai.DefineTilemap("Blocks", 16, 16, Library.Get<Texture>("content/ogmo/rooms/roomProjectTileset.png"));
+			ogmoSenpai.DefineTilemap("Blocks", 24, 24, Library.Get<Texture>("content/ogmo/rooms/roomProjectTileset.png"));
 
             Map map = new Map("content/ogmo/layout/layout.oel");
             this.Add(map);
@@ -79,7 +79,7 @@ namespace Atmo2.Worlds
 				rooms.Add(layoutRoom.Filename, realRoom);
 			}
 
-			(CurrentRoom = rooms["surface01"]).PopulateWorld();
+			(CurrentRoom = rooms["start"]).PopulateWorld();
 			Add(player);
 
             HUD hud = new HUD(player);

@@ -5,18 +5,18 @@
   <BackgroundColor A="255" R="125" G="160" B="255" />
   <GridColor A="255" R="255" G="240" B="90" />
   <LevelDefaultSize>
-    <Width>320</Width>
-    <Height>240</Height>
+    <Width>540</Width>
+    <Height>360</Height>
   </LevelDefaultSize>
   <LevelMinimumSize>
-    <Width>320</Width>
-    <Height>240</Height>
+    <Width>540</Width>
+    <Height>360</Height>
   </LevelMinimumSize>
   <LevelMaximumSize>
     <Width>999999</Width>
     <Height>999999</Height>
   </LevelMaximumSize>
-  <Filename>E:\atmo2\Atmo2\Atmo2\content\ogmo\layout\layout.oep</Filename>
+  <Filename>D:\Working\C#\Atmo2\Atmo2\Atmo2\content\ogmo\layout\layout.oep</Filename>
   <AngleMode>Radians</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
@@ -29,19 +29,8 @@
     <LayerDefinition xsi:type="EntityLayerDefinition">
       <Name>Layout</Name>
       <Grid>
-        <Width>32</Width>
-        <Height>24</Height>
-      </Grid>
-      <ScrollFactor>
-        <X>1</X>
-        <Y>1</Y>
-      </ScrollFactor>
-    </LayerDefinition>
-    <LayerDefinition xsi:type="EntityLayerDefinition">
-      <Name>Entities</Name>
-      <Grid>
-        <Width>32</Width>
-        <Height>32</Height>
+        <Width>27</Width>
+        <Height>18</Height>
       </Grid>
       <ScrollFactor>
         <X>1</X>
@@ -53,8 +42,8 @@
   <EntityDefinitions>
     <EntityDefinition Name="Room" Limit="-1" ResizableX="true" ResizableY="true" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>30</Width>
-        <Height>22</Height>
+        <Width>27</Width>
+        <Height>18</Height>
       </Size>
       <Origin>
         <X>-1</X>
