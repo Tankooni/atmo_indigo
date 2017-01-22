@@ -1,6 +1,9 @@
 <level width="540" height="360">
   <Layout>
-    <Room id="0" x="243" y="108" width="27" height="18" filename="start" />
-    <Room id="1" x="270" y="108" width="27" height="18" filename="room01" />
+    <Room id="1" x="162" y="144" width="27" height="18" filename="room01" />
+    <Room id="2" x="162" y="18" width="27" height="126" filename="start" />
+    <Room id="0" x="189" y="144" width="27" height="18" filename="room02" />
+    <Room id="3" x="216" y="144" width="27" height="18" filename="room03" />
+    <Room id="4" x="135" y="144" width="27" height="18" filename="room04" />
   </Layout>
 </level>
