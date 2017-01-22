@@ -59,8 +59,8 @@ namespace Atmo2.Movements
 		}
 
 		public override bool Restart(MovementInfo movementInfo)
-		{
-			if (player.Energy <= 1)
+		{			
+			if (!movementInfo.OnGround && player.Energy <= 1)
 				return false;
 
 			if (movementInfo.Move == 0)
@@ -68,7 +68,8 @@ namespace Atmo2.Movements
 
 			phase = 0;
 			timer = timings[phase];
-			player.Energy -= 1.0f;
+			if(!movementInfo.OnGround)
+				player.Energy -= 1.0f;
 			dashDir = Math.Sign(movementInfo.Move);
 
 			return true;
