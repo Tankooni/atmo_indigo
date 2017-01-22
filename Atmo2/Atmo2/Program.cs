@@ -20,15 +20,15 @@ namespace Atmo2
 		}
 
 		public Game() :
-			base(320, 240, 60)
+			base(640, 480, 60)
 		{
 			Engine.Screen.Title = "Atmo2";
 			Engine.Console.Enable();
 			//Engine.Console.MirrorToSystemOut = true;
 			Engine.Console.ToggleKey = Indigo.Inputs.Keyboard.Tilde;
 
-			Engine.Screen.ClearColor = new Color(0xAAAAAA);
-			Engine.Screen.Resize(640, 480);
+			Engine.Screen.ClearColor = new Color(0x000000);
+			Engine.Screen.Resize(1280, 860);
 
 			Library.AddPath("../../../");
 
