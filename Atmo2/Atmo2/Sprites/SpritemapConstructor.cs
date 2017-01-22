@@ -14,7 +14,7 @@ namespace Atmo2.Sprites
         public static Spritemap makeWalker()
         {
             var map = new Spritemap(Library.Get<Texture>(
-                "content/image/JulepSpice.png"), 16, 25);
+                "content/image/JulepSpice.png"), 20, 38);
 
             map.OriginX = map.Width / 2;
             map.OriginY = map.Height;
