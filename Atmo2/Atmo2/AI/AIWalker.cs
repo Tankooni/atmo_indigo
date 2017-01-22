@@ -17,8 +17,6 @@ namespace Atmo2.AI
     {
         Actor entity;
         GameWorld world;
-        Grid collision_map;
-        bool firstrun;
         float vel_Y;
 
         // TODO: Move movement related stuff somewhere else
@@ -30,18 +28,13 @@ namespace Atmo2.AI
             this.world = world;
             this.entity = entity;
             this.speed = speed;
-            this.firstrun = true;
         }
 
         public void update()
         {
-            if(firstrun)
-            {
-                this.collision_map = this.world.GetAllEntities()
-                .FirstOrDefault((e) => e.Name == "TileCollision")
-                .GetComponent<Grid>();
-                firstrun = false;
-            }
+            Grid collision_map = world
+                    .GetInstance("TileCollision")
+                    .GetComponent<Grid>();
 
             float move_amount = FP.Elapsed * speed * (isFacingLeft ? -1 : 1);
 

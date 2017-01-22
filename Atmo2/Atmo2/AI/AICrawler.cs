@@ -10,9 +10,9 @@ namespace Atmo2.AI
 {
     class AICrawler : IAI
     {
-        public void init(GameWorld world, Entity entity)
+        public AICrawler(GameWorld world, Entity entity, int speed=200)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void update()

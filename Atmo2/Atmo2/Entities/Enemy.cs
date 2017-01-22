@@ -42,6 +42,14 @@ namespace Atmo2.Entities
                         this.AddComponent<Image>(this.spritemap);
                         break;
                     }
+                case "EnemyCrawler":
+                    {
+                        this.spritemap = SpritemapConstructor.makeWalker();
+                        this.SetHitbox(spritemap.Width, spritemap.Height, (int)spritemap.OriginX, (int)spritemap.OriginY);
+                        this.ai = new AICrawler(GameWorld.World, this, int.Parse(entity.Attributes["speed"].Value));
+                        this.AddComponent<Image>(this.spritemap);
+                        break;
+                    }
                 default: throw new Exception("Attempted to create an unknown Enemy through Ogmo.");
             }
         }

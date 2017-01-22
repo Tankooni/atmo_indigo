@@ -15,11 +15,11 @@ namespace Atmo2.Worlds.Rooms
 		public Dictionary<string, Door> Doors { get; private set; }
         public List<Enemy> Enemies { get; set; }
 
-		private LayoutRoom layoutRoom;
+		private MapRoom layoutRoom;
 		private List<Entity> entities;
 		private World parentWorld;
 
-		public RealRoom(List<Entity> entities, RealRoomMeta realRoomMeta, LayoutRoom layoutRoom, World parentWorld)
+		public RealRoom(List<Entity> entities, RealRoomMeta realRoomMeta, MapRoom layoutRoom, World parentWorld)
 		{
 			RealRoomMeta = realRoomMeta;
 			this.entities = entities;

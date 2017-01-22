@@ -14,6 +14,8 @@ using Utility.Audio;
 using System.Xml;
 using Indigo.Content;
 using Indigo.Core;
+using Atmo2.Transitions;
+using Glide;
 
 namespace Atmo2.Worlds
 {
@@ -24,46 +26,38 @@ namespace Atmo2.Worlds
 		public RealRoom CurrentRoom { get; private set; }
 
 		private Dictionary<string, RealRoom> rooms = new Dictionary<string, RealRoom>();
-		private LayoutMapWorld layoutMapWorld;
+        private Map map;
+		//private LayoutMapWorld layoutMapWorld;
 
 		//Jank stuff for room changing
-		private Entity fadeToBlack;
-		private Image fadeToBlackImage;
 		private bool changeToNewRoom1 = false;
 		private bool changeToNewRoom2 = false;
 		private Door callingDoor;
-		private int fadeBuffer = 30;
-		private float fadeIncrement = .05f;
 
 		public GameWorld()
 			: base()
 		{
             World = this;
-			fadeToBlack = new Entity();
-			fadeToBlack.AddComponent(fadeToBlackImage = new Image(Library.Get<Texture>("content/image/white.png")));
-			fadeToBlackImage.ScaleX = FP.Width + fadeBuffer;
-			fadeToBlackImage.ScaleY = FP.Height + fadeBuffer;
-			fadeToBlack.RenderStep = -999999;
-			fadeToBlackImage.Color = new Color(0x000000);
-			fadeToBlackImage.ScrollX = 0;
-			fadeToBlackImage.ScrollY = 0;
 
+            // Fade
+            Fade fade = new Fade(new Color(0x0000), 30, 0.05f);
+            this.Add(fade);
+
+            // Ogmo loading
 			OgmoLoader ogmoSenpai = new OgmoLoader();
-			ogmoSenpai.RegisterClassAlias<LayoutRoom>("Room");
 
             // TODO: Move enemy init logic somewhere else
             ogmoSenpai.RegisterClassAlias<Enemy>("EnemyWalker");
 
-			var bob = ogmoSenpai.BuildLevelAsArray(Library.Get<XmlDocument>("content/ogmo/layout/layout.oel"));
-			layoutMapWorld = new LayoutMapWorld(
-				ogmoSenpai.BuildLevelAsArray(Library.Get<XmlDocument>("content/ogmo/layout/layout.oel")),
-				this);
 			ogmoSenpai.RegisterGridType("TileCollision", KQ.CollisionTypeSolid, 16, 16);
 			ogmoSenpai.RegisterGridType("px4TileCollision", KQ.CollisionTypeSolid, 4, 4);
 
 			ogmoSenpai.RegisterTilemapType("Blocks", 16, 16, Library.Get<Texture>("content/ogmo/rooms/roomProjectTileset.png"));
 
-			foreach(LayoutRoom layoutRoom in layoutMapWorld.MapRooms.OfType<LayoutRoom>())
+            Map map = new Map("content/ogmo/layout/layout.oel");
+            this.Add(map);
+
+			foreach(MapRoom layoutRoom in map.mapRooms.OfType<MapRoom>())
 			{
 				XmlDocument roomXml = Library.Get<XmlDocument>("content/ogmo/rooms/" + layoutRoom.Filename + ".oel");
 				//Load level properties
@@ -82,7 +76,7 @@ namespace Atmo2.Worlds
 			(CurrentRoom = rooms["surface01"]).PopulateWorld();
 			Add(Player);
 
-			AddResponse(Door.DoorMessages.StartChangeRoom, StartChangeRoom);
+			
 
 			Entity follow = Player;
 			for (int i = 1; i <= 2; i++)
@@ -95,25 +89,10 @@ namespace Atmo2.Worlds
 
 		public override void Update()
 		{
-			if (changeToNewRoom1)
-			{
-				if(!changeToNewRoom2 && (fadeToBlackImage.Alpha += fadeIncrement) >= 1)
-				{
-					ActuallyChangeRoom();
-					changeToNewRoom2 = true;
-				}
-				else if (changeToNewRoom2 && (fadeToBlackImage.Alpha -= fadeIncrement) <= 0)
-				{
-					changeToNewRoom1 = changeToNewRoom2 = false;
-					Remove(fadeToBlack);
-				}
-				return;
-			}
-
 			base.Update();
 
-			if (Keyboard.Space.Pressed)
-				FP.World = layoutMapWorld;
+			//if (Keyboard.Space.Pressed)
+				//FP.World = layoutMapWorld;
 			if (Keyboard.M.Pressed)
 				FP.LogFormat("Player x:{0}, y:{1}", Player.X, Player.Y);
 
@@ -122,7 +101,7 @@ namespace Atmo2.Worlds
 			
 			if(Keyboard.Num1.Pressed)
 			{
-				//AudioManager.CurrentSong
+                //AudioManager.CurrentSong
 			}
 			
 			path.AddFirst(new Point(/*MouseX, MouseY*/Player.X, Player.Y - Player.Height));
@@ -132,8 +111,8 @@ namespace Atmo2.Worlds
 		public void StartChangeRoom(object[] args)
 		{
 			changeToNewRoom1 = true;
-			fadeToBlackImage.Alpha = 0;
-			Add(fadeToBlack);
+			//fadeToBlackImage.Alpha = 0;
+			//Add(fadeToBlack);
 			callingDoor = (Door)args[0];
 		}
 
