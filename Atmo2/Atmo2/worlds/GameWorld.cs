@@ -100,7 +100,7 @@ namespace Atmo2.Worlds
 			base.Update(time);
 
 			//if (Keyboard.Space.Pressed)
-				//FP.World = layoutMapWorld;
+			//FP.World = layoutMapWorld;
 			if (Keyboard.M.Pressed)
 				Log.WriteFormat("Player x:{0}, y:{1}", player.X, player.Y);
 
