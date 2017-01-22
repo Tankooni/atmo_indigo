@@ -69,7 +69,7 @@ namespace Atmo2.Entities
 			Wings.OriginX = Wings.Width / 2;
 			Wings.OriginY = Wings.Height;
 			//35, 70
-			SetHitbox(24, 70, 0, 70);
+			SetHitbox(24, 70, 12, 70);
 
 			GameWorld.player = this;
 			Type = KQ.CollisionTypePlayer;
