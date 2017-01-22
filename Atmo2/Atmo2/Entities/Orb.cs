@@ -52,7 +52,7 @@ namespace Atmo2.Entities
 			AddComponent<Image>(baseOrb);
 
 			DistanceToLeader = DISTANCE_BEWTWEEN_ORBS * (int)OrbType;
-			Console.WriteLine(DistanceToLeader);
+			//Console.WriteLine(DistanceToLeader);
 
 			followLeader = follow;
 		}
