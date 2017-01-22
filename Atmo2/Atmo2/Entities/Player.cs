@@ -41,20 +41,20 @@ namespace Atmo2.Entities
 		public Player(float x, float y)
 			: base(x, y)
 		{
+			image = new Spritemap(Library.Get<Texture>("content/image/Julep.png"), 87, 71);
             Spice = 100;
             Energy = 0f;
             MaxEnergy = 2;
-			image = new Spritemap(Library.Get<Texture>("content/image/JulepSprites.png"), 22, 29);
 			image.RenderStep = 0;
 			image.Add("walk", FP.MakeFrames(1, 8), 10, true);
-			image.Add("dash", FP.MakeFrames(9, 11), 10, true);
-			image.Add("jump", FP.MakeFrames(12, 13), 10, false);
-			image.Add("fall", FP.MakeFrames(14, 15), 10, true);
-			image.Add("hang", FP.MakeFrames(16, 16), 10, true);
-			image.Add("climb", FP.MakeFrames(17, 19), 10, true);
-			image.Add("slide", FP.MakeFrames(20, 21), 10, true);
+			//image.Add("dash", FP.MakeFrames(9, 11), 10, true);
+			//image.Add("jump", FP.MakeFrames(12, 13), 10, false);
+			//image.Add("fall", FP.MakeFrames(14, 15), 10, true);
+			//image.Add("hang", FP.MakeFrames(16, 16), 10, true);
+			//image.Add("climb", FP.MakeFrames(17, 19), 10, true);
+			//image.Add("slide", FP.MakeFrames(20, 21), 10, true);
 			image.Add("stand", FP.MakeFrames(0, 0), 0, true);
-			image.Play("idle");
+			image.Play("stand");
 
 			Wings = new Spritemap(Library.Get<Texture>("content/image/JulepJump.png"), 54, 29, OnWingsComplete);
 			Wings.RenderStep = -2;
@@ -68,8 +68,8 @@ namespace Atmo2.Entities
 			image.OriginY = image.Height;
 			Wings.OriginX = Wings.Width / 2;
 			Wings.OriginY = Wings.Height;
-
-			SetHitbox(16, 24, 8, 24);
+			//35, 70
+			SetHitbox(24, 70, 0, 70);
 
 			GameWorld.player = this;
 			Type = KQ.CollisionTypePlayer;
@@ -197,7 +197,9 @@ namespace Atmo2.Entities
 
 			image.Play(anim);
 			if (MovementInfo.Move != 0)
+			{
 				image.FlippedX = Wings.FlippedX = MovementInfo.Move < 0;
+			}
 		}
 
 
