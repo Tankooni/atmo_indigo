@@ -22,7 +22,7 @@ namespace Atmo2.Movements
 			{
 				movementInfo.VelY = -JUMP_STR;
 			}
-			else if (player.Energy >= 1 && movementInfo.AngainstWall == 0)
+			else if (player.Energy >= 1 && movementInfo.AgainstWall == 0)
 			{
 				player.Energy -= 1.0f;
 				movementInfo.VelY = -JUMP_STR;
