@@ -13,8 +13,8 @@
     <Height>720</Height>
   </LevelMinimumSize>
   <LevelMaximumSize>
-    <Width>5040</Width>
-    <Height>3600</Height>
+    <Width>106920</Width>
+    <Height>71280</Height>
   </LevelMaximumSize>
   <Filename>D:\Working\C#\Atmo2\Atmo2\Atmo2\content\ogmo\rooms\rooms.oep</Filename>
   <AngleMode>Radians</AngleMode>
@@ -162,6 +162,30 @@
       </ImageDefinition>
       <ValueDefinitions>
         <ValueDefinition xsi:type="IntValueDefinition" Name="speed" Default="200" Min="0" Max="5000" ShowSlider="true" />
+      </ValueDefinitions>
+      <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
+    </EntityDefinition>
+    <EntityDefinition Name="Pickup" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
+      <Size>
+        <Width>24</Width>
+        <Height>24</Height>
+      </Size>
+      <Origin>
+        <X>0</X>
+        <Y>0</Y>
+      </Origin>
+      <ImageDefinition DrawMode="Rectangle" ImagePath="" Tiled="false">
+        <RectColor A="255" R="128" G="255" B="128" />
+      </ImageDefinition>
+      <ValueDefinitions>
+        <ValueDefinition xsi:type="EnumValueDefinition" Name="PickupType">
+          <Elements>
+            <string>Jump</string>
+            <string>AirJump</string>
+            <string>Dash</string>
+            <string>AirDash</string>
+          </Elements>
+        </ValueDefinition>
       </ValueDefinitions>
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
     </EntityDefinition>

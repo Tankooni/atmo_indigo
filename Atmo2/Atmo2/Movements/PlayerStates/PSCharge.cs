@@ -31,9 +31,9 @@ namespace Atmo2.Movements.PlayerStates
 
             // Sound
             if (Engine.Random.Chance(1f))
-                AudioManager.PlaySoundVariations("charge2");
+                AudioManager.PlaySoundVariations("charge2", .5f, .7f);
             else
-                AudioManager.PlaySoundVariations("charge");
+                AudioManager.PlaySoundVariations("charge", .5f, .7f);
         }
 
         public void OnExit()

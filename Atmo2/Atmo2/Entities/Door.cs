@@ -23,14 +23,14 @@ namespace Atmo2.Entities
 
 		public Door()
 		{
-			AddComponent<Graphic>(doorImage = new Image(Library.Get<Texture>("content/image/door.png")));
+			doorImage = AddComponent<Image>(new Image(Library.Get<Texture>("content/image/door.png")));
 		}
 
 		public void NodeHandler(System.Xml.XmlNode entity)
 		{
 			doorImage.ScaleX = Width / doorImage.Width;
 			doorImage.ScaleY = Height / doorImage.Height;
-			SetHitbox((int)(doorImage.ScaleX * doorImage.Width), (int)(doorImage.ScaleY * doorImage.Height));
+			SetHitbox((int)doorImage.ScaledWidth, (int)doorImage.ScaledHeight);
 		}
 
 		public override void Update(GameTime time)

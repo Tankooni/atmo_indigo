@@ -9,6 +9,10 @@
     <EnemyWalker id="6" x="24" y="648" speed="200" />
     <EnemyWalker id="7" x="840" y="648" speed="200" />
     <Door id="8" x="1056" y="288" width="24" height="72" SceneConnectionName="room01" DoorConnectionName="room01_start_01" DoorName="start_room01_01" OutDir="Left" LockColor="" />
+    <Pickup id="9" x="216" y="648" PickupType="Jump" />
+    <Pickup id="10" x="720" y="624" PickupType="AirJump" />
+    <Pickup id="11" x="624" y="504" PickupType="Dash" />
+    <Pickup id="12" x="432" y="456" PickupType="AirDash" />
   </Actors>
   <Tiles tileset="Blocks" exportMode="XML">
     <tile x="0" y="0" id="0" />
