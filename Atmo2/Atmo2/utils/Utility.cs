@@ -12,6 +12,7 @@ namespace Utility
 	{
 		public const string CollisionTypeSolid = "Solid";
 		public const string CollisionTypePlayer = "Player";
+        public const string CollisionTypeEnemy = "Enemy";
 
 		public static string CurrentMusic { get; internal set; }
 		public static float MusicVolume = 1;
