@@ -112,7 +112,7 @@ namespace Atmo2.Worlds
                 //AudioManager.CurrentSong
 			}
 			
-			path.AddFirst(new Point(/*MouseX, MouseY*/player.X, player.Y - player.Height));
+			//path.AddFirst(new Point(/*MouseX, MouseY*/player.X, player.Y - player.Height));
 			//FollowHead(orbs, path);
 		}
 
