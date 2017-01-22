@@ -17,31 +17,34 @@ using Indigo.Core;
 using Atmo2.Transitions;
 using Glide;
 using Indigo.Utils;
+using Atmo2.UI;
 
 namespace Atmo2.Worlds
 {
 	public class GameWorld : World
 	{
         public static GameWorld World;
-		public static Player Player;
-		public RealRoom CurrentRoom { get; private set; }
+		public static Player player;
+		public Room CurrentRoom { get; private set; }
 
-		private Dictionary<string, RealRoom> rooms = new Dictionary<string, RealRoom>();
+		private Dictionary<string, Room> rooms = new Dictionary<string, Room>();
 
 		public GameWorld()
 			: base()
 		{
             World = this;
+            Engine.Console.InvisibleUntilOpen = true;
 
             // Fade
-            Fade fade = new Fade(new Color(0x0000), 30, 0.3f);
+            Fade fade = new Fade(new Color(0x000000), 0.15f);
             AddResponse(Door.DoorMessages.StartChangeRoom, (a) =>
             {
+                player.Active = false;
                 fade.FadeIn(() =>
                 {
                     Door callingDoor = (Door)a[0];
                     ActuallyChangeRoom(callingDoor);
-                    fade.FadeOut();
+                    fade.FadeOut(() => player.Active = true);
                 });
             });
             this.Add(fade);
@@ -65,7 +68,7 @@ namespace Atmo2.Worlds
 				XmlDocument roomXml = Library.Get<XmlDocument>("content/ogmo/rooms/" + layoutRoom.Filename + ".oel");
 				//Load level properties
 
-				RealRoom realRoom = new RealRoom
+				Room realRoom = new Room
 				(
 					ogmoSenpai.BuildLevelAsArray(roomXml).ToList(),
 					ogmoSenpai.GetLevelProperties<RealRoomMeta>(roomXml),
@@ -77,14 +80,16 @@ namespace Atmo2.Worlds
 			}
 
 			(CurrentRoom = rooms["surface01"]).PopulateWorld();
-			Add(Player);
+			Add(player);
 
+            HUD hud = new HUD(player);
+            Add(hud);
 			
 
-			Entity follow = Player;
+			Entity follow = player;
 			for (int i = 1; i <= 2; i++)
 			{
-				Orb orb = new Orb(Player.X, Player.Y, i, follow);
+				Orb orb = new Orb(player.X, player.Y, i, follow);
 				follow = orb;
 				orbs.Add(Add(orb));
 			}
@@ -97,17 +102,17 @@ namespace Atmo2.Worlds
 			//if (Keyboard.Space.Pressed)
 				//FP.World = layoutMapWorld;
 			if (Keyboard.M.Pressed)
-				Log.WriteFormat("Player x:{0}, y:{1}", Player.X, Player.Y);
+				Log.WriteFormat("Player x:{0}, y:{1}", player.X, player.Y);
 
-			if (MathHelper.DistanceRects(0, 0, CurrentRoom.RealRoomMeta.width, CurrentRoom.RealRoomMeta.height, Player.X, Player.Y, Player.Width, Player.Height) != 0)
-				Player.ResetPlayerPosition();
+			if (MathHelper.DistanceRects(0, 0, CurrentRoom.RealRoomMeta.width, CurrentRoom.RealRoomMeta.height, player.X, player.Y, player.Width, player.Height) != 0)
+				player.ResetPlayerPosition();
 			
 			if(Keyboard.Num1.Pressed)
 			{
                 //AudioManager.CurrentSong
 			}
 			
-			path.AddFirst(new Point(/*MouseX, MouseY*/Player.X, Player.Y - Player.Height));
+			path.AddFirst(new Point(/*MouseX, MouseY*/player.X, player.Y - player.Height));
 			FollowHead(orbs, path);
 		}
 
@@ -122,25 +127,25 @@ namespace Atmo2.Worlds
 			switch (spawnDoor.OutDir)
 			{
 				case DoorDirection.Left:
-					Player.X = spawnDoor.X - Player.HalfWidth;
-					Player.Y = spawnDoor.Y + Player.Y - callingDoor.Y;
+					player.X = spawnDoor.X - player.HalfWidth;
+					player.Y = spawnDoor.Y + player.Y - callingDoor.Y;
 					break;
 				case DoorDirection.Right:
-					Player.X = spawnDoor.X + spawnDoor.Width + Player.HalfWidth;
-					Player.Y = spawnDoor.Y + Player.Y - callingDoor.Y;
+					player.X = spawnDoor.X + spawnDoor.Width + player.HalfWidth;
+					player.Y = spawnDoor.Y + player.Y - callingDoor.Y;
 					break;
 				case DoorDirection.Up:
-					Player.X = spawnDoor.X + Player.X - callingDoor.X;
-					Player.Y = spawnDoor.Y;
+					player.X = spawnDoor.X + player.X - callingDoor.X;
+					player.Y = spawnDoor.Y;
 					break;
 				case DoorDirection.Down:
-					Player.X = spawnDoor.X + Player.X - callingDoor.X;
-					Player.Y = spawnDoor.Y + spawnDoor.Height + Player.Height;
+					player.X = spawnDoor.X + player.X - callingDoor.X;
+					player.Y = spawnDoor.Y + spawnDoor.Height + player.Height;
 					break;
 			}
 
-			Player.SetResetPointToCurrentLocation();
-			Player.UpdateCamera();
+			player.SetResetPointToCurrentLocation();
+			player.UpdateCamera();
 			CurrentRoom.PopulateWorld();
 		}
 

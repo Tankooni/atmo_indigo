@@ -23,6 +23,8 @@ namespace Atmo2.Transitions
 
         private Image texture;
         private bool isFading;
+        private const int FADEBUFFER = 30;
+
         private float duration;
         public float Alpha
         {
@@ -30,12 +32,12 @@ namespace Atmo2.Transitions
             set { texture.Alpha = value; }
         }
 
-        public Fade(Color color, int fadeBuffer, float duration)
+        public Fade(Color color, float duration)
         {
             this.texture = new Image(
                 Library.Get<Texture>("content/image/white.png"));
-            texture.ScaleX = Engine.Width + fadeBuffer;
-            texture.ScaleY = Engine.Height + fadeBuffer;
+            texture.ScaleX = Engine.Width + FADEBUFFER;
+            texture.ScaleY = Engine.Height + FADEBUFFER;
             this.RenderStep = 999999;
             texture.Color = color;
             texture.ScrollX = 0;
