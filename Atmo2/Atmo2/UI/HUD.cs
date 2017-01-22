@@ -74,7 +74,6 @@ namespace Atmo2.UI
             emt_energy_full = new Emitter(1, 1);
             emt_energy_full.ScrollX = 0;
             emt_energy_full.ScrollY = 0;
-            emt_energy_full.X = 2 + 25*player.MaxEnergy;
             emt_energy_full.Y = 17;
             emt_energy_full.RenderStep = 55;
 
@@ -107,6 +106,7 @@ namespace Atmo2.UI
             }
             if(player.Energy >= player.MaxEnergy - 0.05f && player.MaxEnergy > 0)
             {
+                emt_energy_full.X = 2 + 25 * player.MaxEnergy;
                 emt_energy_full_pd.Color.From = ENERGY_COLORS[player.MaxEnergy-1];
                 emt_energy_full.Emit(emt_energy_full_pd, 0, 0);
             }
