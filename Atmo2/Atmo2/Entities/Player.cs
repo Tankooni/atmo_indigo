@@ -52,9 +52,11 @@ namespace Atmo2.Entities
             set { image.Alpha = value; }
         }
 
+		private Orb jumpOrb;
+		private Orb dashOrb;
 		private List<Orb> orbs = new List<Orb>();
 
-        // Make this a property at some point
+		// Make this a property at some point
 		public float resetPointX;
 		public float resetPointY;
 
@@ -64,7 +66,7 @@ namespace Atmo2.Entities
 			image = new Spritemap(Library.Get<Texture>("content/image/Julep.png"), 87, 71);
             Spice = 100;
             Energy = 0f;
-            MaxEnergy = 4;
+            MaxEnergy = 0;
             EnergyRechargeRate = 2f;
 
             JumpStrenth = 8f;
@@ -104,6 +106,11 @@ namespace Atmo2.Entities
 			MovementInfo = new MovementInfo(this);
 
             player_controller = new PlayerController(new PSIdle(this));
+
+			AddResponse(PickupType.AirDash, OnAirDashPickup);
+			AddResponse(PickupType.AirJump, OnAirJumpPickup);
+			AddResponse(PickupType.Jump, OnJumpPickup);
+			AddResponse(PickupType.Dash, OnDashPickup);
 		}
 
 		public void OnWingsComplete()
@@ -172,6 +179,52 @@ namespace Atmo2.Entities
 
 			World.Camera.X = centerX;
 			World.Camera.Y = centerY;
+		}
+
+		public void OnJumpPickup(object[] param)
+		{
+			Abilities.GoodJump = true;
+			if (jumpOrb == null)
+			{
+				jumpOrb = new Orb(X, Y, OrbType.Yellow, orbs.Any() ? (Entity)orbs.First() : (Entity)this);
+				orbs.Add(World.Add(jumpOrb));
+			}
+		}
+		public void OnAirJumpPickup(object[] param)
+		{
+			Abilities.DoubleJump = true;
+			if(MaxEnergy < 4)
+				MaxEnergy++;
+			if (jumpOrb == null)
+			{
+				jumpOrb = new Orb(X, Y, OrbType.Yellow, orbs.Any() ? (Entity)orbs.Last() : (Entity)this);
+				orbs.Add(World.Add(jumpOrb));
+			}
+			else
+				jumpOrb.IsActivated = true;
+		}
+		public void OnDashPickup(object[] param)
+		{
+			Abilities.GroundDash = true;
+			if (dashOrb == null)
+			{
+				dashOrb = new Orb(X, Y, OrbType.Blue, orbs.Any() ? (Entity)orbs.Last() : (Entity)this);
+
+				orbs.Add(World.Add(dashOrb));
+			}
+		}
+		public void OnAirDashPickup(object[] param)
+		{
+			Abilities.AirDash = true;
+			if (MaxEnergy < 4)
+				MaxEnergy++;
+			if (dashOrb == null)
+			{
+				dashOrb = new Orb(X, Y, OrbType.Blue, orbs.Any() ? (Entity)orbs.Last() : (Entity)this);
+				orbs.Add(World.Add(dashOrb));
+			}
+			else
+				dashOrb.IsActivated = true;
 		}
 	}
 }
