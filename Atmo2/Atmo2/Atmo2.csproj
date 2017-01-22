@@ -92,6 +92,7 @@
     <Compile Include="Movements\PlayerStates\IPlayerState.cs" />
     <Compile Include="Movements\PlayerStates\PSCharge.cs" />
     <Compile Include="Movements\PlayerStates\PSDash.cs" />
+    <Compile Include="Movements\PlayerStates\PSDeath.cs" />
     <Compile Include="Movements\PlayerStates\PSFall.cs" />
     <Compile Include="Movements\PlayerStates\PSIdle.cs" />
     <Compile Include="Movements\PlayerStates\PSJump.cs" />
