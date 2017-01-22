@@ -52,7 +52,8 @@ namespace Atmo2.Movements.PlayerStates
             {
                 return new PSJump(player);
             }
-            if(Controller.Dash())
+            if(player.Abilities.GroundDash && 
+                Controller.Dash())
             {
                 if (Controller.Left())
                     return new PSDash(player, true);
