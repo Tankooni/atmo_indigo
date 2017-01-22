@@ -24,10 +24,11 @@ namespace Atmo2
         private float scale;
         public float Scale
         {
-            get { return scale; }
+            get { return Camera.Scale; }//return scale; }
             set {
-                scale = value;
-                foreach (var r in mapRooms) r.Scale = value;
+                //scale = value;
+                //foreach (var r in mapRooms) r.Scale = value;
+                Camera.Scale = value;
             }
         }
 
@@ -53,7 +54,10 @@ namespace Atmo2
 
             this.Visible = false;
             this.RenderStep = -100;
-            //this.Scale *= .5f;
+
+            this.Camera = new Camera();
+            foreach (var r in mapRooms) r.Camera = this.Camera;
+            this.Scale *= .7f;
         }
 
         public override void Update()
