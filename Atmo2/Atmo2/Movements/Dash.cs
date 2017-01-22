@@ -15,7 +15,7 @@ namespace Atmo2.Movements
 		public const float STARTUP_DURATION = 0;
 		public const float DASH_DURATION = .1f;
 		public const float RECOVERY_DURATION = 0;
-		public const float DASH_SPEED = Player.SPEED * 7;
+		public const float DASH_SPEED = 7f;
 
 		public float timer { get; set; }
 

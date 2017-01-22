@@ -11,17 +11,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Utility;
 using Utility.Audio;
+using Atmo2.Movements.PlayerStates;
 
 namespace Atmo2.Entities
 {
 	public class Player : Actor, Indigo.Loaders.IOgmoNodeHandler
 	{
-		public const float SPEED = 4.0f;
-		public const float GRAVITY = 0.3f;
-
-		public static Abilities Abilities = new Abilities();
-		public static MovementInfo MovementInfo = new MovementInfo();
-		public static Movement CurrentMove;
+        public PlayerController player_controller;
+		public Abilities Abilities;
+		public MovementInfo MovementInfo;
+		public Movement CurrentMove;
 
 		public Action Jump { get; set; }
 		public Action Dash { get; set; }
@@ -31,7 +30,11 @@ namespace Atmo2.Entities
         public int MaxEnergy { get; set; }
         public float EnergyRechargeRate { get; set; }
 
-		private Spritemap image;
+        public float JumpStrenth { get; set; }
+        public float RunSpeed { get; set; }
+
+        // Fix this later
+		public Spritemap image;
 		public Spritemap Wings;
 
 		private List<Orb> orbs = new List<Orb>();
@@ -47,6 +50,10 @@ namespace Atmo2.Entities
             Energy = 0f;
             MaxEnergy = 4;
             EnergyRechargeRate = 2f;
+
+            JumpStrenth = 8f;
+            RunSpeed = 4.0f;
+
 			image.RenderStep = 0;
 			image.Add("stand", FP.MakeFrames(0, 0), 0, true);
 			image.Add("walk", FP.MakeFrames(1, 8), 10, true);
@@ -77,10 +84,12 @@ namespace Atmo2.Entities
 			Type = KQ.CollisionTypePlayer;
 
 			Abilities = new Abilities();
-			MovementInfo = new MovementInfo();
+			MovementInfo = new MovementInfo(this);
 			Dash = UseAbility(new Dash(this));
 			Jump = UseAbility(new Jump(this));
 			CurrentMove = null;
+
+            player_controller = new PlayerController(new PSIdle(this));
 		}
 
 		public Action UseAbility(Movement move)
@@ -99,7 +108,7 @@ namespace Atmo2.Entities
 			Wings.Visible = false;
 		}
 
-		public void RefillMoves(GameTime time)
+		public void RefillEnergy(GameTime time)
 		{
             Energy = MathHelper.Clamp(
                 time.Elapsed*EnergyRechargeRate + Energy, 0, MaxEnergy);
@@ -118,13 +127,17 @@ namespace Atmo2.Entities
 		{
 			base.Update(time);
 
-			GetInput(time);
+            player_controller.Update(time);
+            MovementInfo.Update(time);
+
+            //GetInput(time);
 			UpdateCamera();
         }
 
 		public override void Squish()
 		{
-			World.Remove(this);
+            //World.Remove(this);
+            this.ResetPlayerPosition();
 		}
 
 		public void SetResetPointToCurrentLocation()
@@ -149,10 +162,6 @@ namespace Atmo2.Entities
 
 		public void GetInput(GameTime time)
 		{
-			MovementInfo.Reset();
-			MovementInfo.OnGround = Collide(KQ.CollisionTypeSolid, X, Y + 1) != null;
-			MovementInfo.AgainstWall += (Collide(KQ.CollisionTypeSolid, X + 1, Y) != null) ? 1 : 0;
-			MovementInfo.AgainstWall -= (Collide(KQ.CollisionTypeSolid, X - 1, Y) != null) ? 1 : 0;
 
             if (Controller.Down() && MovementInfo.OnGround)
             {
@@ -168,10 +177,10 @@ namespace Atmo2.Entities
             } else {
 				downPressed = true;
 				EnergyRechargeRate = 2;
-                if (Controller.Left())
+                /*if (Controller.Left())
                     MovementInfo.Move -= SPEED;
                 if (Controller.Right())
-                    MovementInfo.Move += SPEED;
+                    MovementInfo.Move += SPEED;*/
 
                 if (Controller.Jump())
                     Jump();
@@ -179,18 +188,20 @@ namespace Atmo2.Entities
                     Dash();
             }
 
-			MovementInfo.VelY += GRAVITY;
+            // Update gravity
+			//MovementInfo.VelY += GRAVITY;
 
 			if (CurrentMove != null)
 				CurrentMove.Update(time, MovementInfo);
 
 			MoveX(MovementInfo.Move);
-			MoveY(MovementInfo.VelY, OnLand);
+			MoveY(MovementInfo.VelY);
 
+            // Update animations
 			var anim = "stand";
 			if(MovementInfo.OnGround)
 			{
-				RefillMoves(time);
+				RefillEnergy(time);
 				if (MovementInfo.Move != 0)
 					anim = "walk";
 				if (Controller.Down())
@@ -223,12 +234,6 @@ namespace Atmo2.Entities
 			}
 		}
 
-
-
-		public void OnLand()
-		{
-			MovementInfo.VelY = 0;
-		}
 
 		public void UpdateCamera()
 		{

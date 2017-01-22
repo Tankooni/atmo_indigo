@@ -9,6 +9,7 @@ using Atmo2.AI;
 using Atmo2.Sprites;
 using Atmo2.Worlds;
 using Indigo;
+using Utility;
 
 namespace Atmo2.Entities
 {
@@ -16,6 +17,7 @@ namespace Atmo2.Entities
     {
         public Spritemap spritemap;
         public IAI ai;
+        public int touchDamage;
 
         private float prevX;
 
@@ -28,6 +30,8 @@ namespace Atmo2.Entities
             this.spritemap = spritemap;
             this.ai = ai;
             this.AddComponent<Image>(this.spritemap);
+
+            this.touchDamage = 15;
         }
 
 
@@ -40,6 +44,7 @@ namespace Atmo2.Entities
                         this.spritemap = SpritemapConstructor.makeWalker();
                         this.SetHitbox(spritemap.Width, spritemap.Height, (int)spritemap.OriginX, (int)spritemap.OriginY);
                         this.ai = new AIWalker(GameWorld.World, this, int.Parse(entity.Attributes["speed"].Value));
+                        this.Type = KQ.CollisionTypeEnemy;
                         this.AddComponent<Image>(this.spritemap);
                         break;
                     }
@@ -48,6 +53,7 @@ namespace Atmo2.Entities
                         this.spritemap = SpritemapConstructor.makeWalker();
                         this.SetHitbox(spritemap.Width, spritemap.Height, (int)spritemap.OriginX, (int)spritemap.OriginY);
                         this.ai = new AICrawler(GameWorld.World, this, int.Parse(entity.Attributes["speed"].Value));
+                        this.Type = KQ.CollisionTypeEnemy;
                         this.AddComponent<Image>(this.spritemap);
                         break;
                     }
