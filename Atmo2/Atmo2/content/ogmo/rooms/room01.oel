@@ -8,6 +8,8 @@
     <EnemyWalker id="5" x="216" y="600" speed="100" />
     <EnemyWalker id="7" x="72" y="648" speed="125" />
     <EnemyWalker id="9" x="912" y="168" speed="120" />
+    <Pickup id="6" x="384" y="456" PickupType="AirDash" />
+    <Pickup id="8" x="96" y="504" PickupType="AirDash" />
   </Actors>
   <Tiles tileset="Blocks" exportMode="XML">
     <tile x="0" y="0" id="1" />
