@@ -11,6 +11,15 @@ using Indigo.Core;
 
 namespace Atmo2.Entities
 {
+	public enum OrbType:int
+	{
+		Yellow = 0,
+		Green = 1,
+		Red = 2,
+		Blue = 3,
+		Grey = 4
+	}
+
 	public class Orb : Entity
 	{
 		public const int DISTANCE_BEWTWEEN_ORBS = 30;
@@ -18,31 +27,14 @@ namespace Atmo2.Entities
 
 		public Spritemap baseOrb;
 		private Entity followLeader;
-		public int OrbType;
+		public OrbType OrbType;
+		public bool IsActivated;
 
-		public Orb(float x, float y, int orbType, Entity follow)
+		public Orb(float x, float y, OrbType orbType, Entity follow)
 			:base(x, y)
 		{
-			string texture;
-			switch (OrbType = orbType)
-			{
-				case 0:
-					texture = "content/image/OrbYellow.png";
-					break;
-				case 1:
-					texture = "content/image/OrbGreen.png";
-					break;
-				case 2:
-					texture = "content/image/OrbRed.png";
-					break;
-				case 3:
-					texture = "content/image/OrbBlue.png";
-					break;
-				default:
-					texture = "content/image/OrbGrey.png";
-					break;
-			}
-			baseOrb = new Spritemap(Library.Get<Texture>(texture), 24, 24);
+			
+			baseOrb = new Spritemap(Library.Get<Texture>(GetTexture(OrbType = orbType)), 24, 24);
 			//baseOrb.Color = Engine.Random.Color();
 			baseOrb.CenterOrigin();
 			baseOrb.RenderStep = -1;
@@ -78,6 +70,31 @@ namespace Atmo2.Entities
 				X += translation.X;
 				Y += translation.Y;
 			}
+		}
+
+		public static string GetTexture(OrbType orbType)
+		{
+			string texture;
+			switch (orbType)
+			{
+				case OrbType.Yellow:
+					texture = "content/image/OrbYellow.png";
+					break;
+				case OrbType.Green:
+					texture = "content/image/OrbGreen.png";
+					break;
+				case OrbType.Red:
+					texture = "content/image/OrbRed.png";
+					break;
+				case OrbType.Blue:
+					texture = "content/image/OrbBlue.png";
+					break;
+				case OrbType.Grey:
+				default:
+					texture = "content/image/OrbGrey.png";
+					break;
+			}
+			return texture;
 		}
 	}
 }

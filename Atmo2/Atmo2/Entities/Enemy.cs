@@ -39,7 +39,8 @@ namespace Atmo2.Entities
         {
             switch(entity.Name)
             {
-                case "EnemyWalker":
+				default:
+				case "EnemyWalker":
                     {
                         this.spritemap = SpritemapConstructor.makeWalker();
                         this.SetHitbox(spritemap.Width, spritemap.Height, (int)spritemap.OriginX, (int)spritemap.OriginY);
@@ -57,7 +58,6 @@ namespace Atmo2.Entities
                         this.AddComponent<Image>(this.spritemap);
                         break;
                     }
-                default: throw new Exception("Attempted to create an unknown Enemy through Ogmo.");
             }
         }
 

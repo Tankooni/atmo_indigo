@@ -87,12 +87,12 @@ namespace Atmo2.Worlds
 			
 
 			Entity follow = player;
-			for (int i = 0; i < 4; i++)
-			{
-				Orb orb = new Orb(player.X, player.Y, i, follow);
-				follow = orb;
-				orbs.Add(Add(orb));
-			}
+			//for (int i = 0; i < 4; i++)
+			//{
+			//	Orb orb = new Orb(player.X, player.Y, (OrbType)i, follow);
+			//	follow = orb;
+			//	orbs.Add(Add(orb));
+			//}
 		}
 
 		public override void Update(GameTime time)
