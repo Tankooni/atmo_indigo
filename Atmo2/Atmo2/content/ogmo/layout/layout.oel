@@ -1,5 +1,6 @@
 <level width="540" height="360">
   <Layout>
     <Room id="0" x="243" y="108" width="27" height="18" filename="start" />
+    <Room id="1" x="270" y="108" width="27" height="18" filename="room01" />
   </Layout>
 </level>

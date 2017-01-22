@@ -55,7 +55,7 @@ namespace Atmo2.Entities
 			image.Add("fall", FP.MakeFrames(15, 16), 10, true);
 			//image.Add("hang", FP.MakeFrames(16, 16), 10, true);
 			//image.Add("climb", FP.MakeFrames(17, 19), 10, true);
-			//image.Add("slide", FP.MakeFrames(20, 21), 10, true);
+			image.Add("slide", FP.MakeFrames(17, 18), 10, true);
 			image.Play("stand");
 
 			Wings = new Spritemap(Library.Get<Texture>("content/image/JulepJump.png"), 54, 29, OnWingsComplete);
@@ -200,9 +200,9 @@ namespace Atmo2.Entities
 			{
 				if (MovementInfo.VelY > 0)
 				{
-					//if (MovementInfo.AgainstWall != 0)
-					//	anim = "slide";
-					//else
+					if (MovementInfo.AgainstWall != 0)
+						anim = "slide";
+					else
 						anim = "fall";
 				}
 				else
