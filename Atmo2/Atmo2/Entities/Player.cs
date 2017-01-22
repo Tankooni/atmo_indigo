@@ -42,8 +42,10 @@ namespace Atmo2.Entities
 
         public float JumpStrenth { get; set; }
         public float RunSpeed { get; set; }
+        public bool IsInvincable { get; set; }
 
-		public Spritemap image;
+
+        public Spritemap image;
 		public Spritemap Wings;
 
         public float Alpha
