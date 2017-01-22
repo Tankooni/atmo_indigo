@@ -1,5 +1,7 @@
 ﻿using Atmo2.Entities;
 using Indigo;
+using Indigo.Content;
+using Indigo.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,12 +43,18 @@ namespace Atmo2.Worlds.Rooms
             {
                 enemy.RenderStep = 0;
             }
+
+			var bgEnt = new Entity();
+			var bg = bgEnt.AddComponent<Image>(new Image(Library.Get<Texture>("content/image/IceCaveBg.png")));
+			bg.ScrollX = bg.ScrollY = 0;
+			bgEnt.RenderStep = -9999999;
+			parentWorld.Add(bgEnt);
 		}
 
 		public void PopulateWorld()
 		{
 			parentWorld.AddList(entities);
-			//AudioManager.SetLayersPlaying(RealRoomMeta.MusicList);
+			AudioManager.LoopMusic(RealRoomMeta.roomMusic);
 		}
 
 		public void GenocideWorld()

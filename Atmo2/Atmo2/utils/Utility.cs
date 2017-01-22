@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Indigo;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,10 +27,11 @@ namespace Utility
 		/// <returns></returns>
 		public static string[] RetrieveFilePathForFilesInDirectory(string path, string filters)
 		{
+			
 			List<string> files = new List<string>();
 			foreach (string filter in filters.Split('|'))
-				files.AddRange(Directory.GetFiles(path, filter));
-			return files.Select(x => x.Remove(0, 2).Replace(@"\", "/")).ToArray();
+				files.AddRange(Library.GetFilenames(path, filter));
+			return files.Select(x => x.Replace(@"\", "/")).ToArray();
 		}
 
 		public static List<Type> GetTypeFromAllAssemblies<T>()

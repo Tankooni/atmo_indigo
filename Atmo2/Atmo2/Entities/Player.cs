@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utility;
+using Utility.Audio;
 
 namespace Atmo2.Entities
 {
@@ -144,6 +145,8 @@ namespace Atmo2.Entities
 			UpdateCamera();
 		}
 
+		bool downPressed = false;
+
 		public void GetInput(GameTime time)
 		{
 			MovementInfo.Reset();
@@ -153,9 +156,18 @@ namespace Atmo2.Entities
 
             if (Controller.Down() && MovementInfo.OnGround)
             {
-                EnergyRechargeRate = 7;
+				if (downPressed)
+				{
+					if(Engine.Random.Chance(1f))
+						AudioManager.PlaySoundVariations("charge2");
+					else
+						AudioManager.PlaySoundVariations("charge");
+					downPressed = false;
+				}
+				EnergyRechargeRate = 100000;
             } else {
-                EnergyRechargeRate = 2;
+				downPressed = true;
+				EnergyRechargeRate = 2;
                 if (Controller.Left())
                     MovementInfo.Move -= SPEED;
                 if (Controller.Right())
@@ -186,9 +198,9 @@ namespace Atmo2.Entities
 			{
 				if (MovementInfo.VelY > 0)
 				{
-					if (MovementInfo.AgainstWall != 0)
-						anim = "slide";
-					else
+					//if (MovementInfo.AgainstWall != 0)
+					//	anim = "slide";
+					//else
 						anim = "fall";
 				}
 				else

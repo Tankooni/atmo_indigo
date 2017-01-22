@@ -16,8 +16,8 @@ namespace Atmo2.Sprites
             var map = new Spritemap(Library.Get<Texture>(
                 "content/image/JulepSpice.png"), 16, 25);
 
-            map.OriginX = 8;
-            map.OriginY = 25;
+            map.OriginX = map.Width / 2;
+            map.OriginY = map.Height;
 
 			map.Add("idle", FP.MakeFrames(0, 1), 1, true);
 			map.Play("idle");
