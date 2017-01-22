@@ -15,7 +15,7 @@ namespace Atmo2.AI
             
         }
 
-        public void update()
+        public void Update(GameTime time)
         {
             throw new NotImplementedException();
         }

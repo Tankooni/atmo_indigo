@@ -8,6 +8,7 @@ using Indigo.Graphics;
 using Atmo2.AI;
 using Atmo2.Sprites;
 using Atmo2.Worlds;
+using Indigo;
 
 namespace Atmo2.Entities
 {
@@ -54,11 +55,11 @@ namespace Atmo2.Entities
             }
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
-            base.Update();
+            base.Update(time);
 
-            ai.update();
+            ai.Update(time);
             this.spritemap.FlippedX = this.X < prevX;
             prevX = this.X;
         }

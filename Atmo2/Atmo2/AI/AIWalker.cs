@@ -10,6 +10,7 @@ using Indigo;
 using Indigo.Inputs;
 using Indigo.Masks;
 using Utility;
+using Indigo.Utils;
 
 namespace Atmo2.AI
 {
@@ -30,13 +31,13 @@ namespace Atmo2.AI
             this.speed = speed;
         }
 
-        public void update()
+        public void Update(GameTime time)
         {
             Grid collision_map = world
                     .GetInstance("TileCollision")
                     .GetComponent<Grid>();
 
-            float move_amount = FP.Elapsed * speed * (isFacingLeft ? -1 : 1);
+            float move_amount = time.Elapsed * speed * (isFacingLeft ? -1 : 1);
 
             // Check if we're at a cliff
             if (!collision_map[
@@ -50,7 +51,7 @@ namespace Atmo2.AI
             entity.MoveX(move_amount, 
                 () => isFacingLeft = !isFacingLeft);
 
-            vel_Y += 10 * FP.Elapsed;
+            vel_Y += 10 * time.Elapsed;
             entity.MoveY(vel_Y, () =>
             {
                 vel_Y = 0;

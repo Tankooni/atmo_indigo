@@ -19,8 +19,8 @@ namespace Atmo2.Sprites
             map.OriginX = 8;
             map.OriginY = 25;
 
-            map.Add("idle", FP.MakeFrames(0, 1), 1, true)
-                .Play();
+			map.Add("idle", FP.MakeFrames(0, 1), 1, true);
+			map.Play("idle");
             return map;
         }
     }

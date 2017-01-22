@@ -30,7 +30,7 @@ namespace Atmo2.Entities
 			if (move != 0)
 			{
 				xRemainder -= move;
-				int sign = FP.Sign(move);
+				int sign = Math.Sign(move);
 
 				while (move != 0)
 				{
@@ -59,7 +59,7 @@ namespace Atmo2.Entities
 			if (move != 0)
 			{
 				yRemainder -= move;
-				int sign = FP.Sign(move);
+				int sign = Math.Sign(move);
 
 				while (move != 0)
 				{

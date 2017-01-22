@@ -3,6 +3,7 @@ using Atmo2.Worlds;
 using Indigo;
 using Indigo.Content;
 using Indigo.Graphics;
+using Indigo.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,11 +47,11 @@ namespace Atmo2.Entities
 			image.Add("hang", FP.MakeFrames(16, 16), 10, true);
 			image.Add("climb", FP.MakeFrames(17, 19), 10, true);
 			image.Add("slide", FP.MakeFrames(20, 21), 10, true);
-			image.Add("stand", FP.MakeFrames(0, 0), 0, true)
-				.Play();
+			image.Add("stand", FP.MakeFrames(0, 0), 0, true);
+			image.Play("idle");
 
 			Wings = new Spritemap(Library.Get<Texture>("content/image/JulepJump.png"), 54, 29, OnWingsComplete);
-			Wings.RenderStep = 99;
+			Wings.RenderStep = -99;
 			Wings.Add("wings", FP.MakeFrames(0, 7), 15, false);
 			Wings.Visible = false;
 
@@ -92,11 +93,11 @@ namespace Atmo2.Entities
 			Wings.Visible = false;
 		}
 
-		public void RefillMoves()
+		public void RefillMoves(GameTime time)
 		{
 			if(MovementInfo.MovesRemaining < MovementInfo.CurrentMaxMoves)
 			{
-				MovementInfo.MoveRefill += FP.Elapsed / SECONDS_TO_REGAIN;
+				MovementInfo.MoveRefill += time.Elapsed / SECONDS_TO_REGAIN;
 				if((int)Math.Floor(MovementInfo.MoveRefill) == 1)
 				{
 					MovementInfo.MoveRefill = 0;
@@ -114,11 +115,11 @@ namespace Atmo2.Entities
 		{
 		}
 
-		public override void Update()
+		public override void Update(GameTime time)
 		{
-			base.Update();
+			base.Update(time);
 
-			GetInput();
+			GetInput(time);
 			UpdateCamera();
 
 			orbText.String = MovementInfo.MovesRemaining.ToString();
@@ -147,7 +148,7 @@ namespace Atmo2.Entities
 			UpdateCamera();
 		}
 
-		public void GetInput()
+		public void GetInput(GameTime time)
 		{
 			MovementInfo.Reset();
 			MovementInfo.OnGround = Collide(KQ.CollisionTypeSolid, X, Y + 1) != null;
@@ -167,7 +168,7 @@ namespace Atmo2.Entities
 			MovementInfo.VelY += GRAVITY;
 
 			if (CurrentMove != null)
-				CurrentMove.Update(MovementInfo);
+				CurrentMove.Update(time, MovementInfo);
 
 			MoveX(MovementInfo.Move);
 			MoveY(MovementInfo.VelY, OnLand);
@@ -175,7 +176,7 @@ namespace Atmo2.Entities
 			var anim = "stand";
 			if(MovementInfo.OnGround)
 			{
-				RefillMoves();
+				RefillMoves(time);
 				if (MovementInfo.Move != 0)
 					anim = "walk";
 			}
@@ -217,8 +218,8 @@ namespace Atmo2.Entities
 			var centerY = Y;
 
 			var currentRoom = ((GameWorld)(World)).CurrentRoom;
-			centerX = FP.Clamp(centerX, FP.HalfWidth, currentRoom.RealRoomMeta.width - FP.HalfWidth);
-			centerY = FP.Clamp(centerY, FP.HalfHeight, currentRoom.RealRoomMeta.height - FP.HalfHeight);
+			centerX = MathHelper.Clamp(centerX, Engine.HalfWidth, currentRoom.RealRoomMeta.width - Engine.HalfWidth);
+			centerY = MathHelper.Clamp(centerY, Engine.HalfHeight, currentRoom.RealRoomMeta.height - Engine.HalfHeight);
 
 			World.Camera.X = centerX;
 			World.Camera.Y = centerY;

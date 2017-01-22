@@ -7,6 +7,7 @@ using Indigo;
 using Indigo.Audio;
 using System.IO;
 using System.Threading;
+using Indigo.Utils;
 
 namespace Utility.Audio
 {
@@ -15,7 +16,7 @@ namespace Utility.Audio
 		public static float MusicVolume
 		{
 			get { return musicVolume; }
-			set { musicVolume = FP.Clamp(value, 0, 1); }
+			set { musicVolume = MathHelper.Clamp(value, 0, 1); }
 		}
 		private static float musicVolume;
 		private static Dictionary<string, Sound> musics = new Dictionary<string, Sound>();
@@ -82,7 +83,7 @@ namespace Utility.Audio
 								soundsToSync.Add(newSound);
 								foundSound = true;
 								newSounds.Remove(newSound);
-								FP.LogFormat("Need to sync {0}", newSound.ChannelName);
+								Log.WriteFormat("Need to sync {0}", newSound.ChannelName);
 								break;
 							}
 						}
@@ -91,7 +92,7 @@ namespace Utility.Audio
 					{
 						oldSoundChannel.Stop();
 						playingMusic.Remove(oldSound);
-						FP.LogFormat("Stopped {0}", oldSound);
+						Log.WriteFormat("Stopped {0}", oldSound);
 					}
 				}
 			}
@@ -104,7 +105,7 @@ namespace Utility.Audio
 			for (int i = 0; i < newSounds.Count(); i++)
 			{
 				var newSoundLayer = newSounds[i];
-				FP.LogFormat("Starting {0} at {1}", newSoundLayer.ChannelName, position);
+				Log.WriteFormat("Starting {0} at {1}", newSoundLayer.ChannelName, position);
 				LoopMusic(newSoundLayer.ChannelName, position, newSoundLayer.LoopPosition);
 			}
 		}
@@ -133,7 +134,7 @@ namespace Utility.Audio
 		/// <param name="maxVolume">0 to 1</param>
 		public static void PlaySoundVariations(string soundName, float minimumVolume, float maxVolume)
 		{
-			sounds[soundName].Volume = (FP.Random.Float((int)((maxVolume - minimumVolume) * 100.0f)) / 100.0f) + minimumVolume;
+			sounds[soundName].Volume = (Engine.Random.Float((int)((maxVolume - minimumVolume) * 100.0f)) / 100.0f) + minimumVolume;
 			//sounds[soundName].Volume = (FP.Rand(100 - (int)minimumVolume*100) + (int)minimumVolume)/100.0f;
 			sounds[soundName].Play();
 		}
