@@ -88,7 +88,7 @@ namespace Atmo2.Entities
 			image.Add("stand", FP.MakeFrames(0, 0), 0, true);
 			image.Add("walk", FP.MakeFrames(1, 8), 10, true);
 			image.Add("charge", FP.MakeFrames(9, 12), 10, true);
-			image.Add("jump", FP.MakeFrames(13, 14), 10, false);
+			image.Add("jump", FP.MakeFrames(13, 14), 10, true);
 			image.Add("fall", FP.MakeFrames(15, 16), 10, true);
 			//image.Add("hang", FP.MakeFrames(16, 16), 10, true);
 			//image.Add("climb", FP.MakeFrames(17, 19), 10, true);
