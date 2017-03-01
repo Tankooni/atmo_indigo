@@ -57,7 +57,7 @@ namespace Atmo2.Worlds
 
 			ogmoSenpai.DefineGrid("TileCollision", KQ.CollisionTypeSolid, 24, 24);
 			ogmoSenpai.DefineGrid("px4TileCollision", KQ.CollisionTypeSolid, 6, 6);
-
+			
 			ogmoSenpai.DefineTilemap("Blocks", 24, 24, Library.Get<Texture>("content/ogmo/rooms/roomProjectTileset.png"));
 
             Map map = new Map("content/ogmo/layout/layout.oel");

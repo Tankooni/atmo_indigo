@@ -9,53 +9,61 @@ using Utility;
 
 namespace Atmo2.Movements.PlayerStates
 {
-    class PSDash : IPlayerState
+    class PSDash : PlayerState
     {
-        private Entities.Player player;
-        private bool isFacingLeft;
         private float speed;
         private float duration;
 
-        public PSDash(Player player, bool isFacingLeft, float speed = -1, float duration = .1f)
-        {
+        public PSDash(Player player, float speed = -1, float duration = .1f)
+			: base(player)
+		{
             this.player = player;
-            this.isFacingLeft = isFacingLeft;
             this.speed = speed < 0 ? 7 * player.RunSpeed : speed;
             this.duration = duration;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
             player.image.Play("dash");
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
         }
 
-        public IPlayerState Update(GameTime time)
+        public override PlayerState Update(GameTime time)
         {
             Enemy enemy = player.Collide(KQ.CollisionTypeEnemy, player.X, player.Y) as Enemy;
-            if (enemy != null && !this.player.IsInvincable)
+            if (enemy != null /*&& !this.player.IsInvincable*/)
             {
-                return new PSOuch(player, enemy.touchDamage);
+				//player.MovementInfo.Move = Math.Sign(player.MovementInfo.Move) * 100;
+				enemy.World.Remove(enemy);
+				player.Energy++;
+				//return new PSFall(player);
+				return new PSBounce(player, KQ.STANDARD_GRAVITY/*, enemy.touchDamage*/);
             }
 
-            if (this.isFacingLeft)
+            if (player.image.FlippedX)
                 player.MovementInfo.Move -= this.speed;
             else
                 player.MovementInfo.Move += this.speed;
 
-            this.duration -= time.Elapsed;
+			if (Controller.Jump())
+				return new PSJump(player);
+			if (Controller.DownPressed())
+				return new PSDiveKick(player, KQ.STANDARD_GRAVITY);
+
+
+			this.duration -= time.Elapsed;
             if(duration < 0)
             {
                 // We're done here
                 if (player.MovementInfo.OnGround)
-                    if (Controller.Left() || Controller.Right())
+                    if (Controller.LeftHeld() || Controller.RightHeld())
                         return new PSRun(player);
                     else
                         return new PSIdle(player);
                 else
-                    return new PSFall(player);
+                    return new PSFall(player, KQ.STANDARD_GRAVITY);
             }
             return null;
         }

@@ -10,16 +10,16 @@ using Indigo.Utils;
 
 namespace Atmo2.Movements.PlayerStates
 {
-    class PSDeath : IPlayerState
+    class PSDeath : PlayerState
     {
-        private Player player;
         private bool animation_finished;
 
         public PSDeath(Player player)
-        {
+			: base(player)
+		{
             this.player = player;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
             player.Collidable = false;
             player.image.Play("fall");
@@ -32,12 +32,12 @@ namespace Atmo2.Movements.PlayerStates
                 .OnComplete(() => this.animation_finished = true);
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
             player.Collidable = true;
         }
 
-        public IPlayerState Update(GameTime time)
+        public override PlayerState Update(GameTime time)
         {
             if(animation_finished)
             {

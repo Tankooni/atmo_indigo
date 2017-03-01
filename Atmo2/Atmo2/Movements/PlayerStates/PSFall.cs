@@ -9,30 +9,30 @@ using Utility;
 
 namespace Atmo2.Movements.PlayerStates
 {
-    class PSFall : IPlayerState
+    class PSFall : PlayerState
     {
-        private Player player;
         private float gravity;
         private float speed;
 
-        public PSFall(Player player, float gravity = .3f, float speed = -1)
-        {
+        public PSFall(Player player, float gravity, float speed = -1)
+			: base(player)
+		{
             this.player     = player;
             this.gravity    = gravity;
             this.speed      = speed < 0 ? player.RunSpeed : speed;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
             if(player.MovementInfo.VelY > 0)
                 player.image.Play("fall");
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
-            player.MovementInfo.VelY = 0;
+            //player.MovementInfo.VelY = 0;
         }
 
-        public IPlayerState Update(GameTime time)
+        public override PlayerState Update(GameTime time)
         {
             player.MovementInfo.VelY += gravity;
 
@@ -40,11 +40,16 @@ namespace Atmo2.Movements.PlayerStates
             if (player.MovementInfo.VelY > 0)
                 player.image.Play("fall");
 
-            if (Controller.Left())
+			if (Controller.Attack())
+			{
+				return new PSAttackNormal(player, KQ.STANDARD_GRAVITY);
+			}
+
+			if (Controller.LeftHeld())
             {
                 player.MovementInfo.Move -= this.speed;
                 player.image.FlippedX = true;
-            } else if (Controller.Right())
+            } else if (Controller.RightHeld())
             {
                 player.MovementInfo.Move += this.speed;
                 player.image.FlippedX = false;
@@ -53,7 +58,7 @@ namespace Atmo2.Movements.PlayerStates
             Enemy enemy = player.Collide(KQ.CollisionTypeEnemy, player.X, player.Y) as Enemy;
             if (enemy != null && !this.player.IsInvincable)
             {
-                return new PSOuch(player, enemy.touchDamage);
+                return new PSOuch(player, enemy.touchDamage, KQ.STANDARD_GRAVITY);
             }
 
             if (player.Abilities.DoubleJump &&
@@ -68,21 +73,17 @@ namespace Atmo2.Movements.PlayerStates
                 Controller.Dash() && 
                 player.Energy >= 1)
             {
-                if(Controller.Left())
-                {
-                    player.Energy -= 1;
-                    return new PSDash(player, true);
-                } else if(Controller.Right())
-                {
-                    player.Energy -= 1;
-                    return new PSDash(player, false);
-                }
+				if (Controller.LeftHeld() || Controller.RightHeld())
+				{
+					player.Energy -= 1;
+					return new PSDash(player);
+				}
             }
 
-            if(Controller.Down() &&
+            if(Controller.DownPressed() &&
                 time.TotalMilliseconds - PSDiveKick.last_bounce > 300)
             {
-                return new PSDiveKick(player);
+                return new PSDiveKick(player, KQ.STANDARD_GRAVITY);
             }
 
             if (player.MovementInfo.OnGround)

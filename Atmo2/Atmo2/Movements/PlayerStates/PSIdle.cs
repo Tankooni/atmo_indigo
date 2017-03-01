@@ -9,43 +9,47 @@ using Utility;
 
 namespace Atmo2.Movements.PlayerStates
 {
-    class PSIdle : IPlayerState
+    class PSIdle : PlayerState
     {
-        private Player player;
-
         public PSIdle(Player player)
-        {
+			: base(player)
+		{
             this.player = player;
         }
 
-        public void OnEnter()
+        public override void OnEnter()
         {
-            player.image.Play("stand");
+			player.MovementInfo.VelY = 0;
+			player.image.Play("stand");
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
         }
 
-        public IPlayerState Update(GameTime time)
+        public override PlayerState Update(GameTime time)
         {
             player.RefillEnergy(time);
 
             // See if there's ground below us
             if(player.Collide(KQ.CollisionTypeSolid, player.X, player.Y + 1) == null) {
-                return new PSFall(player);
+                return new PSFall(player, KQ.STANDARD_GRAVITY);
             }
             // Check for enemy collision
             Enemy enemy = player.Collide(KQ.CollisionTypeEnemy, player.X, player.Y) as Enemy;
             if (enemy != null && !this.player.IsInvincable)
             {
-                return new PSOuch(player, enemy.touchDamage);
+                return new PSOuch(player, enemy.touchDamage, KQ.STANDARD_GRAVITY);
             }
-            if(Controller.Down())
-            {
-                return new PSCharge(player);
-            }
-            if(Controller.Left() || Controller.Right())
+			if(Controller.Attack())
+			{
+				return new PSAttackNormal(player, KQ.STANDARD_GRAVITY);
+			}
+            //if(Controller.Down())
+            //{
+            //    return new PSCharge(player);
+            //}
+            if(Controller.LeftHeld() || Controller.RightHeld())
             {
                 return new PSRun(player);
             }

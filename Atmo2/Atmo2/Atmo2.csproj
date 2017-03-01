@@ -87,7 +87,9 @@
     <Compile Include="Entities\Solid.cs" />
     <Compile Include="Entities\Spawn.cs" />
     <Compile Include="Movements\PlayerController.cs" />
-    <Compile Include="Movements\PlayerStates\IPlayerState.cs" />
+    <Compile Include="Movements\PlayerStates\PlayerState.cs" />
+    <Compile Include="Movements\PlayerStates\PSAttackNormal.cs" />
+    <Compile Include="Movements\PlayerStates\PSBounce.cs" />
     <Compile Include="Movements\PlayerStates\PSCharge.cs" />
     <Compile Include="Movements\PlayerStates\PSDash.cs" />
     <Compile Include="Movements\PlayerStates\PSDeath.cs" />

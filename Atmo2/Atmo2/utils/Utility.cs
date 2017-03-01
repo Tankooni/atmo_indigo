@@ -14,6 +14,8 @@ namespace Utility
 		public const string CollisionTypePlayer = "Player";
         public const string CollisionTypeEnemy = "Enemy";
 
+		public const float STANDARD_GRAVITY = .3f;
+
 		public static string CurrentMusic { get; internal set; }
 		public static float MusicVolume = 1;
 

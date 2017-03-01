@@ -9,33 +9,37 @@ using Utility;
 
 namespace Atmo2.Movements.PlayerStates
 {
-    class PSJump : IPlayerState
+    class PSJump : PlayerState
     {
-        private Player player;
+		private float multiplier;
 
-        public PSJump(Player player)
-        {
+		public PSJump(Player player, float multiplier = 1)
+			: base(player)
+		{
             this.player = player;
-        }
-        public void OnEnter()
+			this.multiplier = multiplier;
+
+		}
+        public override void OnEnter()
         {
             player.image.Play("jump");
-        }
+			player.MovementInfo.VelY = 0;
+		}
 
-        public void OnExit()
+        public override void OnExit()
         {
         }
 
-        public IPlayerState Update(GameTime time)
+        public override PlayerState Update(GameTime time)
         {
             Enemy enemy = player.Collide(KQ.CollisionTypeEnemy, player.X, player.Y) as Enemy;
             if (enemy != null && !this.player.IsInvincable)
             {
-                return new PSOuch(player, enemy.touchDamage);
+                return new PSOuch(player, enemy.touchDamage, KQ.STANDARD_GRAVITY);
             }
 
-            player.MovementInfo.VelY = -player.JumpStrenth;
-            return new PSFall(player);
+            player.MovementInfo.VelY = -player.JumpStrenth * multiplier;
+            return new PSFall(player, KQ.STANDARD_GRAVITY);
         }
     }
 }

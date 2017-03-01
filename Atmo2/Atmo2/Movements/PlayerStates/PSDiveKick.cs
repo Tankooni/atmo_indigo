@@ -9,39 +9,79 @@ using Utility;
 
 namespace Atmo2.Movements.PlayerStates
 {
-    class PSDiveKick : IPlayerState
+    class PSDiveKick : PlayerState
     {
-        // Fix this
+        //TODO: Fix this
         public static int last_bounce;
-        private Player player;
+		private float gravity;
 
-        public PSDiveKick(Player player)
-        {
+		public PSDiveKick(Player player, float gravity)
+			: base(player)
+		{
             this.player = player;
-        }
-        public void OnEnter()
+			this.gravity = gravity;
+		}
+        public override void OnEnter()
         {
             player.image.Play("diveKick");
-            player.MovementInfo.VelY = 12f;
+            player.MovementInfo.VelY = 20f;
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
         }
 
-        public IPlayerState Update(GameTime time)
+        public override PlayerState Update(GameTime time)
         {
-            if(player.MovementInfo.OnGround)
+			player.MovementInfo.VelY += gravity;
+
+			if (player.MovementInfo.OnGround)
             {
-                return new PSIdle(player);
-            }
-            // Check for enemy collision
-            Enemy enemy = player.Collide(KQ.CollisionTypeEnemy, player.X, player.Y) as Enemy;
+				if (Controller.LeftHeld() || Controller.RightHeld())
+					return new PSRun(player);
+				else
+					return new PSIdle(player);
+			}
+
+			if (player.Abilities.DoubleJump &&
+					Controller.Jump() &&
+					player.Energy >= 1)
+			{
+				player.Energy -= 1;
+				return new PSJump(player);
+			}
+
+			if (player.Abilities.AirDash &&
+				Controller.Dash() &&
+				player.Energy >= 1)
+			{
+				if (Controller.LeftHeld() || Controller.RightHeld())
+				{
+					player.Energy -= 1;
+					return new PSDash(player);
+				}
+			}
+
+			if (Controller.LeftHeld())
+			{
+				player.image.FlippedX = true;
+				player.MovementInfo.Move -= player.RunSpeed;
+			}
+			else if (Controller.RightHeld())
+			{
+				player.image.FlippedX = false;
+				player.MovementInfo.Move += player.RunSpeed;
+			}
+
+			// Check for enemy collision
+			Enemy enemy = player.Collide(KQ.CollisionTypeEnemy, player.X, player.Y) as Enemy;
             if (enemy != null)
             {
-                enemy.World.Remove(enemy);
+				player.MovementInfo.VelY = 0;
+				enemy.World.Remove(enemy);
+				player.Energy++;
                 last_bounce = time.TotalMilliseconds;
-                return new PSJump(player);
+                return new PSJump(player, 1.1f);
             }
 
             return null;

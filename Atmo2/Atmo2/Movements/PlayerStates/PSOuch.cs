@@ -5,22 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Atmo2.Entities;
 using Indigo;
+using Utility;
 
 namespace Atmo2.Movements.PlayerStates
 {
-    class PSOuch : IPlayerState
+    class PSOuch : PlayerState
     {
-        private Player player;
         private float duration;
         private int damage_taken;
+		private float gravity;
 
-        public PSOuch(Player player, int damage)
+        public PSOuch(Player player, int damage, float gravity)
+			: base(player)
         {
             this.player = player;
             this.damage_taken = damage;
             this.duration = .4f;
+			this.gravity = gravity;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
             this.player.image.Play("fall");
             this.player.Spice -= damage_taken;
@@ -43,19 +46,25 @@ namespace Atmo2.Movements.PlayerStates
                 });
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
             
         }
 
-        public IPlayerState Update(GameTime time)
+        public override PlayerState Update(GameTime time)
         {
             this.duration -= time.Elapsed;
             if(this.duration < 0)
             {
-                return new PSIdle(player);
-            }
-            player.MovementInfo.VelY += .3f;
+				if (player.MovementInfo.OnGround)
+					if (Controller.LeftHeld() || Controller.RightHeld())
+						return new PSRun(player);
+					else
+						return new PSIdle(player);
+				else
+					return new PSFall(player, KQ.STANDARD_GRAVITY);
+			}
+			player.MovementInfo.VelY += gravity;
             return null;
         }
     }
