@@ -47,10 +47,21 @@ namespace Atmo2.Movements.PlayerStates
             else
                 player.MovementInfo.Move += this.speed;
 
-			if (Controller.Jump())
+			if (!player.MovementInfo.OnGround)
+			{
+				if (player.Abilities.DoubleJump &&
+					Controller.Jump() &&
+					player.Energy >= 1)
+				{
+					player.Energy -= 1;
+					return new PSJump(player);
+				}
+				if (Controller.DownPressed())
+					return new PSDiveKick(player, KQ.STANDARD_GRAVITY);
+			}
+
+			if (player.MovementInfo.OnGround && Controller.Jump())
 				return new PSJump(player);
-			if (Controller.DownPressed())
-				return new PSDiveKick(player, KQ.STANDARD_GRAVITY);
 
 
 			this.duration -= time.Elapsed;

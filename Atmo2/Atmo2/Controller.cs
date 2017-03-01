@@ -11,7 +11,7 @@ namespace Atmo2
 	{
 		public static Func<bool> Jump = () => { return Keyboard.X.Pressed; };
 		public static Func<bool> Dash = () => { return Keyboard.C.Pressed; };
-		public static Func<bool> Attack = () => { return false;/*Keyboard.Z.Pressed;*/ };
+		public static Func<bool> Attack = () => { return Keyboard.Z.Pressed; };
 
 		public static Func<bool> UpHeld = () => { return Keyboard.Up.Down; };
 		public static Func<bool> DownHeld = () => { return Keyboard.Down.Down; };

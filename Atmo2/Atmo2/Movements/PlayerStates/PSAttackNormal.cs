@@ -23,11 +23,6 @@ namespace Atmo2.Movements.PlayerStates
 		public override void OnEnter()
 		{
 			player.image.Play("attackNormal");
-			Enemy enemy = player.World.CollideRect(KQ.CollisionTypeEnemy, player.X + player.Width * (player.image.FlippedX ? -1 : 1), player.Y, player.Width, player.Height) as Enemy;
-			if(enemy != null)
-			{
-				enemy.World.Remove(enemy);
-			}
 		}
 
 		public override void OnExit()
@@ -37,7 +32,12 @@ namespace Atmo2.Movements.PlayerStates
 		public override PlayerState Update(GameTime time)
 		{
 			player.MovementInfo.VelY += gravity;
-
+			Enemy enemy = player.World.CollideRect(KQ.CollisionTypeEnemy, player.X - player.HalfWidth + player.Width * (player.image.FlippedX ? -1 : 1), player.Y - player.Height, player.Width, player.Height) as Enemy;
+			if (enemy != null)
+			{
+				enemy.World.Remove(enemy);
+			}
+			
 			return null;
 		}
 
