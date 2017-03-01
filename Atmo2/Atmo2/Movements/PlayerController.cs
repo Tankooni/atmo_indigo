@@ -10,10 +10,10 @@ namespace Atmo2.Movements
 {
     public class PlayerController
     {
-        IPlayerState current_state;
-        IPlayerState next_state;
+        PlayerState current_state;
+        PlayerState next_state;
 
-        public PlayerController(IPlayerState initial_state)
+        public PlayerController(PlayerState initial_state)
         {
             this.current_state = initial_state;
             initial_state.OnEnter();
@@ -38,9 +38,16 @@ namespace Atmo2.Movements
             }
         }
 
-        public void NextState(IPlayerState state)
+        public void NextState(PlayerState state)
         {
-            this.next_state = state;
+            next_state = state;
         }
+
+		public void AnimationComplete()
+		{
+			var next = current_state.OnAnimationComplete();
+			if (next != null)
+				next_state = next;
+		}
     }
 }

@@ -9,31 +9,36 @@ using Utility;
 
 namespace Atmo2.Movements.PlayerStates
 {
-    class PSRun : IPlayerState
+    class PSRun : PlayerState
     {
-        private Player player;
         public PSRun(Player player)
+			:base(player)
         {
             this.player = player;
         }
-        public void OnEnter()
+        public override void OnEnter()
         {
-            player.image.Play("walk");
+			player.MovementInfo.VelY = 0;
+			player.image.Play("walk");
         }
 
-        public void OnExit()
+        public override void OnExit()
         {
         }
 
-        public IPlayerState Update(GameTime time)
+        public override PlayerState Update(GameTime time)
         {
             player.RefillEnergy(time);
 
-            if(Controller.Left())
+			if (Controller.Attack())
+			{
+				return new PSAttackNormal(player, KQ.STANDARD_GRAVITY);
+			}
+			if (Controller.LeftHeld())
             {
                 player.image.FlippedX = true;
                 player.MovementInfo.Move -= player.RunSpeed;
-            } else if (Controller.Right())
+            } else if (Controller.RightHeld())
             {
                 player.image.FlippedX = false;
                 player.MovementInfo.Move += player.RunSpeed;
@@ -45,7 +50,7 @@ namespace Atmo2.Movements.PlayerStates
             Enemy enemy = player.Collide(KQ.CollisionTypeEnemy, player.X, player.Y) as Enemy;
             if (enemy != null && !this.player.IsInvincable)
             {
-                return new PSOuch(player, enemy.touchDamage);
+                return new PSOuch(player, enemy.touchDamage, KQ.STANDARD_GRAVITY);
             }
 
             if (Controller.Jump())
@@ -55,14 +60,12 @@ namespace Atmo2.Movements.PlayerStates
             if(player.Abilities.GroundDash && 
                 Controller.Dash())
             {
-                if (Controller.Left())
-                    return new PSDash(player, true);
-                else if (Controller.Right())
-                    return new PSDash(player, false);
+                if (Controller.LeftHeld() || Controller.RightHeld())
+                    return new PSDash(player);
             }
             if (!player.MovementInfo.OnGround)
             {
-                return new PSFall(player);
+                return new PSFall(player, KQ.STANDARD_GRAVITY);
             }
 
             return null;

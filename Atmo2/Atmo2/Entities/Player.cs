@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Utility;
 using Utility.Audio;
 using Atmo2.Movements.PlayerStates;
+using System.Diagnostics;
 
 namespace Atmo2.Entities
 {
@@ -36,7 +37,15 @@ namespace Atmo2.Entities
                         new PSDeath(this));
             }
         }
-        public float Energy { get; set; }
+		private float energy;
+        public float Energy
+		{
+			get { return energy; }
+			set
+			{
+				energy = MathHelper.Clamp(value, 0, MaxEnergy);
+			}
+		}
         public int MaxEnergy { get; set; }
         public float EnergyRechargeRate { get; set; }
 
@@ -44,6 +53,7 @@ namespace Atmo2.Entities
         public float RunSpeed { get; set; }
         public bool IsInvincable { get; set; }
 
+		private Stopwatch deltaTime = new Stopwatch();
 
         public Spritemap image;
 		public Spritemap Wings;
@@ -73,17 +83,20 @@ namespace Atmo2.Entities
 
             JumpStrenth = 11f;
             RunSpeed = 4.0f;
-
-			image.RenderStep = 0;
+			
+			image.RenderStep = 1;
 			image.Add("stand", FP.MakeFrames(0, 0), 0, true);
 			image.Add("walk", FP.MakeFrames(1, 8), 10, true);
-			image.Add("dash", FP.MakeFrames(9, 12), 10, true);
+			image.Add("charge", FP.MakeFrames(9, 12), 10, true);
 			image.Add("jump", FP.MakeFrames(13, 14), 10, false);
 			image.Add("fall", FP.MakeFrames(15, 16), 10, true);
 			//image.Add("hang", FP.MakeFrames(16, 16), 10, true);
 			//image.Add("climb", FP.MakeFrames(17, 19), 10, true);
 			image.Add("diveKick", FP.MakeFrames(17, 18), 10, true);
 			image.Add("slide", FP.MakeFrames(19, 20), 10, true);
+			image.Add("dash", FP.MakeFrames(21, 22), 10, true);
+			image.Add("attackNormal", FP.MakeFrames(23, 28), 20, false);
+			image.Add("attackDash", FP.MakeFrames(29, 14), 10, false);
 			image.Play("stand");
 
 			Wings = new Spritemap(Library.Get<Texture>("content/image/JulepJump.png"), 54, 29, OnWingsComplete);
@@ -109,6 +122,8 @@ namespace Atmo2.Entities
 
             player_controller = new PlayerController(new PSIdle(this));
 
+			image.Callback += () => { if(image.Complete) player_controller.AnimationComplete(); };
+
 			AddResponse(PickupType.AirDash, OnAirDashPickup);
 			AddResponse(PickupType.AirJump, OnAirJumpPickup);
 			AddResponse(PickupType.Jump, OnJumpPickup);
@@ -122,8 +137,8 @@ namespace Atmo2.Entities
 
 		public void RefillEnergy(GameTime time)
 		{
-            Energy = MathHelper.Clamp(
-                time.Elapsed*EnergyRechargeRate + Energy, 0, MaxEnergy);
+			Energy = MaxEnergy;/*MathHelper.Clamp(
+                time.Elapsed*EnergyRechargeRate + Energy, 0, MaxEnergy);*/
 		}
 
 		public override bool IsRiding(Solid solid)
@@ -138,12 +153,22 @@ namespace Atmo2.Entities
 		public override void Update(GameTime time)
 		{
 			base.Update(time);
+			//Console.WriteLine(deltaTime.ElapsedMilliseconds);
+			//Console.WriteLine(time.Elapsed);
+			deltaTime.Restart();
 
-            player_controller.Update(time);
+			player_controller.Update(time);
             MovementInfo.Update(time);
-
-            //GetInput(time);
+			
 			UpdateCamera();
+
+			if(Controller.Select())
+			{
+				OnAirDashPickup(null);
+				OnAirJumpPickup(null);
+				OnDashPickup(null);
+				OnJumpPickup(null);
+			}
         }
 
 		public override void Squish()
