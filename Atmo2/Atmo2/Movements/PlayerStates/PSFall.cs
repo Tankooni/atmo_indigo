@@ -45,6 +45,12 @@ namespace Atmo2.Movements.PlayerStates
 				return new PSAttackNormal(player, KQ.STANDARD_GRAVITY);
 			}
 
+			if (Controller.DownHeld())
+			{
+				if (Controller.Jump() && time.TotalMilliseconds - PSDiveKick.last_bounce > 300)
+					return new PSDiveKick(player, KQ.STANDARD_GRAVITY);
+			}
+
 			if (Controller.LeftHeld())
             {
                 player.MovementInfo.Move -= this.speed;
@@ -80,11 +86,7 @@ namespace Atmo2.Movements.PlayerStates
 				}
             }
 
-            if(Controller.DownPressed() &&
-                time.TotalMilliseconds - PSDiveKick.last_bounce > 300)
-            {
-                return new PSDiveKick(player, KQ.STANDARD_GRAVITY);
-            }
+           
 
             if (player.MovementInfo.OnGround)
                 if (player.MovementInfo.Move == 0)
