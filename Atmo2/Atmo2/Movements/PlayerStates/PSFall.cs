@@ -47,7 +47,7 @@ namespace Atmo2.Movements.PlayerStates
 
 			if (Controller.DownHeld())
 			{
-				if (Controller.Jump() && time.TotalMilliseconds - PSDiveKick.last_bounce > 300)
+				if ((Controller.Jump() || Controller.Dash()) && time.TotalMilliseconds - PSDiveKick.last_bounce > 300)
 					return new PSDiveKick(player, KQ.STANDARD_GRAVITY);
 			}
 
