@@ -43,6 +43,14 @@ namespace Atmo2.Movements.PlayerStates
 
 			if (!player.MovementInfo.OnGround)
 			{
+				if (Controller.DownHeld())
+				{
+					if ((Controller.Jump() || Controller.Dash()) && time.TotalMilliseconds - PSDiveKick.last_bounce > 300)
+					{
+						return new PSDiveKick(player, KQ.STANDARD_GRAVITY);
+					}
+				}
+
 				if (player.Abilities.DoubleJump &&
 					Controller.Jump() &&
 					player.Energy >= 1)
@@ -60,12 +68,6 @@ namespace Atmo2.Movements.PlayerStates
 						player.Energy -= 1;
 						return new PSDash(player);
 					}
-				}
-
-				if (Controller.DownPressed() &&
-				time.TotalMilliseconds - PSDiveKick.last_bounce > 300)
-				{
-					return new PSDiveKick(player, KQ.STANDARD_GRAVITY);
 				}
 			}
 			else
