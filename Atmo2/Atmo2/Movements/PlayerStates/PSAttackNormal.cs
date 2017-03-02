@@ -37,7 +37,10 @@ namespace Atmo2.Movements.PlayerStates
 			{
 				enemy.World.Remove(enemy);
 			}
-			
+
+			if (player.image.Complete)
+				return OnAnimationComplete();
+
 			return null;
 		}
 

@@ -10,8 +10,8 @@ namespace Atmo2.Movements
 {
     public class PlayerController
     {
-        PlayerState current_state;
-        PlayerState next_state;
+        public PlayerState current_state;
+		private PlayerState next_state;
 
         public PlayerController(PlayerState initial_state)
         {

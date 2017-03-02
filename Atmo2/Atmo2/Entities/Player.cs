@@ -13,6 +13,7 @@ using Utility;
 using Utility.Audio;
 using Atmo2.Movements.PlayerStates;
 using System.Diagnostics;
+using Indigo.Inputs;
 
 namespace Atmo2.Entities
 {
@@ -52,8 +53,6 @@ namespace Atmo2.Entities
         public float JumpStrenth { get; set; }
         public float RunSpeed { get; set; }
         public bool IsInvincable { get; set; }
-
-		private Stopwatch deltaTime = new Stopwatch();
 
         public Spritemap image;
 		public Spritemap Wings;
@@ -153,9 +152,11 @@ namespace Atmo2.Entities
 		public override void Update(GameTime time)
 		{
 			base.Update(time);
-			//Console.WriteLine(deltaTime.ElapsedMilliseconds);
-			//Console.WriteLine(time.Elapsed);
-			deltaTime.Restart();
+			
+			if(Keyboard.Space.Pressed)
+			{
+				Console.WriteLine(player_controller.current_state.ToString());
+			}
 
 			player_controller.Update(time);
             MovementInfo.Update(time);
