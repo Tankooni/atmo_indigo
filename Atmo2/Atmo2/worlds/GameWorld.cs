@@ -55,8 +55,9 @@ namespace Atmo2.Worlds
             // TODO: Move enemy init logic somewhere else
             ogmoSenpai.RegisterClassAlias<Enemy>("EnemyWalker");
 
-			ogmoSenpai.DefineGrid("TileCollision", KQ.CollisionTypeSolid, 24, 24);
-			ogmoSenpai.DefineGrid("px4TileCollision", KQ.CollisionTypeSolid, 6, 6);
+			//ogmoSenpai.DefineGrid("TileCollision", KQ.CollisionTypeSolid, 24, 24);
+			//ogmoSenpai.DefineGrid("px4TileCollision", KQ.CollisionTypeSolid, 6, 6);
+            ogmoSenpai.DefineGrid("Collisions", KQ.CollisionTypeSolid, 24, 24);
 			
 			ogmoSenpai.DefineTilemap("Blocks", 24, 24, Library.Get<Texture>("content/ogmo/rooms/roomProjectTileset.png"));
 

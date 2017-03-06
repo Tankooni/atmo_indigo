@@ -34,7 +34,7 @@ namespace Atmo2.AI
         public void Update(GameTime time)
         {
             Grid collision_map = world
-                    .GetInstance("TileCollision")
+                    .GetInstance("Collisions")
                     .GetComponent<Grid>();
 
             float move_amount = time.Elapsed * speed * (isFacingLeft ? -1 : 1);
