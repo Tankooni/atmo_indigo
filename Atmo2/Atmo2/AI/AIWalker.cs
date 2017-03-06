@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Atmo2.Entities;
+﻿using Atmo2.Entities;
 using Atmo2.Worlds;
 using Indigo;
-using Indigo.Inputs;
 using Indigo.Masks;
-using Utility;
-using Indigo.Utils;
 
 namespace Atmo2.AI
 {
