@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Indigo;
 using Indigo.Audio;
 using System.IO;
-using System.Threading;
 using Indigo.Utils;
 
 namespace Utility.Audio
@@ -18,14 +13,15 @@ namespace Utility.Audio
 			get { return musicVolume; }
 			set { musicVolume = MathHelper.Clamp(value, 0, 1); }
 		}
+
 		private static float musicVolume;
 		private static Dictionary<string, Sound> musics = new Dictionary<string, Sound>();
 		private static string playingMusic = "";
 		private static Dictionary<string, Sound> sounds = new Dictionary<string, Sound>();
 
-		public static void Init(float musicVolume)
+		public static void Init(float _musicVolume)
 		{
-			MusicVolume = musicVolume;
+			MusicVolume = _musicVolume;
 			
 			foreach (string file in KQ.RetrieveFilePathForFilesInDirectory(@"content/audio/music", @"*.ogg|*.wav"))
 			{
@@ -42,7 +38,10 @@ namespace Utility.Audio
 		{
 			if (!musics.ContainsKey(songName) || songName == playingMusic)
 				return;
+
 			Sound soundToPlay = musics[songName];
+		    soundToPlay.Volume = MusicVolume;
+
 			soundToPlay.Stop();
 			soundToPlay.Looping = true;
 			soundToPlay.Play();
@@ -63,7 +62,10 @@ namespace Utility.Audio
 		{
 			if (!sounds.ContainsKey(soundName))
 				return;
-			sounds[soundName].Play();
+
+            var sound = sounds[soundName];
+            sound.Volume = MusicVolume; // TODO Sound volume?
+            sound.Play();
 		}
 
 		/// <summary>
@@ -76,9 +78,11 @@ namespace Utility.Audio
 		{
 			if (!sounds.ContainsKey(soundName))
 				return;
-			sounds[soundName].Volume = (Engine.Random.Float((int)((maxVolume - minimumVolume) * 100.0f)) / 100.0f) + minimumVolume;
+
+		    var sound = sounds[soundName];
+			sound.Volume = ((Engine.Random.Float((int)((maxVolume - minimumVolume) * 100.0f)) / 100.0f) + minimumVolume) * MusicVolume;
 			//sounds[soundName].Volume = (FP.Rand(100 - (int)minimumVolume*100) + (int)minimumVolume)/100.0f;
-			sounds[soundName].Play();
+			sound.Play();
 		}
 	}
 }
