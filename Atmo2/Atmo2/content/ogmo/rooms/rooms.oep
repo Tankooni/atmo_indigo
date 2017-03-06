@@ -16,7 +16,7 @@
     <Width>106920</Width>
     <Height>71280</Height>
   </LevelMaximumSize>
-  <Filename>D:\Working\C#\Atmo2\Atmo2\Atmo2\content\ogmo\rooms\rooms.oep</Filename>
+  <Filename>C:\Projects\atmo2\Atmo2\Atmo2\content\ogmo\rooms\rooms.oep</Filename>
   <AngleMode>Radians</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
@@ -77,11 +77,32 @@
       <Color A="255" R="0" G="0" B="0" />
       <ExportMode>GridRectangles</ExportMode>
     </LayerDefinition>
+    <LayerDefinition xsi:type="TileLayerDefinition">
+      <Name>Collisions</Name>
+      <Grid>
+        <Width>24</Width>
+        <Height>24</Height>
+      </Grid>
+      <ScrollFactor>
+        <X>1</X>
+        <Y>1</Y>
+      </ScrollFactor>
+      <ExportMode>XML</ExportMode>
+    </LayerDefinition>
   </LayerDefinitions>
   <Tilesets>
     <Tileset>
       <Name>Blocks</Name>
       <FilePath>roomProjectTileset.png</FilePath>
+      <TileSize>
+        <Width>24</Width>
+        <Height>24</Height>
+      </TileSize>
+      <TileSep>0</TileSep>
+    </Tileset>
+    <Tileset>
+      <Name>Collisions</Name>
+      <FilePath>CollisionTileset.png</FilePath>
       <TileSize>
         <Width>24</Width>
         <Height>24</Height>

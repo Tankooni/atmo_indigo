@@ -1,27 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Indigo;
-using Utility;
 using Atmo2.Worlds;
 using Utility.Audio;
 using Indigo.Graphics;
 
 namespace Atmo2
 {
-	class Game : Engine
+	public sealed class Game : Engine
 	{
-		static void Main(string[] args)
-		{
-			var game = new Game();
-			game.Run();
-		}
+	    private readonly EngineConfiguration config;
 
-		public Game() :
+		public Game(EngineConfiguration config) :
 			base(640, 480, 60)
 		{
+            if (config == null)
+                throw new ArgumentNullException("config");
+
+		    this.config = config;
+
 			Engine.Screen.Title = "Atmo2";
 			Engine.Console.Enable();
 			//Engine.Console.MirrorToSystemOut = true;
@@ -34,8 +31,37 @@ namespace Atmo2
 			Library.AddPath("./");
 
 			Indigo.Inputs.Mouse.CursorVisible = true;
-			AudioManager.Init(1);
+			AudioManager.Init(config.MuteAudio ? 0 : 1);
 			Engine.World = new GameWorld();
 		}
-	}
+
+        public static void Main(string[] args)
+        {
+            var config = EngineConfiguration.FromCommandLine(args);
+
+            var game = new Game(config);
+            game.Run();
+        }
+    }
+
+    public sealed class EngineConfiguration
+    {
+        public bool MuteAudio { get; private set; }
+
+        private EngineConfiguration()
+        {
+            // NOTE Here to force factory pattern
+        }
+
+        public static EngineConfiguration FromCommandLine(string[] args)
+        {
+            if (args == null)
+                throw new ArgumentNullException("args");
+
+            return new EngineConfiguration
+            {
+                MuteAudio = args.Any(x => x == "--mute-audio")
+            };
+        }
+    }
 }
